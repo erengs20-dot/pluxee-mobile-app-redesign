@@ -1,71 +1,142 @@
 /**
- * Pluxee Mobile App - Button Showcase
- * Design system Button component'inin tüm variant'larını test ediyoruz.
+ * Pluxee Mobile App - 7 Atom Showcase
+ * Button, Text, Icon, IconButton, Tag, Avatar, Input
  */
 
+import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { Button, semantic, typography, spacing } from '@pluxee/design-system';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import {
+  Button,
+  Text,
+  Icon,
+  IconButton,
+  Tag,
+  Avatar,
+  Input,
+  semantic,
+  spacing,
+} from '@pluxee/design-system';
 
 export default function App() {
+  const [searchValue, setSearchValue] = useState('');
+  const [emailValue, setEmailValue] = useState('');
+  const [passwordValue, setPasswordValue] = useState('');
+
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <StatusBar style="dark" />
 
-      {/* Hero başlık */}
-      <Text style={styles.heroTitle}>Pluxee</Text>
-      <Text style={styles.heroSubtitle}>Button Component Showcase</Text>
+      <Text variant="heroTitle.mobileMediumBlack" color="primary">
+        Pluxee
+      </Text>
+      <Text variant="subtitle.mobileMain" color="secondary" style={styles.heroSubtitle}>
+        7 Atom Component Showcase
+      </Text>
 
-      {/* === CHAMFERED (Pluxee imza) === */}
-      <Section title="Chamfered (İmza)">
-        <Button onPress={() => console.log('Chamfered pressed')}>
-          Devam Et
-        </Button>
-        <Button size="md" onPress={() => console.log('md pressed')}>
-          Orta Boy
-        </Button>
-        <Button size="sm" onPress={() => console.log('sm pressed')}>
-          Küçük Boy
-        </Button>
-        <Button disabled>Devre Dışı</Button>
+      {/* === AVATAR === */}
+      <Section title="Avatar">
+        <View style={styles.iconRow}>
+          <Avatar name="Eren Goktas" size="sm" />
+          <Avatar name="Eren Goktas" size="md" />
+          <Avatar name="Eren Goktas" size="lg" />
+          <Avatar name="Eren Goktas" size="xl" />
+        </View>
+        <View style={[styles.iconRow, { marginTop: spacing[3] }]}>
+          <Avatar name="Ali Veli" backgroundColor={semantic.brand.secondary} />
+          <Avatar name="Ahmet" backgroundColor={semantic.brand.tertiary} />
+          <Avatar name="Mehmet Yılmaz" backgroundColor={semantic.brand.quaternary} />
+          <Avatar iconName="person" backgroundColor={semantic.brand.quinary} />
+        </View>
       </Section>
 
-      {/* === FILLED === */}
-      <Section title="Filled (Dolgulu)">
-        <Button variant="primaryFilled" onPress={() => {}}>
-          Primary Filled
+      {/* === TAG === */}
+      <Section title="Tag">
+        <View style={styles.tagRow}>
+          <Tag>Yeni</Tag>
+          <Tag variant="success">Aktif</Tag>
+          <Tag variant="warning">Beklemede</Tag>
+          <Tag variant="error">İptal</Tag>
+          <Tag variant="info">Bilgi</Tag>
+          <Tag variant="highlight">Öne Çıkan</Tag>
+        </View>
+        <View style={[styles.tagRow, { marginTop: spacing[2] }]}>
+          <Tag variant="success" iconName="check">Onaylandı</Tag>
+          <Tag variant="warning" iconName="warning">Dikkat</Tag>
+          <Tag variant="error" iconName="alert">Hata</Tag>
+        </View>
+      </Section>
+
+      {/* === ICONBUTTON === */}
+      <Section title="IconButton">
+        <View style={styles.iconRow}>
+          <IconButton iconName="search" variant="ghost" />
+          <IconButton iconName="heartFilled" variant="ghost" color="error" />
+          <IconButton iconName="settings" variant="outlined" />
+          <IconButton iconName="xmark" variant="filled" />
+        </View>
+        <View style={[styles.iconRow, { marginTop: spacing[3] }]}>
+          <IconButton iconName="search" size="sm" variant="filled" />
+          <IconButton iconName="search" size="md" variant="filled" />
+          <IconButton iconName="search" size="lg" variant="filled" />
+        </View>
+      </Section>
+
+      {/* === INPUT === */}
+      <Section title="Input">
+        <Input
+          label="Arama"
+          placeholder="Ne arıyorsunuz?"
+          leftIconName="search"
+          value={searchValue}
+          onChangeText={setSearchValue}
+        />
+        <Input
+          label="E-posta"
+          placeholder="ornek@email.com"
+          leftIconName="mail"
+          keyboardType="email-address"
+          autoCapitalize="none"
+          value={emailValue}
+          onChangeText={setEmailValue}
+        />
+        <Input
+          label="Şifre"
+          placeholder="Şifrenizi girin"
+          leftIconName="lock"
+          secureTextEntry
+          helperText="En az 8 karakter olmalı"
+          value={passwordValue}
+          onChangeText={setPasswordValue}
+        />
+        <Input
+          label="Hatalı Input"
+          placeholder="Geçersiz değer"
+          leftIconName="warning"
+          error="Bu alan zorunlu"
+        />
+      </Section>
+
+      {/* === BUTTONS === */}
+      <Section title="Buttons">
+        <Button onPress={() => {}}>Devam Et</Button>
+        <Button variant="primaryFilled" leftIcon={<Icon name="check" size={16} color="primary" />}>
+          Onayla
         </Button>
-        <Button variant="secondaryFilled" onPress={() => {}}>
-          Secondary Filled
+        <Button variant="secondaryOutlined" leftIcon={<Icon name="download" size={16} color="info" />}>
+          İndir
         </Button>
       </Section>
 
-      {/* === OUTLINED === */}
-      <Section title="Outlined (Çerçeveli)">
-        <Button variant="primaryOutlined" onPress={() => {}}>
-          Primary Outlined
-        </Button>
-        <Button variant="secondaryOutlined" onPress={() => {}}>
-          Secondary Outlined
-        </Button>
-      </Section>
-
-      {/* === TEXT ONLY === */}
-      <Section title="Text Only">
-        <Button variant="primaryTextOnly" onPress={() => {}}>
-          Primary Text
-        </Button>
-        <Button variant="secondaryTextOnly" onPress={() => {}}>
-          Secondary Text
-        </Button>
-      </Section>
-
-      {/* === LOADING === */}
-      <Section title="Loading State">
-        <Button isLoading>Yükleniyor</Button>
-        <Button variant="primaryFilled" isLoading>
-          Yükleniyor
-        </Button>
+      {/* === GENEL ICONS === */}
+      <Section title="Pluxee Icons">
+        <View style={styles.iconRow}>
+          <Icon name="house" size={24} color="primary" />
+          <Icon name="wallet" size={24} color="primary" />
+          <Icon name="meal" size={24} color="primary" />
+          <Icon name="qrCode" size={24} color="primary" />
+          <Icon name="cashback" size={24} color="success" />
+        </View>
       </Section>
 
       <View style={{ height: 40 }} />
@@ -73,12 +144,13 @@ export default function App() {
   );
 }
 
-// Section helper - her bolum icin baslik + button grup
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <View style={styles.section}>
-      <Text style={styles.sectionTitle}>{title}</Text>
-      <View style={styles.buttonGroup}>{children}</View>
+      <Text variant="title.mobileSection" color="primary" style={styles.sectionTitle}>
+        {title}
+      </Text>
+      <View style={styles.contentGroup}>{children}</View>
     </View>
   );
 }
@@ -92,26 +164,29 @@ const styles = StyleSheet.create({
     padding: spacing[6],
     paddingTop: spacing[16],
   },
-  heroTitle: {
-    ...typography.heroTitle.mobileMediumBlack,
-    color: semantic.brand.primary,
-    marginBottom: spacing[1],
-  },
   heroSubtitle: {
-    ...typography.subtitle.mobileMain,
-    color: semantic.text.secondary,
     marginBottom: spacing[8],
   },
   section: {
     marginBottom: spacing[8],
   },
   sectionTitle: {
-    ...typography.title.mobileSection,
-    color: semantic.text.primary,
     marginBottom: spacing[4],
   },
-  buttonGroup: {
+  contentGroup: {
     gap: spacing[3],
     alignItems: 'flex-start',
+  },
+  iconRow: {
+    flexDirection: 'row',
+    gap: spacing[4],
+    alignItems: 'center',
+    flexWrap: 'wrap',
+  },
+  tagRow: {
+    flexDirection: 'row',
+    gap: spacing[2],
+    alignItems: 'center',
+    flexWrap: 'wrap',
   },
 });

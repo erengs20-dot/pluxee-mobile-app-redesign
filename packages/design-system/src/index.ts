@@ -108,3 +108,27 @@ export type {
   ButtonSize,
   ButtonState,
 } from './components/atoms/Button';
+
+// ===== Text Component =====
+export { Text } from './components/atoms/Text';
+export type { TextProps } from './components/atoms/Text';
+
+// ===== Icon Component =====
+export { Icon, iconNames } from './components/atoms/Icon';
+export type { IconProps, IconSize, IconName } from './components/atoms/Icon';
+
+// ===== IconButton =====
+export { IconButton } from './components/atoms/IconButton';
+export type { IconButtonProps, IconButtonVariant, IconButtonSize } from './components/atoms/IconButton';
+
+// ===== Tag =====
+export { Tag } from './components/atoms/Tag';
+export type { TagProps, TagVariant } from './components/atoms/Tag';
+
+// ===== Avatar =====
+export { Avatar } from './components/atoms/Avatar';
+export type { AvatarProps, AvatarSize } from './components/atoms/Avatar';
+
+// ===== Input =====
+export { Input } from './components/atoms/Input';
+export type { InputProps } from './components/atoms/Input';

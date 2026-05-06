@@ -1,0 +1,38 @@
+{
+  "name": "pluxee-mobile-app-redesign",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Pluxee Mobile App Redesign — alternatif Pluxee uygulaması, mock backend ile çalışan React Native projesi",
+  "workspaces": {
+    "packages": ["packages/*"],
+    "nohoist": [
+      "**/react",
+      "**/react-native",
+      "**/react-native-svg",
+      "**/react-dom",
+      "**/@react-native/**"
+    ]
+  },
+  "scripts": {
+    "ds:typecheck": "npm run typecheck --workspace=@pluxee/design-system",
+    "ds:lint": "npm run lint --workspace=@pluxee/design-system",
+    "format": "prettier --write '**/*.{ts,tsx,json,md}' --ignore-path .gitignore",
+    "lint": "eslint '**/*.{ts,tsx}' --ignore-path .gitignore"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-native": "^4.1.0",
+    "prettier": "^3.2.5",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "license": "UNLICENSED"
+}

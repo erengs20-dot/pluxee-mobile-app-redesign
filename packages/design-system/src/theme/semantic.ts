@@ -110,6 +110,7 @@ export const semantic = {
   // Surface arka plan renkleri
   background: {
     primary: '#faf8ff', // Ana app background
+    canvas: '#fbf6f0',  // Pluxee anasayfa krem zemini
     disabled: '#efefef',
     brand1: '#00eb5e', // Yeşil bg (success-y vibe)
     brand2: '#17ccf9', // Cyan bg

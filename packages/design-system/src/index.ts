@@ -132,3 +132,7 @@ export type { AvatarProps, AvatarSize } from './components/atoms/Avatar';
 // ===== Input =====
 export { Input } from './components/atoms/Input';
 export type { InputProps } from './components/atoms/Input';
+
+// ===== Background =====
+export { Background } from './components/atoms/Background';
+export type { BackgroundProps, BackgroundVariant, BackgroundColorTheme } from './components/atoms/Background';

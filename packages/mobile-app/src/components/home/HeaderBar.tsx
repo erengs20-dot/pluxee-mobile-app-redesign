@@ -1,64 +1,99 @@
-/**
- * HeaderBar - Anasayfa ust kismi
- * Sol: Pluxee logo
- * Sag: Bildirim ikonu
- */
-
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Text, Icon, semantic, spacing, radius } from '@pluxee/design-system';
 
 interface HeaderBarProps {
+  userName: string;
   hasNotification?: boolean;
   onNotificationPress?: () => void;
 }
 
-export function HeaderBar({ hasNotification = true, onNotificationPress }: HeaderBarProps) {
+export function HeaderBar({
+  userName,
+  hasNotification = true,
+  onNotificationPress,
+}: HeaderBarProps) {
+  const firstName = userName.split(' ')[0];
+
   return (
     <View style={styles.container}>
-      <View style={styles.logoWrap}>
-        <Text variant="title.mobileMain" color="primary" style={styles.logoText}>
-          pluxee
-        </Text>
-        <View style={styles.logoDot} />
+      <View style={styles.row}>
+        {/* Sol: X logo + Welcome metin */}
+        <View style={styles.left}>
+          <View style={styles.logoBox}>
+            <Text style={styles.logoX}>X</Text>
+          </View>
+          <View style={styles.welcomeText}>
+            <Text variant="body.smallMedium" style={styles.welcomeBack}>
+              Merhaba,
+            </Text>
+            <Text variant="title.mobileMain" style={styles.userName}>
+              {firstName}
+            </Text>
+          </View>
+        </View>
+
+        {/* Sag: Bildirim */}
+        <TouchableOpacity
+          style={styles.notificationBtn}
+          onPress={onNotificationPress}
+          activeOpacity={0.7}
+        >
+          <Icon name="notifications" size={24} color="primary" />
+          {hasNotification && <View style={styles.notificationDot} />}
+        </TouchableOpacity>
       </View>
 
-      <TouchableOpacity
-        style={styles.notificationBtn}
-        onPress={onNotificationPress}
-        activeOpacity={0.7}
-      >
-        <Icon name="notifications" size={24} color="primary" />
-        {hasNotification && <View style={styles.notificationDot} />}
-      </TouchableOpacity>
+      {/* Yesil ince ayirici cizgi */}
+      <View style={styles.separator} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: semantic.brand.primary, // Pluxee navy
+  },
+  row: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingVertical: spacing[3],
-    paddingHorizontal: spacing[1],
+    paddingHorizontal: spacing[4],
+    paddingVertical: spacing[4],
   },
-  logoWrap: {
+  left: {
     flexDirection: 'row',
-    alignItems: 'flex-end',
-    gap: spacing[1],
+    alignItems: 'center',
+    gap: spacing[3],
+    flex: 1,
   },
-  logoText: {
+  logoBox: {
+    width: 48,
+    height: 48,
+    borderRadius: radius.md,
+    backgroundColor: semantic.brand.secondary, // Pluxee yesili
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  logoX: {
     fontSize: 28,
     fontWeight: '900',
-    letterSpacing: -1,
+    color: semantic.brand.primary, // Navy
+    lineHeight: 32,
   },
-  logoDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: semantic.brand.secondary,
-    marginBottom: spacing[2],
+  welcomeText: {
+    flex: 1,
+  },
+  welcomeBack: {
+    color: '#ffffff',
+    opacity: 0.85,
+    fontSize: 14,
+  },
+  userName: {
+    color: '#ffffff',
+    fontSize: 24,
+    fontWeight: '900',
+    marginTop: 2,
   },
   notificationBtn: {
     width: 44,
@@ -79,5 +114,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#ff3b30',
     borderWidth: 1.5,
     borderColor: '#ffffff',
+  },
+  separator: {
+    height: 2,
+    backgroundColor: semantic.brand.secondary, // Yesil ince cizgi
   },
 });

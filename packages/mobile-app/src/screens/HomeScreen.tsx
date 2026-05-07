@@ -16,8 +16,11 @@ import {
   ScrollView,
   StyleSheet,
   View,
-  SafeAreaView,
+  Platform,
+  StatusBar as RNStatusBar,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { StatusBar } from 'expo-status-bar';
 import { semantic, spacing, Text } from '@pluxee/design-system';
 import { HeaderBar } from '../components/home/HeaderBar';
 import { StoriesBar } from '../components/home/StoriesBar';
@@ -67,12 +70,15 @@ export function HomeScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.root}>
+      <StatusBar style="light" />
+      <View style={styles.statusBarSafe} />
+      <View style={styles.container}>
+      <HeaderBar userName="Eren Goktas" />
       <ScrollView
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
-        <HeaderBar />
         <StoriesBar />
         <CampaignCarousel />
         <QuickActionsRow />
@@ -99,12 +105,21 @@ export function HomeScreen() {
         onCancel={handleCancelDefault}
       />
 
+      </View>
       <BottomNavigation activeTab="home" />
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+    backgroundColor: semantic.background.canvas,
+  },
+  statusBarSafe: {
+    backgroundColor: semantic.brand.primary,
+    height: Platform.OS === 'ios' ? 50 : RNStatusBar.currentHeight,
+  },
   container: {
     flex: 1,
     backgroundColor: semantic.background.canvas,

@@ -60,7 +60,8 @@ export const semantic = {
   // ===== TEXT =====
   // Tüm metin renkleri — bağlam-bazlı
   text: {
-    primary: '#221c46', // Ana metinler
+    primary: '#221c46',
+    debit: '#ec0080',         // Magenta - harcama tutarlari // Ana metinler
     secondary: '#463f5f',
     tertiary: '#5a5469',
     quaternary: '#716e7c',
@@ -120,6 +121,9 @@ export const semantic = {
     warning: '#fdf3d6',
     error: '#fcf1f0',
     info: '#e8f6fc',
+    debit: '#ec0080',         // Magenta - harcama tutarlari
+    successBanner: '#dafcdb', // Acik yesil banner bg
+    activeTab: '#dafcdb',     // Bottom nav aktif tab arka plani
     processing: '#fdf3d6',
     failed: '#ea0101',
   },
@@ -204,6 +208,9 @@ export const semantic = {
       warning: '#fdf3d6',
       error: '#fcf1f0',
       info: '#e8f6fc',
+    debit: '#ec0080',         // Magenta - harcama tutarlari
+    successBanner: '#dafcdb', // Acik yesil banner bg
+    activeTab: '#dafcdb',     // Bottom nav aktif tab arka plani
     },
     foreground: {
       1: '#ffffff',

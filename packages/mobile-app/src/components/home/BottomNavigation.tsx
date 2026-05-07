@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Platform } from 'react-native';
-import { Text, Icon, semantic, spacing, radius, shadows } from '@pluxee/design-system';
+import { Text, Icon, semantic, spacing, radius } from '@pluxee/design-system';
 
 export type NavTab = 'home' | 'places' | 'payment' | 'online' | 'account';
 
@@ -8,13 +8,12 @@ interface NavItem {
   id: NavTab;
   iconName: string;
   label: string;
-  isFab?: boolean;
 }
 
 const NAV_ITEMS: NavItem[] = [
   { id: 'home', iconName: 'house', label: 'Ana Sayfa' },
   { id: 'places', iconName: 'pinFilled', label: 'Mekanlar' },
-  { id: 'payment', iconName: 'poS', label: 'Odeme', isFab: true },
+  { id: 'payment', iconName: 'poS', label: 'Odeme' },
   { id: 'online', iconName: 'onlinePayment', label: 'Online' },
   { id: 'account', iconName: 'person', label: 'Hesabim' },
 ];
@@ -33,44 +32,25 @@ export function BottomNavigation({
       {NAV_ITEMS.map((item) => {
         const isActive = item.id === activeTab;
 
-        if (item.isFab) {
-          return (
-            <TouchableOpacity
-              key={item.id}
-              style={styles.fabWrap}
-              onPress={() => onTabPress?.(item.id)}
-              activeOpacity={0.8}
-            >
-              <View style={styles.fab}>
-                <Icon name={item.iconName} size={24} color="primary" />
-              </View>
-              <Text variant="body.smallBold" color="primary" style={styles.fabLabel}>
-                {item.label}
-              </Text>
-            </TouchableOpacity>
-          );
-        }
-
         return (
           <TouchableOpacity
             key={item.id}
-            style={styles.navItem}
+            style={[styles.navItem, isActive && styles.navItemActive]}
             onPress={() => onTabPress?.(item.id)}
             activeOpacity={0.7}
           >
             <Icon
               name={item.iconName}
               size={24}
-              color={isActive ? 'primary' : 'tertiary'}
+              color="primary"
             />
             <Text
               variant="body.smallMedium"
-              color={isActive ? 'primary' : 'tertiary'}
+              color="primary"
               style={[styles.navLabel, isActive && styles.navLabelActive]}
             >
               {item.label}
             </Text>
-            {isActive && <View style={styles.activeIndicator} />}
           </TouchableOpacity>
         );
       })}
@@ -81,56 +61,30 @@ export function BottomNavigation({
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
-    justifyContent: 'space-around',
+    alignItems: 'stretch',
     backgroundColor: '#ffffff',
-    paddingTop: spacing[3],
-    paddingBottom: Platform.OS === 'ios' ? spacing[6] : spacing[3],
     paddingHorizontal: spacing[2],
-    borderTopLeftRadius: radius.xl,
-    borderTopRightRadius: radius.xl,
-    ...shadows.large,
+    paddingTop: spacing[2],
+    paddingBottom: Platform.OS === 'ios' ? spacing[6] : spacing[3],
+    borderTopWidth: 1,
+    borderTopColor: semantic.border.tertiary,
   },
   navItem: {
     flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
     gap: spacing[1],
-    paddingTop: spacing[2],
+    paddingVertical: spacing[2],
+    paddingHorizontal: spacing[1],
+    borderRadius: radius.lg,
+  },
+  navItemActive: {
+    backgroundColor: semantic.background.activeTab,
   },
   navLabel: {
     fontSize: 11,
   },
   navLabelActive: {
     fontWeight: '700',
-  },
-  activeIndicator: {
-    width: 24,
-    height: 3,
-    backgroundColor: semantic.brand.primary,
-    borderRadius: 2,
-    marginTop: 2,
-  },
-
-  // FAB
-  fabWrap: {
-    flex: 1,
-    alignItems: 'center',
-    gap: spacing[1],
-    marginTop: -spacing[6],
-  },
-  fab: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: semantic.brand.secondary,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 4,
-    borderColor: '#ffffff',
-    ...shadows.medium,
-  },
-  fabLabel: {
-    fontSize: 11,
-    marginTop: spacing[1],
   },
 });

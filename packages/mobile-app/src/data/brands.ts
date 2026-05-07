@@ -43,7 +43,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'pegasus',
     name: 'Pegasus BolBol',
-    logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Pegasus_Airlines_logo.svg/320px-Pegasus_Airlines_logo.svg.png',
+    logoUrl: null,
     paymentMethod: 'balance_transfer',
     badge: 'ONLINE',
     tagline: 'Uctukca Kazan, Kazandikca Uc',
@@ -67,7 +67,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'starbucks',
     name: 'Starbucks',
-    logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Starbucks_Corporation_Logo_2011.svg/320px-Starbucks_Corporation_Logo_2011.svg.png',
+    logoUrl: null,
     paymentMethod: 'mobile_code',
     badge: 'MAGAZA & ONLINE',
     tagline: 'Starbucks Favorilerinle Kendini Simart!',
@@ -77,7 +77,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'boyner',
     name: 'Boyner',
-    logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Boyner_Logo.svg/320px-Boyner_Logo.svg.png',
+    logoUrl: null,
     paymentMethod: 'mobile_code',
     badge: 'MAGAZA & ONLINE',
     tagline: 'Stilini Bulustur',
@@ -87,7 +87,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'a101',
     name: 'A101',
-    logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/A101_logo.png/320px-A101_logo.png',
+    logoUrl: null,
     paymentMethod: 'mobile_code',
     badge: 'ONLINE',
     tagline: 'Harca Harca Bitmez',
@@ -97,7 +97,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'decathlon',
     name: 'Decathlon',
-    logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Decathlon_Logo.png/320px-Decathlon_Logo.png',
+    logoUrl: null,
     paymentMethod: 'mobile_code',
     badge: 'MAGAZA & ONLINE',
     tagline: 'Spor Tutkunlarinin Adresi',
@@ -137,7 +137,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'ikea',
     name: 'IKEA',
-    logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Ikea_logo.svg/320px-Ikea_logo.svg.png',
+    logoUrl: null,
     paymentMethod: 'mobile_code',
     badge: 'MAGAZA & ONLINE',
     tagline: 'Hayata Daha Iyi Yasanir',
@@ -317,7 +317,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'hepsiburada',
     name: 'Hepsiburada',
-    logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Hepsiburada_logo_official.svg/320px-Hepsiburada_logo_official.svg.png',
+    logoUrl: null,
     paymentMethod: 'mobile_code',
     badge: 'ONLINE',
     tagline: 'Hepsi Burada',
@@ -369,7 +369,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'carrefour-sa',
     name: 'Carrefour SA',
-    logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Carrefour_logo.svg/320px-Carrefour_logo.svg.png',
+    logoUrl: null,
     paymentMethod: 'wallet_transfer',
     badge: 'MAGAZA & ONLINE',
     tagline: 'Marketin Yeni Adresi',

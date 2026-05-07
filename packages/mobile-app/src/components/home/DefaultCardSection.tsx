@@ -26,69 +26,77 @@ export function DefaultCardSection({
     <View style={styles.container}>
       {/* SEMSIE BASLIK */}
       <View style={styles.umbrellaHeader}>
-        <Icon name="cardCreditActivated" size={16} color="primary" />
+        <Icon name="wallet" size={16} color="primary" />
         <Text variant="body.mediumBold" color="primary">
           Kartlarim
         </Text>
       </View>
 
-      <View style={styles.card}>
-        {/* VARSAYILAN tagi */}
-        <View style={styles.tagWrap}>
-          <Tag variant="success" iconName="starFilled">
-            SECILI KART
-          </Tag>
+      <View style={styles.cardWrap}>
+        {/* SOL YAN SERIT (kategori rengi) */}
+        <View style={[styles.stripe, { backgroundColor: meta.stripeColor }]} />
+
+        {/* IC ICERIK */}
+        <View style={styles.cardContent}>
+          {/* Tag */}
+          <View style={styles.tagWrap}>
+            <Tag variant="success" iconName="starFilled">
+              SECILI KART
+            </Tag>
+          </View>
+
+          {/* HERO */}
+          <View style={styles.hero}>
+            {/* Kategori ikonu - notr (gri) */}
+            <View style={styles.categoryIcon}>
+              <Icon name={meta.iconName} size={24} color="primary" />
+            </View>
+
+            <View style={styles.cardInfo}>
+              <Text variant="body.mediumBold" color="primary" numberOfLines={1}>
+                {card.name}
+              </Text>
+              <Text variant="body.smallMedium" color="tertiary" numberOfLines={1}>
+                {meta.label.toUpperCase()} {'\u00b7'} {'\u2022\u2022\u2022\u2022 '}
+                {card.lastDigits}
+              </Text>
+            </View>
+
+            <View style={styles.balanceRight}>
+              <Text variant="body.largeBold" color="primary" style={styles.balanceText}>
+                {balanceVisible
+                  ? `\u20ba ${formatCurrency(card.balance)}`
+                  : '\u2022\u2022\u2022\u2022\u2022'}
+              </Text>
+              <TouchableOpacity
+                onPress={() => setBalanceVisible((v) => !v)}
+                style={styles.eyeBtn}
+                hitSlop={8}
+              >
+                <Icon
+                  name={balanceVisible ? 'eyeOpenOutline' : 'eyeCloseOutline'}
+                  size={16}
+                  color="tertiary"
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          {/* DIVIDER */}
+          <View style={styles.divider} />
+
+          {/* FOOTER */}
+          <TouchableOpacity
+            style={styles.footer}
+            onPress={onOtherCardsPress}
+            activeOpacity={0.7}
+          >
+            <Text variant="body.smallBold" color="link">
+              {otherCount} kart daha gor
+            </Text>
+            <Icon name="chevronRight" size={16} color="info" />
+          </TouchableOpacity>
         </View>
-
-        {/* HERO bolumu */}
-        <View style={styles.hero}>
-          <View style={[styles.categoryIcon, { backgroundColor: meta.bgColor }]}>
-            <Icon name={meta.iconName} size={24} color="primary" />
-          </View>
-
-          <View style={styles.cardInfo}>
-            <Text variant="body.mediumBold" color="primary" numberOfLines={1}>
-              {card.name}
-            </Text>
-            <Text variant="body.smallMedium" color="tertiary" numberOfLines={1}>
-              {meta.label.toUpperCase()} {'\u00b7'} {'\u2022\u2022\u2022\u2022 '}{card.lastDigits}
-            </Text>
-          </View>
-
-          <View style={styles.balanceRight}>
-            <Text variant="body.largeBold" color="primary" style={styles.balanceText}>
-              {balanceVisible
-                ? `\u20ba ${formatCurrency(card.balance)}`
-                : '\u2022\u2022\u2022\u2022\u2022'}
-            </Text>
-            <TouchableOpacity
-              onPress={() => setBalanceVisible((v) => !v)}
-              style={styles.eyeBtn}
-              hitSlop={8}
-            >
-              <Icon
-                name={balanceVisible ? 'eyeOpenOutline' : 'eyeCloseOutline'}
-                size={16}
-                color="tertiary"
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* Ayirici cizgi */}
-        <View style={styles.divider} />
-
-        {/* FOOTER bolumu */}
-        <TouchableOpacity
-          style={styles.footer}
-          onPress={onOtherCardsPress}
-          activeOpacity={0.7}
-        >
-          <Text variant="body.smallBold" color="link">
-            {otherCount} kart daha gor
-          </Text>
-          <Icon name="chevronRight" size={16} color="info" />
-        </TouchableOpacity>
       </View>
     </View>
   );
@@ -105,11 +113,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing[1],
     marginBottom: spacing[2],
   },
-  card: {
+  cardWrap: {
+    flexDirection: 'row',
     backgroundColor: '#ffffff',
     borderRadius: radius['2xl'],
     overflow: 'hidden',
     ...shadows.small,
+  },
+  stripe: {
+    width: 6,
+  },
+  cardContent: {
+    flex: 1,
   },
   tagWrap: {
     paddingHorizontal: spacing[4],
@@ -118,7 +133,7 @@ const styles = StyleSheet.create({
   },
   hero: {
     paddingHorizontal: spacing[4],
-    paddingBottom: spacing[4],
+    paddingBottom: spacing[3],
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing[3],
@@ -127,6 +142,7 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: radius.lg,
+    backgroundColor: semantic.background.disabled,
     alignItems: 'center',
     justifyContent: 'center',
   },

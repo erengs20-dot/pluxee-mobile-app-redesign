@@ -1,7 +1,6 @@
 /**
  * Mock kart verileri.
  */
-
 import { semantic } from '@pluxee/design-system';
 
 export type CardCategory = 'meal' | 'gift' | 'food' | 'business' | 'transport';
@@ -19,14 +18,40 @@ interface CategoryMeta {
   label: string;
   iconName: string;
   bgColor: string;
+  stripeColor: string;
 }
 
 export const CARD_CATEGORY_META: Record<CardCategory, CategoryMeta> = {
-  meal: { label: 'Yemek', iconName: 'meal', bgColor: semantic.brand.secondary },
-  gift: { label: 'Hediye', iconName: 'gift', bgColor: semantic.brand.quinary },
-  food: { label: 'Gida', iconName: 'shoppingBag', bgColor: semantic.brand.quaternary },
-  business: { label: 'Business', iconName: 'workBriefcase', bgColor: semantic.brand.tertiary },
-  transport: { label: 'Ulasim', iconName: 'car', bgColor: semantic.brand.tertiary },
+  meal: {
+    label: 'Yemek',
+    iconName: 'meal',
+    bgColor: semantic.brand.secondary,
+    stripeColor: semantic.brand.secondary,
+  },
+  gift: {
+    label: 'Hediye',
+    iconName: 'gift',
+    bgColor: semantic.brand.quinary,
+    stripeColor: semantic.brand.quinary,
+  },
+  food: {
+    label: 'Gida',
+    iconName: 'shoppingBag',
+    bgColor: semantic.brand.quaternary,
+    stripeColor: semantic.brand.quaternary,
+  },
+  business: {
+    label: 'Business',
+    iconName: 'workBriefcase',
+    bgColor: semantic.brand.tertiary,
+    stripeColor: semantic.brand.tertiary,
+  },
+  transport: {
+    label: 'Ulasim',
+    iconName: 'car',
+    bgColor: semantic.brand.tertiary,
+    stripeColor: semantic.brand.tertiary,
+  },
 };
 
 export const MOCK_CARDS: UserCard[] = [

@@ -1,8 +1,5 @@
 /**
- * CardListBottomSheet - Plan B (Reanimated'siz)
- *
- * React Native built-in Modal kullanır.
- * Animasyon basit ama güvenilir.
+ * CardListBottomSheet - Romanya stili + Servis grupli liste
  */
 
 import React, { forwardRef, useImperativeHandle, useState } from 'react';
@@ -46,15 +43,15 @@ export interface BottomSheetRef {
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 const SHEET_HEIGHT = SCREEN_HEIGHT * 0.85;
 
+const CATEGORY_ORDER: CardCategory[] = ['meal', 'gift', 'food', 'business', 'transport'];
+
 export const CardListBottomSheet = forwardRef<BottomSheetRef, CardListBottomSheetProps>(
   ({ onCardSelect }, ref) => {
     const [visible, setVisible] = useState(false);
     const slideAnim = useRef(new Animated.Value(SHEET_HEIGHT)).current;
 
     useImperativeHandle(ref, () => ({
-      expand: () => {
-        setVisible(true);
-      },
+      expand: () => setVisible(true),
       close: () => {
         Animated.timing(slideAnim, {
           toValue: SHEET_HEIGHT,
@@ -82,16 +79,19 @@ export const CardListBottomSheet = forwardRef<BottomSheetRef, CardListBottomShee
       }).start(() => setVisible(false));
     };
 
-    // Kategoriye göre grupla
     const cardsByCategory: Record<CardCategory, UserCard[]> = {
-      meal: [],
-      gift: [],
-      food: [],
-      business: [],
-      transport: [],
+      meal: [], gift: [], food: [], business: [], transport: [],
     };
     MOCK_CARDS.forEach((card) => {
       cardsByCategory[card.category].push(card);
+    });
+
+    Object.keys(cardsByCategory).forEach((cat) => {
+      cardsByCategory[cat as CardCategory].sort((a, b) => {
+        if (a.isDefault && !b.isDefault) return -1;
+        if (!a.isDefault && b.isDefault) return 1;
+        return 0;
+      });
     });
 
     return (
@@ -109,12 +109,10 @@ export const CardListBottomSheet = forwardRef<BottomSheetRef, CardListBottomShee
             ]}
           >
             <Pressable onPress={(e) => e.stopPropagation()}>
-              {/* Drag handle */}
               <View style={styles.dragHandle} />
 
-              {/* Header */}
               <View style={styles.header}>
-                <View>
+                <View style={{ flex: 1 }}>
                   <Text variant="title.mobileMain" color="primary">
                     Kartlarim
                   </Text>
@@ -127,60 +125,73 @@ export const CardListBottomSheet = forwardRef<BottomSheetRef, CardListBottomShee
                 </TouchableOpacity>
               </View>
 
-              {/* Scrollable list */}
               <ScrollView
                 style={{ maxHeight: SHEET_HEIGHT - 200 }}
                 contentContainerStyle={styles.listContent}
                 showsVerticalScrollIndicator={false}
               >
-                {(Object.keys(cardsByCategory) as CardCategory[]).map((category) => {
+                {CATEGORY_ORDER.map((category) => {
                   const cards = cardsByCategory[category];
                   if (cards.length === 0) return null;
                   const meta = CARD_CATEGORY_META[category];
 
                   return (
-                    <View key={category} style={styles.categorySection}>
+                    <View key={category} style={styles.categoryGroup}>
                       <View style={styles.categoryHeader}>
-                        <View
-                          style={[
-                            styles.categoryIcon,
-                            { backgroundColor: meta.bgColor },
-                          ]}
-                        >
-                          <Icon name={meta.iconName} size={16} color="primary" />
-                        </View>
-                        <Text variant="body.smallBold" color="tertiary">
+                        <Text variant="body.smallBold" color="tertiary" style={styles.categoryLabel}>
                           {meta.label.toUpperCase()}
                         </Text>
                       </View>
 
-                      {cards.map((card) => (
-                        <TouchableOpacity
-                          key={card.id}
-                          style={styles.cardItem}
-                          onPress={() => onCardSelect(card)}
-                          activeOpacity={0.7}
-                        >
-                          <View style={styles.cardItemLeft}>
-                            <Text variant="body.mediumBold" color="primary">
-                              {card.name}
-                            </Text>
-                            <Text variant="body.smallMedium" color="tertiary">
-                              {'\u2022\u2022\u2022\u2022 '}{card.lastDigits}
-                            </Text>
-                          </View>
-                          <View style={styles.cardItemRight}>
-                            <Text variant="body.mediumBold" color="primary">
-                              {'\u20ba '}{formatCurrency(card.balance)}
-                            </Text>
-                            {card.isDefault && (
-                              <Tag variant="success" iconName="check">
-                                Varsayilan
-                              </Tag>
-                            )}
-                          </View>
-                        </TouchableOpacity>
-                      ))}
+                      <View style={styles.cardsInCategory}>
+                        {cards.map((card) => (
+                          <TouchableOpacity
+                            key={card.id}
+                            style={styles.cardWrap}
+                            onPress={() => onCardSelect(card)}
+                            activeOpacity={0.7}
+                          >
+                            <View
+                              style={[
+                                styles.stripe,
+                                { backgroundColor: meta.stripeColor },
+                              ]}
+                            />
+
+                            <View style={styles.cardContent}>
+                              {card.isDefault && (
+                                <View style={styles.tagWrap}>
+                                  <Tag variant="success" iconName="starFilled">
+                                    SECILI KART
+                                  </Tag>
+                                </View>
+                              )}
+
+                              <View style={styles.hero}>
+                                <View style={styles.categoryIcon}>
+                                  <Icon name={meta.iconName} size={20} color="primary" />
+                                </View>
+
+                                <View style={styles.cardInfo}>
+                                  <Text variant="body.mediumBold" color="primary" numberOfLines={1}>
+                                    {card.name}
+                                  </Text>
+                                  <Text variant="body.smallMedium" color="tertiary" numberOfLines={1}>
+                                    {'\u2022\u2022\u2022\u2022 '}{card.lastDigits}
+                                  </Text>
+                                </View>
+
+                                <View style={styles.balanceRight}>
+                                  <Text variant="body.mediumBold" color="primary">
+                                    {'\u20ba '}{formatCurrency(card.balance)}
+                                  </Text>
+                                  <Icon name="chevronRight" size={16} color="tertiary" />
+                                </View>
+                              </View>
+                            </View>
+                          </TouchableOpacity>
+                        ))}
+                      </View>
                     </View>
                   );
                 })}
@@ -227,6 +238,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: semantic.border.tertiary,
     marginBottom: spacing[4],
+    gap: spacing[3],
   },
   closeBtn: {
     padding: spacing[1],
@@ -234,37 +246,63 @@ const styles = StyleSheet.create({
   listContent: {
     paddingBottom: spacing[8],
   },
-  categorySection: {
-    marginBottom: spacing[6],
+  categoryGroup: {
+    marginBottom: spacing[5],
   },
   categoryHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing[2],
-    marginBottom: spacing[3],
+    marginBottom: spacing[2],
+    paddingHorizontal: spacing[1],
+  },
+  categoryLabel: {
+    letterSpacing: 1,
+  },
+  cardsInCategory: {
+    gap: spacing[2],
+  },
+  cardWrap: {
+    flexDirection: 'row',
+    backgroundColor: '#ffffff',
+    borderRadius: radius['2xl'],
+    overflow: 'hidden',
+    ...shadows.small,
+  },
+  stripe: {
+    width: 6,
+  },
+  cardContent: {
+    flex: 1,
+  },
+  tagWrap: {
+    paddingHorizontal: spacing[4],
+    paddingTop: spacing[3],
+    paddingBottom: spacing[1],
+  },
+  hero: {
+    paddingHorizontal: spacing[4],
+    paddingVertical: spacing[3],
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing[3],
   },
   categoryIcon: {
-    width: 28,
-    height: 28,
+    width: 40,
+    height: 40,
     borderRadius: radius.lg,
+    backgroundColor: semantic.background.disabled,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  cardItem: {
+  cardInfo: {
+    flex: 1,
+    justifyContent: 'center',
+    gap: 2,
+  },
+  balanceRight: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: semantic.surface[1],
-    padding: spacing[4],
-    borderRadius: radius.xl,
-    marginBottom: spacing[2],
-    ...shadows.small,
-  },
-  cardItemLeft: {
-    flex: 1,
-  },
-  cardItemRight: {
-    alignItems: 'flex-end',
-    gap: spacing[1],
+    gap: spacing[2],
   },
 });

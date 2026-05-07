@@ -93,10 +93,7 @@ export function BrandsListScreen({ route, navigation }: Props) {
         <View style={styles.toolbarRow}>
           <TouchableOpacity
             style={styles.filterBtn}
-            onPress={() => {
-              // TODO: Faz 7.x - FilterScreen (context'e gore)
-              console.log('Filter press');
-            }}
+            onPress={() => navigation.navigate('PlacesFilter', { context: category })}
             activeOpacity={0.7}
           >
             <Icon name="filter" size={16} color="primary" />

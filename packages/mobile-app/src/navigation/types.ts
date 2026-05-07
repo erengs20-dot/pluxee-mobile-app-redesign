@@ -71,6 +71,12 @@ export type RootStackParamList = {
   NearbyPlacesList: { placeType: 'restaurant' | 'market'; title: string };
   /** Online alisveris markasi web sitesi (in-app webview) */
   WebView: { url: string | undefined; title: string };
+
+  /** Mekanlar/listeler icin context-based filtre modal'i */
+  PlacesFilter: {
+    context: 'main' | 'gift' | 'online' | 'restaurants' | 'markets';
+    currentFilters?: import('../screens/PlacesFilterScreen').FilterState;
+  };
 };
 
 declare global {

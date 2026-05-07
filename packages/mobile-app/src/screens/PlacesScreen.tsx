@@ -43,6 +43,7 @@ import {
   type Place,
 } from '../data/places';
 import { CardDetailHeader } from '../components/cardDetail/CardDetailHeader';
+import { openFoodPlatformApp } from '../utils/openApp';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -84,8 +85,13 @@ export function PlacesScreen() {
       // TODO: Webview screen acilacak
       navigation.navigate('WebView' as any, { url: brand.websiteUrl, title: brand.name });
     } else if (brand.category === 'food_platform') {
-      // TODO: Deep link denenecek (sonraki adim)
-      console.log('Deep link:', brand.appDeepLink);
+      // Deep link dene -> yoksa store URL fallback
+      openFoodPlatformApp({
+        deepLink: brand.appDeepLink,
+        appStoreUrl: brand.appStoreUrl,
+        playStoreUrl: brand.playStoreUrl,
+        brandName: brand.name,
+      });
     } else {
       // gift/fuel - mevcut BrandDetail akisi
       navigation.navigate('BrandDetail', { brandId: brand.id });
@@ -112,10 +118,7 @@ export function PlacesScreen() {
         {!searchQuery && (
           <TouchableOpacity
             style={styles.filterBtn}
-            onPress={() => {
-              // TODO: Faz 7.x - FilterScreen (context: 'main')
-              console.log('Filter press');
-            }}
+            onPress={() => navigation.navigate('PlacesFilter', { context: 'main' })}
             activeOpacity={0.7}
           >
             <Icon name="filter" size={16} color="primary" />

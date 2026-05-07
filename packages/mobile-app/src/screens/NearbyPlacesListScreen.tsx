@@ -85,10 +85,9 @@ export function NearbyPlacesListScreen({ route, navigation }: Props) {
         <View style={styles.toolbarRow}>
           <TouchableOpacity
             style={styles.filterBtn}
-            onPress={() => {
-              // TODO: Faz 7.x - FilterScreen (placeType context)
-              console.log('Filter press');
-            }}
+            onPress={() => navigation.navigate('PlacesFilter', {
+              context: placeType === 'restaurant' ? 'restaurants' : 'markets',
+            })}
             activeOpacity={0.7}
           >
             <Icon name="filter" size={16} color="primary" />

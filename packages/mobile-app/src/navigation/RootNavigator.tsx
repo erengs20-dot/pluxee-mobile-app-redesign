@@ -44,6 +44,7 @@ import { TransportPlaceDetailScreen } from '../screens/TransportPlaceDetailScree
 import { BrandsListScreen } from '../screens/BrandsListScreen';
 import { NearbyPlacesListScreen } from '../screens/NearbyPlacesListScreen';
 import { WebViewScreen } from '../screens/WebViewScreen';
+import { PlacesFilterScreen } from '../screens/PlacesFilterScreen';
 import type { RootStackParamList } from './types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -83,6 +84,7 @@ export function RootNavigator() {
         <Stack.Screen name="BrandsList" component={BrandsListScreen} />
         <Stack.Screen name="NearbyPlacesList" component={NearbyPlacesListScreen} />
         <Stack.Screen name="WebView" component={WebViewScreen} />
+        <Stack.Screen name="PlacesFilter" component={PlacesFilterScreen} options={{ animation: 'slide_from_bottom' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

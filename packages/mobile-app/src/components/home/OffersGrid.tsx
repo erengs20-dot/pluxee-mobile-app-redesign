@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
-import { Text, Icon, semantic, spacing, radius, shadows } from '@pluxee/design-system';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, semantic, spacing, radius } from '@pluxee/design-system';
 import { MOCK_OFFERS, type OfferCard } from '../../data/campaigns';
 
 interface OffersGridProps {
@@ -8,59 +8,37 @@ interface OffersGridProps {
   onSeeAllPress?: () => void;
 }
 
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
-const GRID_GAP = spacing[3];
-const CONTAINER_PADDING = spacing[4];
-const CARD_WIDTH = (SCREEN_WIDTH - CONTAINER_PADDING * 2 - GRID_GAP) / 2;
-
-export function OffersGrid({ onOfferPress, onSeeAllPress }: OffersGridProps) {
+export function OffersGrid({ onOfferPress }: OffersGridProps) {
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text variant="title.mobileSection" color="primary">
-          Ayin Firsatlari
-        </Text>
-        <TouchableOpacity onPress={onSeeAllPress} style={styles.seeAllBtn}>
-          <Text variant="body.smallBold" color="link">
-            Tumu
-          </Text>
-          <Icon name="chevronRight" size={16} color="info" />
-        </TouchableOpacity>
-      </View>
+      <Text variant="title.mobileMain" color="primary" style={styles.header}>
+        Ayin Firsatlari
+      </Text>
 
       <View style={styles.grid}>
-        {MOCK_OFFERS.map((offer) => (
+        {MOCK_OFFERS.map((offer, index) => (
           <TouchableOpacity
             key={offer.id}
-            style={styles.cardWrap}
+            style={[styles.card, index % 2 === 0 ? styles.cardLeft : styles.cardRight]}
             onPress={() => onOfferPress?.(offer)}
             activeOpacity={0.85}
           >
-            <View style={[styles.cardTop, { backgroundColor: offer.bgColor }]}>
+            <View style={[styles.accentTop, { backgroundColor: offer.bgColor }]}>
               <View style={[styles.badge, { backgroundColor: offer.badgeBgColor }]}>
                 <Text variant="body.smallBold" color="primary" style={styles.badgeText}>
                   {offer.badge}
                 </Text>
               </View>
-              <Text
-                variant="body.mediumBold"
-                style={[styles.cardTitle, { color: offer.textColor }]}
-                numberOfLines={3}
-              >
+            </View>
+            <View style={styles.content}>
+              <Text variant="body.mediumBold" color="primary" numberOfLines={3} style={styles.title}>
                 {offer.title}
               </Text>
-            </View>
-
-            <View style={styles.cardBottom}>
-              <Text
-                variant="body.smallMedium"
-                color="secondary"
-                numberOfLines={2}
-                style={styles.cardDescription}
-              >
+              <Text variant="body.smallMedium" color="tertiary" numberOfLines={2}>
                 {offer.description}
               </Text>
             </View>
+            <View style={styles.accentBottom} />
           </TouchableOpacity>
         ))}
       </View>
@@ -71,58 +49,55 @@ export function OffersGrid({ onOfferPress, onSeeAllPress }: OffersGridProps) {
 const styles = StyleSheet.create({
   container: {
     paddingVertical: spacing[4],
+    paddingHorizontal: spacing[4],
   },
   header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
     marginBottom: spacing[4],
-    paddingHorizontal: spacing[1],
-  },
-  seeAllBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing[1],
   },
   grid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: GRID_GAP,
-  },
-  cardWrap: {
-    width: CARD_WIDTH,
-    borderRadius: radius.xl,
-    backgroundColor: '#ffffff',
-    overflow: 'hidden',
-    ...shadows.small,
-  },
-  cardTop: {
-    padding: spacing[3],
-    minHeight: 140,
     justifyContent: 'space-between',
+  },
+  card: {
+    width: '48%',
+    backgroundColor: '#ffffff',
+    borderRadius: radius.lg,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: semantic.border.tertiary,
+    marginBottom: spacing[3],
+  },
+  cardLeft: {
+    marginRight: '2%',
+  },
+  cardRight: {
+    marginLeft: '2%',
+  },
+  accentTop: {
+    height: 48,
+    justifyContent: 'flex-end',
+    padding: spacing[2],
   },
   badge: {
     alignSelf: 'flex-start',
     paddingHorizontal: spacing[2],
-    paddingVertical: 4,
+    paddingVertical: 2,
     borderRadius: radius.full,
-    marginBottom: spacing[3],
   },
   badgeText: {
     fontSize: 9,
     letterSpacing: 0.5,
   },
-  cardTitle: {
-    fontSize: 13,
-    lineHeight: 18,
-    fontWeight: '700',
-  },
-  cardBottom: {
+  content: {
     padding: spacing[3],
-    minHeight: 60,
+    gap: spacing[2],
   },
-  cardDescription: {
-    fontSize: 11,
-    lineHeight: 15,
+  title: {
+    lineHeight: 18,
+  },
+  accentBottom: {
+    height: 3,
+    backgroundColor: semantic.brand.secondary,
   },
 });

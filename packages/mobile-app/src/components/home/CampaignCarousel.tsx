@@ -49,16 +49,6 @@ export function CampaignCarousel({
 
   return (
     <View style={styles.container}>
-      <View style={styles.sectionHeader}>
-        <Text variant="title.mobileMain" color="primary">Kampanyalar</Text>
-        <TouchableOpacity onPress={onSeeAllPress} activeOpacity={0.6}>
-          <Text variant="body.mediumBold" color="link">Tumunu gor</Text>
-        </TouchableOpacity>
-      </View>
-      <Text variant="body.smallMedium" color="tertiary" style={styles.subtitle}>
-        Sana ozel en guncel firsatlari kesfet
-      </Text>
-
       <ScrollView
         ref={scrollRef}
         horizontal
@@ -132,17 +122,7 @@ const styles = StyleSheet.create({
   container: {
     paddingVertical: spacing[3],
   },
-  sectionHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: spacing[4],
-    marginBottom: spacing[1],
-  },
-  subtitle: {
-    paddingHorizontal: spacing[4],
-    marginBottom: spacing[3],
-  },
+
   scrollContent: {
     paddingHorizontal: spacing[4],
     gap: CARD_GAP,

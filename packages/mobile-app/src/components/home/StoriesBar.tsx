@@ -2,9 +2,9 @@
  * StoriesBar - Anasayfa hikayeler seridi (Romanya tasarim dili)
  *
  * Yatay scroll, her story:
- *   - Kare kart (beyaz bg, yesil ust accent cizgi, marka rengi ikon alani)
- *   - Marka adi (bold, navy)
- *   - Yeni icerik varsa yesil ust accent cizgi
+ *   - Yuvarlak avatar (marka rengi + initials)
+ *   - Yeni icerik varsa yesil dis halka (ring)
+ *   - Altinda marka adi (bold navy)
  */
 import React from 'react';
 import {
@@ -13,7 +13,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import { Text, semantic, spacing, radius } from '@pluxee/design-system';
+import { Text, semantic, spacing } from '@pluxee/design-system';
 import { MOCK_STORIES, type Story } from '../../data/stories';
 
 interface StoriesBarProps {
@@ -31,21 +31,25 @@ export function StoriesBar({ onStoryPress }: StoriesBarProps) {
         {MOCK_STORIES.map((story) => (
           <TouchableOpacity
             key={story.id}
-            style={styles.storyCard}
+            style={styles.storyItem}
             onPress={() => onStoryPress?.(story)}
             activeOpacity={0.7}
           >
-            {story.hasNew && <View style={styles.newAccent} />}
-            <View style={[styles.iconCircle, { backgroundColor: story.bgColor }]}>
-              <Text variant="body.mediumBold" color="inverse">
-                {story.initials}
-              </Text>
+            <View style={[
+              styles.ring,
+              story.hasNew ? styles.ringActive : styles.ringInactive,
+            ]}>
+              <View style={[styles.avatar, { backgroundColor: story.bgColor }]}>
+                <Text variant="body.largeBold" color="inverse">
+                  {story.initials}
+                </Text>
+              </View>
             </View>
             <Text
               variant="body.smallBold"
               color="primary"
               align="center"
-              numberOfLines={2}
+              numberOfLines={1}
               style={styles.brandName}
             >
               {story.brandName}
@@ -65,38 +69,33 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing[4],
     gap: spacing[3],
   },
-  storyCard: {
-    width: 88,
-    backgroundColor: '#ffffff',
-    borderRadius: radius.lg,
-    paddingVertical: spacing[3],
-    paddingHorizontal: spacing[2],
+  storyItem: {
     alignItems: 'center',
-    gap: spacing[2],
-    borderWidth: 1,
-    borderColor: semantic.border.tertiary,
-    overflow: 'hidden',
-    position: 'relative',
+    width: 76,
+    gap: spacing[1],
   },
-  newAccent: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    height: 3,
-    backgroundColor: semantic.brand.secondary,
-    borderTopLeftRadius: radius.lg,
-    borderTopRightRadius: radius.lg,
+  ring: {
+    width: 68,
+    height: 68,
+    borderRadius: 34,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 2.5,
   },
-  iconCircle: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+  ringActive: {
+    borderColor: semantic.brand.secondary,
+  },
+  ringInactive: {
+    borderColor: '#e0e0e0',
+  },
+  avatar: {
+    width: 58,
+    height: 58,
+    borderRadius: 29,
     alignItems: 'center',
     justifyContent: 'center',
   },
   brandName: {
     fontSize: 11,
-    lineHeight: 14,
   },
 });

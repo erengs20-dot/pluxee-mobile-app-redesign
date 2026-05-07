@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, StyleSheet, Platform } from 'react-native';
-import { Text, Button, semantic, spacing } from '@pluxee/design-system';
+import { View, StyleSheet, Platform, TouchableOpacity } from 'react-native';
+import { Text, semantic, spacing, radius } from '@pluxee/design-system';
 import { formatCurrency } from '../../data/cards';
 
 interface StickyBottomBarProps {
@@ -20,11 +20,9 @@ export function StickyBottomBar({ balance, ctaLabel, onPress }: StickyBottomBarP
           {formatCurrency(balance)} <Text variant="body.smallMedium" color="primary">TL</Text>
         </Text>
       </View>
-      <View style={styles.ctaBlock}>
-        <Button variant="chamfered" size="lg" onPress={onPress}>
-          {ctaLabel}
-        </Button>
-      </View>
+      <TouchableOpacity style={styles.ctaBtn} onPress={onPress} activeOpacity={0.8}>
+        <Text variant="body.largeBold" color="primary" align="center">{ctaLabel}</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -45,7 +43,10 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 2,
   },
-  ctaBlock: {
-    flexShrink: 0,
+  ctaBtn: {
+    backgroundColor: '#ffdc37',
+    paddingVertical: spacing[3],
+    paddingHorizontal: spacing[5],
+    borderRadius: radius.md,
   },
 });

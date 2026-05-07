@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Modal, Pressable } from 'react-native';
-import { Text, Button, Icon, semantic, spacing, radius } from '@pluxee/design-system';
+import { View, StyleSheet, Modal, Pressable, TouchableOpacity } from 'react-native';
+import { Text, Icon, semantic, spacing, radius } from '@pluxee/design-system';
 
 interface ConfirmationModalProps {
   visible: boolean;
@@ -58,12 +58,12 @@ export function ConfirmationModal({
           <View style={styles.progressBar}>
             <View style={[styles.progressFill, { width: ((progress * 100) + '%') as any }]} />
           </View>
-          <Button variant="chamfered" size="lg" onPress={onConfirm}>
-            {confirmLabel}
-          </Button>
-          <Button variant="primaryOutlined" size="lg" onPress={onCancel}>
-            {cancelLabel}
-          </Button>
+          <TouchableOpacity style={styles.confirmBtn} onPress={onConfirm} activeOpacity={0.8}>
+            <Text variant="title.mobileCard" color="primary" align="center">{confirmLabel}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.cancelBtn} onPress={onCancel} activeOpacity={0.8}>
+            <Text variant="title.mobileCard" color="primary" align="center">{cancelLabel}</Text>
+          </TouchableOpacity>
         </Pressable>
       </Pressable>
     </Modal>
@@ -106,5 +106,21 @@ const styles = StyleSheet.create({
     height: '100%',
     backgroundColor: '#1b51dc',
     borderRadius: 3,
+  },
+  confirmBtn: {
+    width: '100%',
+    backgroundColor: '#ffdc37',
+    paddingVertical: spacing[4],
+    borderRadius: radius.lg,
+    alignItems: 'center',
+  },
+  cancelBtn: {
+    width: '100%',
+    backgroundColor: '#ffffff',
+    paddingVertical: spacing[4],
+    borderRadius: radius.lg,
+    borderWidth: 2,
+    borderColor: semantic.brand.primary,
+    alignItems: 'center',
   },
 });

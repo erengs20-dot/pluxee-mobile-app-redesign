@@ -13,12 +13,33 @@
  *   food      -> Gida / Mobil Kart / sari (#ffdc37)
  *   gift      -> Hediye / Mix Paket / sari (Faz 6.2)
  *   transport -> Ulasim / Esnek ulasim / coral (#ff7375) (Faz 6.2)
+ *
+ * VIRTUAL CARD (Ulasim ozel):
+ *   transport karti hesnek harcama icin Pluxee Sanal Kart (4C wallet) icerir.
+ *   Kullanici akaryakit markasina veya gecerli noktaya bakiye aktardiginda
+ *   bu sanal kart araciligiyla harcama yapilir.
+ *   - virtualCard null ise: kullanici henuz olusturmamis (modal goster)
+ *   - virtualCard dolu ise: aktif sanal kart (gorsel + butonlar)
  */
 import { semantic, type ColorTriad } from '@pluxee/design-system';
 import type { CardCategory } from '../navigation/types';
 
 // Re-export icin (geri uyumluluk - eski importlari kirmasin)
 export type { CardCategory };
+
+/**
+ * Sanal kart bilgisi (Ulasim kartina ozel - Pluxee Sanal Kart / Esnek Ulasim cuzdani).
+ * Param/Troy uzerinden olusturulur, akaryakit ve diger ulasim markalarinda
+ * kredi karti gibi kullanilir.
+ */
+export interface VirtualCardInfo {
+  /** Maskelenmis kart numarasi (orn. '2345 56** **** ****') */
+  maskedNumber: string;
+  /** Maskelenmis son kullanma tarihi (orn. ay/yil maskelenmis) */
+  maskedExpiry: string;
+  /** Marka adi (gorsel uzerine basilir, orn. 'PARAM') */
+  brandName: string;
+}
 
 export interface UserCard {
   id: string;
@@ -31,6 +52,8 @@ export interface UserCard {
   pendingLoad?: number;               // Bekleyen yukleme (default 0)
   plusPoints?: number;                // Plus puan (default 0)
   isDefault: boolean;
+  /** Sadece transport kategorisinde anlamli. null = sanal kart olusturulmamis. */
+  virtualCard?: VirtualCardInfo | null;
 }
 
 interface CategoryMeta {
@@ -178,6 +201,13 @@ export const MOCK_CARDS: UserCard[] = [
     pendingLoad: 0,
     plusPoints: 0,
     isDefault: false,
+    // Sanal kart zaten olusturulmus (mockup'taki gorseldeki gibi)
+    // Eger null yapilirsa CreateVirtualCardModal aktiflesir
+    virtualCard: {
+      maskedNumber: '2345 56** **** ****',
+      maskedExpiry: '**/**',
+      brandName: 'PARAM',
+    },
   },
 ];
 

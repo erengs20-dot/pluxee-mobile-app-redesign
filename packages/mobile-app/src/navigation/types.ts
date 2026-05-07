@@ -57,6 +57,12 @@ export type RootStackParamList = {
   CampaignDetail: { bannerId: string };
   CampaignsList: undefined;
   CodeUsage: { codeId: string };
+
+  // Faz 6.2: Ulasim karti ozel akislari
+  /** Pluxee Sanal Kart (Esnek Ulasim) cuzdanina bakiye aktarma formu */
+  VirtualCardTransfer: { cardId: string };
+  /** Ulasim gecerli noktalar grid'inden bir noktaya basinca acilan genel bilgi sayfasi */
+  TransportPlaceDetail: { placeId: string };
 };
 
 declare global {

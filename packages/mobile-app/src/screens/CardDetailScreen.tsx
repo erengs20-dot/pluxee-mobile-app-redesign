@@ -14,7 +14,7 @@ import React, { useState, useMemo } from 'react';
 import { View, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Text, semantic, spacing } from '@pluxee/design-system';
+import { Text, Icon, semantic, spacing } from '@pluxee/design-system';
 
 import type { RootStackParamList } from '../navigation/types';
 import { getCardById } from '../data/cards';
@@ -23,9 +23,10 @@ import { CardHero } from '../components/cardDetail/CardHero';
 import { BalanceCard } from '../components/cardDetail/BalanceCard';
 import { RecentTransactionsList } from '../components/cardDetail/RecentTransactionsList';
 import { CARD_CATEGORY_META } from '../data/cards';
-import { getAllBrands } from '../data/brands';
+import { getGiftBrands, getFuelBrands } from '../data/brands';
 import { getActiveCodes, getActiveCodeCount } from '../data/codes';
 import { BrandGrid } from '../components/cardDetail/BrandGrid';
+import { VirtualCardSection } from '../components/cardDetail/VirtualCardSection';
 import { BrandCodeCard } from '../components/cardDetail/BrandCodeCard';
 import { ExtraLoadBottomSheet } from '../components/cardDetail/ExtraLoadBottomSheet';
 
@@ -100,7 +101,7 @@ export function CardDetailScreen({ route, navigation }: Props) {
         {category === 'gift' ? (
           <>
             <BrandGrid
-              brands={getAllBrands()}
+              brands={getGiftBrands()}
               initialCount={12}
               onBrandPress={(brand) => {
                 navigation.navigate('BrandDetail', { brandId: brand.id });
@@ -133,11 +134,36 @@ export function CardDetailScreen({ route, navigation }: Props) {
             )}
           </>
         ) : category === 'transport' ? (
-          <View style={styles.placeholderWrap}>
-            <Text variant="title.mobileCard" color="primary" align="center">
-              Ulasim ekranina ozel icerik yakinda
-            </Text>
-          </View>
+          <>
+            {/* USTBOLGE: Bilgi metni + Akaryakit markalari */}
+            <View style={styles.transportInfoBand}>
+              <Icon name="arrowExportRight" size={24} color="primary" />
+              <Text variant="body.medium" color="primary" style={styles.transportInfoText}>
+                Bakiye, ilgili uygulamaya aktarilir veya kod ile kullanilir.
+              </Text>
+            </View>
+
+            <BrandGrid
+              brands={getFuelBrands()}
+              initialCount={6}
+              onBrandPress={(brand) => {
+                navigation.navigate('BrandDetail', { brandId: brand.id });
+              }}
+            />
+
+            {/* ALT BOLGE: Sanal Kart bolumu */}
+            {card.virtualCard && (
+              <VirtualCardSection
+                virtualCard={card.virtualCard}
+                onTransferPress={() => {
+                  navigation.navigate('VirtualCardTransfer', { cardId });
+                }}
+                onPlacePress={(placeId: string) => {
+                  navigation.navigate('TransportPlaceDetail', { placeId });
+                }}
+              />
+            )}
+          </>
         ) : (
           <RecentTransactionsList
             cardId={cardId}
@@ -207,5 +233,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  transportInfoBand: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing[2],
+    paddingHorizontal: spacing[4],
+    paddingTop: spacing[5],
+    paddingBottom: spacing[2],
+  },
+  transportInfoText: {
+    flex: 1,
+    flexShrink: 1,
   },
 });

@@ -57,7 +57,7 @@ export function RecurringLoadScreen({ route, navigation }: Props) {
           return (
             <TouchableOpacity key={c.id} style={styles.cardRow} onPress={() => setSelectedCardId(c.id)}>
               <View style={[styles.categoryIcon, { backgroundColor: meta.bgColor }]}>
-                <Icon name={meta.iconName} size={20} color="primary" />
+                <Icon name={meta.iconName} size={24} color="primary" />
               </View>
               <View style={styles.cardInfo}>
                 <Text variant="body.mediumBold" color="primary" numberOfLines={1}>{c.name}</Text>
@@ -131,7 +131,7 @@ export function RecurringLoadScreen({ route, navigation }: Props) {
                     }}
                   >
                     <Text variant="body.medium" color="primary">{itemLabel}</Text>
-                    {isSelected && <Icon name="checkmark" size={20} color="success" />}
+                    {isSelected && <Icon name="checkmark" size={24} color="success" />}
                   </TouchableOpacity>
                 );
               })}

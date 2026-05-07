@@ -39,6 +39,8 @@ import { PaymentMethodScreen } from '../screens/PaymentMethodScreen';
 import { LoadSuccessScreen } from '../screens/LoadSuccessScreen';
 import { AutoLoadListScreen } from '../screens/AutoLoadListScreen';
 import { CampaignsListScreen } from '../screens/CampaignsListScreen';
+import { VirtualCardTransferScreen } from '../screens/VirtualCardTransferScreen';
+import { TransportPlaceDetailScreen } from '../screens/TransportPlaceDetailScreen';
 import type { RootStackParamList } from './types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -73,6 +75,8 @@ export function RootNavigator() {
         <Stack.Screen name="StoryViewer" component={StoryViewerScreen} options={{ animation: 'fade' }} />
         <Stack.Screen name="CampaignDetail" component={CampaignDetailScreen} />
         <Stack.Screen name="CampaignsList" component={CampaignsListScreen} />
+        <Stack.Screen name="VirtualCardTransfer" component={VirtualCardTransferScreen} />
+        <Stack.Screen name="TransportPlaceDetail" component={TransportPlaceDetailScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

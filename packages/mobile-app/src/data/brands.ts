@@ -1,21 +1,27 @@
 /**
- * Marka mock data - Hediye karti markalari (33 marka).
+ * Marka mock data - Hediye + Ulasim (Akaryakit) markalari.
  *
- * 3 ODEME YONTEMI:
- *   - balance_transfer: Marka cuzdanina dogrudan bakiye aktarimi (Pegasus, Hopi)
- *   - mobile_code:      Tutarli mobil kod/cek (Starbucks, Boyner, ...) - kasiyere okutulur
- *   - wallet_transfer:  Marka uygulamasinin cuzdanina puan/bakiye aktarimi (Pazarama)
+ * KATEGORI:
+ *   - 'gift': Hediye karti markalari (default)
+ *   - 'fuel': Ulasim karti akaryakit markalari (Opet, BP, Aytemiz, TotalEnergies, Lukoil, Petrol Ofisi)
  *
- * LOGO STRATEJISI: Wikimedia Commons (public domain) - bulunamayinca text fallback.
+ * 4 ODEME YONTEMI:
+ *   - balance_transfer: Marka cuzdanina dogrudan bakiye aktarimi
+ *   - mobile_code:      Tutarli mobil kod/cek
+ *   - wallet_transfer:  Marka uygulama cuzdanina puan/bakiye aktarimi
+ *   - payment_code:     Tek seferlik odeme kodu
  *
  * NOT: Bu prototype amacli - production'da legal team'in brand kit hakki gerekli.
  */
 
 export type PaymentMethodType = 'balance_transfer' | 'mobile_code' | 'wallet_transfer' | 'payment_code';
+export type BrandCategory = 'gift' | 'fuel';
 
 export interface Brand {
   id: string;
   name: string;
+  /** 'gift' (Hediye karti) | 'fuel' (Ulasim akaryakit). Default 'gift'. */
+  category: BrandCategory;
   /** Wikimedia veya markanin resmi sitesinden public logo. null ise text fallback. */
   logoUrl: string | null;
   paymentMethod: PaymentMethodType;
@@ -39,9 +45,11 @@ export interface Brand {
 }
 
 export const MOCK_BRANDS: Brand[] = [
+  // === HEDIYE KARTI MARKALARI (gift) ===
   {
     id: 'pluxee-yemek',
     name: 'Pluxee Yemek',
+    category: 'gift',
     logoUrl: null,
     paymentMethod: 'balance_transfer',
     badge: 'MAGAZA & ONLINE',
@@ -53,6 +61,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'pegasus',
     name: 'Pegasus BolBol',
+    category: 'gift',
     logoUrl: null,
     paymentMethod: 'balance_transfer',
     badge: 'ONLINE',
@@ -64,6 +73,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'starbucks',
     name: 'Starbucks',
+    category: 'gift',
     logoUrl: null,
     paymentMethod: 'mobile_code',
     badge: 'MAGAZA & ONLINE',
@@ -74,6 +84,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'carrefour-sa',
     name: 'Carrefour SA',
+    category: 'gift',
     logoUrl: null,
     paymentMethod: 'payment_code',
     badge: 'MAGAZA & ONLINE',
@@ -84,6 +95,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'pluxee-gida',
     name: 'Pluxee Gida',
+    category: 'gift',
     logoUrl: null,
     paymentMethod: 'balance_transfer',
     badge: 'MAGAZA & ONLINE',
@@ -95,6 +107,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'a101',
     name: 'A101',
+    category: 'gift',
     logoUrl: null,
     paymentMethod: 'payment_code',
     badge: 'ONLINE',
@@ -105,6 +118,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'decathlon',
     name: 'Decathlon',
+    category: 'gift',
     logoUrl: null,
     paymentMethod: 'mobile_code',
     badge: 'MAGAZA & ONLINE',
@@ -115,6 +129,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'english-home',
     name: 'English Home',
+    category: 'gift',
     logoUrl: null,
     paymentMethod: 'mobile_code',
     badge: 'MAGAZA & ONLINE',
@@ -125,6 +140,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'beymen',
     name: 'Beymen',
+    category: 'gift',
     logoUrl: null,
     paymentMethod: 'mobile_code',
     badge: 'MAGAZA & ONLINE',
@@ -135,6 +151,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'pazarama',
     name: 'Pazarama',
+    category: 'gift',
     logoUrl: null,
     paymentMethod: 'balance_transfer',
     badge: 'ONLINE',
@@ -145,6 +162,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'pazarama-tatil',
     name: 'Pazarama Tatil',
+    category: 'gift',
     logoUrl: null,
     paymentMethod: 'balance_transfer',
     badge: 'ONLINE',
@@ -155,6 +173,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'hopi',
     name: 'Hopi',
+    category: 'gift',
     logoUrl: null,
     paymentMethod: 'balance_transfer',
     badge: 'MAGAZA & ONLINE',
@@ -166,6 +185,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'pazarama-giyim',
     name: 'Pazarama Giyim Puan',
+    category: 'gift',
     logoUrl: null,
     paymentMethod: 'balance_transfer',
     badge: 'ONLINE',
@@ -176,6 +196,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'kigili',
     name: 'Kigili',
+    category: 'gift',
     logoUrl: null,
     paymentMethod: 'mobile_code',
     badge: 'MAGAZA & ONLINE',
@@ -184,18 +205,9 @@ export const MOCK_BRANDS: Brand[] = [
     availableCodeAmounts: [500, 250, 100],
   },
   {
-    id: 'opet',
-    name: 'Opet',
-    logoUrl: null,
-    paymentMethod: 'balance_transfer',
-    badge: 'MAGAZA & ONLINE',
-    tagline: 'Yolculuk Senin',
-    about: 'Opet istasyonlarinda mobil kod ile yakit alabilirsin.',
-    availableCodeAmounts: [500, 250, 100],
-  },
-  {
     id: 'teknosa',
     name: 'TeknoSA',
+    category: 'gift',
     logoUrl: null,
     paymentMethod: 'payment_code',
     badge: 'MAGAZA & ONLINE',
@@ -206,6 +218,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'boyner',
     name: 'Boyner',
+    category: 'gift',
     logoUrl: null,
     paymentMethod: 'mobile_code',
     badge: 'MAGAZA & ONLINE',
@@ -216,6 +229,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'hepsiburada',
     name: 'Hepsiburada',
+    category: 'gift',
     logoUrl: null,
     paymentMethod: 'mobile_code',
     badge: 'ONLINE',
@@ -226,6 +240,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'gratis',
     name: 'Gratis',
+    category: 'gift',
     logoUrl: null,
     paymentMethod: 'mobile_code',
     badge: 'ONLINE',
@@ -236,6 +251,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'ikea',
     name: 'IKEA',
+    category: 'gift',
     logoUrl: null,
     paymentMethod: 'mobile_code',
     badge: 'MAGAZA & ONLINE',
@@ -246,6 +262,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'mavi',
     name: 'Mavi',
+    category: 'gift',
     logoUrl: null,
     paymentMethod: 'payment_code',
     badge: 'MAGAZA & ONLINE',
@@ -256,6 +273,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'defacto',
     name: 'DeFacto',
+    category: 'gift',
     logoUrl: null,
     paymentMethod: 'payment_code',
     badge: 'MAGAZA & ONLINE',
@@ -266,6 +284,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'koton',
     name: 'Koton',
+    category: 'gift',
     logoUrl: null,
     paymentMethod: 'payment_code',
     badge: 'MAGAZA & ONLINE',
@@ -276,6 +295,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'mudo',
     name: 'Mudo',
+    category: 'gift',
     logoUrl: null,
     paymentMethod: 'payment_code',
     badge: 'MAGAZA & ONLINE',
@@ -286,6 +306,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'mudo-concept',
     name: 'Mudo Concept',
+    category: 'gift',
     logoUrl: null,
     paymentMethod: 'payment_code',
     badge: 'MAGAZA & ONLINE',
@@ -296,6 +317,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'ozdilek',
     name: 'Ozdilek',
+    category: 'gift',
     logoUrl: null,
     paymentMethod: 'payment_code',
     badge: 'MAGAZA & ONLINE',
@@ -306,6 +328,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'ayakkabi-dunyasi',
     name: 'Ayakkabi Dunyasi',
+    category: 'gift',
     logoUrl: null,
     paymentMethod: 'payment_code',
     badge: 'MAGAZA & ONLINE',
@@ -316,6 +339,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'network-divarese',
     name: 'NetWork / Divarese',
+    category: 'gift',
     logoUrl: null,
     paymentMethod: 'payment_code',
     badge: 'MAGAZA & ONLINE',
@@ -326,6 +350,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'braun-oralb',
     name: 'Braun / Oral-B',
+    category: 'gift',
     logoUrl: null,
     paymentMethod: 'payment_code',
     badge: 'ONLINE',
@@ -336,6 +361,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'meditopia',
     name: 'Meditopia',
+    category: 'gift',
     logoUrl: null,
     paymentMethod: 'mobile_code',
     badge: 'ONLINE',
@@ -346,6 +372,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'meditopia-wellness',
     name: 'Meditopia WellnessPass',
+    category: 'gift',
     logoUrl: null,
     paymentMethod: 'mobile_code',
     badge: 'ONLINE',
@@ -356,6 +383,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'bodo',
     name: 'Bodo',
+    category: 'gift',
     logoUrl: null,
     paymentMethod: 'mobile_code',
     badge: 'MAGAZA & ONLINE',
@@ -366,6 +394,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'arkas-turizm',
     name: 'Arkas Turizm',
+    category: 'gift',
     logoUrl: null,
     paymentMethod: 'mobile_code',
     badge: 'ONLINE',
@@ -376,6 +405,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'sok',
     name: 'Sok',
+    category: 'gift',
     logoUrl: null,
     paymentMethod: 'payment_code',
     badge: 'MAGAZA & ONLINE',
@@ -386,12 +416,88 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'ofix',
     name: 'Ofix',
+    category: 'gift',
     logoUrl: null,
     paymentMethod: 'payment_code',
     badge: 'ONLINE',
     tagline: 'Ofis Ihtiyaclarinda',
     about: 'Ofix online platformunda mobil kod ile odeme yapabilirsin.',
     availableCodeAmounts: [500, 250, 100],
+  },
+
+  // === ULASIM AKARYAKIT MARKALARI (fuel) ===
+  // Hepsi balance_transfer - Pluxee Sanal Kart cuzdanina aktarim ile aktif olur
+  {
+    id: 'opet',
+    name: 'Opet',
+    category: 'fuel',
+    logoUrl: null,
+    paymentMethod: 'balance_transfer',
+    badge: 'MAGAZA & ONLINE',
+    tagline: 'Tum Turkiye Opet istasyonlarinda gecerli',
+    about: 'Turkiye\u2019nin en sevilen akaryakit markasi Opet, Ultra Force ile performans ve tasarruf, temiz tuvaletleriyle hijyen, Ultramarket iyle de yollardaki ihtiyaclara cozum sunuyor. Tum OPET istasyonlarinda gecerlidir!',
+    pointsRate: 1.0,
+    pointsName: 'TL',
+  },
+  {
+    id: 'petrol-ofisi',
+    name: 'Petrol Ofisi',
+    category: 'fuel',
+    logoUrl: null,
+    paymentMethod: 'balance_transfer',
+    badge: 'MAGAZA & ONLINE',
+    tagline: 'Tum Turkiye Petrol Ofisi istasyonlarinda gecerli',
+    about: 'Turkiye\u2019nin koklu akaryakit markasi Petrol Ofisi, kaliteli yakit ve genis istasyon agi ile yolculuk deneyimini iyilestiriyor. Tum Petrol Ofisi istasyonlarinda gecerlidir!',
+    pointsRate: 1.0,
+    pointsName: 'TL',
+  },
+  {
+    id: 'bp',
+    name: 'BP',
+    category: 'fuel',
+    logoUrl: null,
+    paymentMethod: 'balance_transfer',
+    badge: 'MAGAZA & ONLINE',
+    tagline: 'Tum Turkiye BP istasyonlarinda gecerli',
+    about: 'BP, dunya capinda tanidik kalitesiyle Turkiye\u2019deki tum istasyonlarinda hizmet veriyor. Premium yakitlari ve mukemmel servis anlayisi ile yolculugun guvencesi.',
+    pointsRate: 1.0,
+    pointsName: 'TL',
+  },
+  {
+    id: 'aytemiz',
+    name: 'Aytemiz',
+    category: 'fuel',
+    logoUrl: null,
+    paymentMethod: 'balance_transfer',
+    badge: 'MAGAZA & ONLINE',
+    tagline: 'Tum Turkiye Aytemiz istasyonlarinda gecerli',
+    about: 'Aytemiz, Turkiye genelindeki istasyon agi ile kaliteli akaryakit ve hizmet sunuyor. Tum Aytemiz istasyonlarinda gecerlidir!',
+    pointsRate: 1.0,
+    pointsName: 'TL',
+  },
+  {
+    id: 'totalenergies',
+    name: 'TotalEnergies',
+    category: 'fuel',
+    logoUrl: null,
+    paymentMethod: 'balance_transfer',
+    badge: 'MAGAZA & ONLINE',
+    tagline: 'Tum Turkiye TotalEnergies istasyonlarinda gecerli',
+    about: 'TotalEnergies, dunya capinda enerji devi olarak Turkiye\u2019deki istasyonlarinda kaliteli yakit sunuyor. Tum TotalEnergies istasyonlarinda gecerlidir!',
+    pointsRate: 1.0,
+    pointsName: 'TL',
+  },
+  {
+    id: 'lukoil',
+    name: 'Lukoil',
+    category: 'fuel',
+    logoUrl: null,
+    paymentMethod: 'balance_transfer',
+    badge: 'MAGAZA & ONLINE',
+    tagline: 'Tum Turkiye Lukoil istasyonlarinda gecerli',
+    about: 'Lukoil, kaliteli yakit ve premium servis anlayisi ile Turkiye\u2019deki istasyonlarinda hizmet veriyor. Tum Lukoil istasyonlarinda gecerlidir!',
+    pointsRate: 1.0,
+    pointsName: 'TL',
   },
 ];
 
@@ -403,8 +509,23 @@ export function getBrandById(brandId: string): Brand | undefined {
 }
 
 /**
- * Tum markalari liste halinde getirir (Markalarim grid icin).
+ * Tum markalari liste halinde getirir.
+ * NOT: Hediye ekrani icin getGiftBrands(), Ulasim icin getFuelBrands() kullan.
  */
 export function getAllBrands(): Brand[] {
   return MOCK_BRANDS;
+}
+
+/**
+ * Sadece Hediye karti markalarini getirir (Hediye detay ekraninda BrandGrid icin).
+ */
+export function getGiftBrands(): Brand[] {
+  return MOCK_BRANDS.filter((b) => b.category === 'gift');
+}
+
+/**
+ * Sadece Ulasim akaryakit markalarini getirir (Ulasim detay ekraninda BrandGrid icin).
+ */
+export function getFuelBrands(): Brand[] {
+  return MOCK_BRANDS.filter((b) => b.category === 'fuel');
 }

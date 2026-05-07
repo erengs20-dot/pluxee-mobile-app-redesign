@@ -46,6 +46,13 @@ export type RootStackParamList = {
     codeId: string;
   };
   PaymentCode: { brandId: string };
+  ExtraLoadType: { cardId: string; category: string };
+  ExtraLoad: { cardId: string; category: string };
+  RecurringLoad: { cardId: string; category: string };
+  BalanceThresholdLoad: { cardId: string; category: string };
+  PaymentMethod: { cardId: string; amount: number; loadType: 'single' | 'recurring' | 'threshold'; frequency?: string; day?: string; threshold?: number; maxLimit?: number; description?: string };
+  LoadSuccess: { cardId: string; amount: number; loadType: 'single' | 'recurring' | 'threshold'; paymentMethod: string; oldBalance: number };
+  AutoLoadList: undefined;
   StoryViewer: { initialIndex: number };
   CampaignDetail: { bannerId: string };
   CampaignsList: undefined;

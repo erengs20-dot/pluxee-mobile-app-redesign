@@ -31,6 +31,13 @@ import { PaymentCodeScreen } from '../screens/PaymentCodeScreen';
 import { BrandCodesListScreen } from '../screens/BrandCodesListScreen';
 import { CampaignDetailScreen } from '../screens/CampaignDetailScreen';
 import { StoryViewerScreen } from '../screens/StoryViewerScreen';
+import { ExtraLoadTypeScreen } from '../screens/ExtraLoadTypeScreen';
+import { ExtraLoadScreen } from '../screens/ExtraLoadScreen';
+import { RecurringLoadScreen } from '../screens/RecurringLoadScreen';
+import { BalanceThresholdScreen } from '../screens/BalanceThresholdScreen';
+import { PaymentMethodScreen } from '../screens/PaymentMethodScreen';
+import { LoadSuccessScreen } from '../screens/LoadSuccessScreen';
+import { AutoLoadListScreen } from '../screens/AutoLoadListScreen';
 import { CampaignsListScreen } from '../screens/CampaignsListScreen';
 import type { RootStackParamList } from './types';
 
@@ -56,6 +63,13 @@ export function RootNavigator() {
         <Stack.Screen name="PaymentCode" component={PaymentCodeScreen} />
         <Stack.Screen name="CodeUsage" component={CodeUsageScreen} />
         <Stack.Screen name="BrandCodesList" component={BrandCodesListScreen} />
+        <Stack.Screen name="ExtraLoadType" component={ExtraLoadTypeScreen} />
+        <Stack.Screen name="ExtraLoad" component={ExtraLoadScreen} />
+        <Stack.Screen name="RecurringLoad" component={RecurringLoadScreen} />
+        <Stack.Screen name="BalanceThresholdLoad" component={BalanceThresholdScreen} />
+        <Stack.Screen name="PaymentMethod" component={PaymentMethodScreen} />
+        <Stack.Screen name="LoadSuccess" component={LoadSuccessScreen} />
+        <Stack.Screen name="AutoLoadList" component={AutoLoadListScreen} />
         <Stack.Screen name="StoryViewer" component={StoryViewerScreen} options={{ animation: 'fade' }} />
         <Stack.Screen name="CampaignDetail" component={CampaignDetailScreen} />
         <Stack.Screen name="CampaignsList" component={CampaignsListScreen} />

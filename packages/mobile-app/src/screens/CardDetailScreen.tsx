@@ -87,7 +87,7 @@ export function CardDetailScreen({ route, navigation }: Props) {
           showExtraLoad={meta.hasExtraLoad}
           showPlusPoints={meta.hasPlusPoints}
           onExtraLoad={() => {
-            // TODO: Faz 6.x - Extra Yukle akisi
+            navigation.navigate('ExtraLoadType', { cardId, category });
           }}
           onRefresh={() => {
             // TODO: API call - bakiye yenile

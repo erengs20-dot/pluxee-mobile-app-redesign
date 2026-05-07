@@ -21,6 +21,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { BottomTabNavigator } from './BottomTabNavigator';
 import { CardDetailScreen } from '../screens/CardDetailScreen';
 import { BrandDetailScreen } from '../screens/BrandDetailScreen';
+import { BalanceTransferFormScreen } from '../screens/BalanceTransferFormScreen';
+import { SmsVerificationScreen } from '../screens/SmsVerificationScreen';
+import { TransferSuccessScreen } from '../screens/TransferSuccessScreen';
 import type { RootStackParamList } from './types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -37,6 +40,9 @@ export function RootNavigator() {
         <Stack.Screen name="MainTabs" component={BottomTabNavigator} />
         <Stack.Screen name="CardDetail" component={CardDetailScreen} />
         <Stack.Screen name="BrandDetail" component={BrandDetailScreen} />
+        <Stack.Screen name="BalanceTransferForm" component={BalanceTransferFormScreen} />
+        <Stack.Screen name="SmsVerification" component={SmsVerificationScreen} />
+        <Stack.Screen name="TransferSuccess" component={TransferSuccessScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

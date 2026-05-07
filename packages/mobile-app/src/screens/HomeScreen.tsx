@@ -107,8 +107,11 @@ export function HomeScreen() {
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
-        <StoriesBar />
-        <CampaignCarousel />
+        <StoriesBar onStoryPress={(story) => navigation.navigate('CampaignDetail', { bannerId: story.bannerId })} />
+        <CampaignCarousel
+            onBannerPress={(banner) => navigation.navigate('CampaignDetail', { bannerId: banner.id })}
+            onSeeAllPress={() => navigation.navigate('CampaignsList')}
+          />
         <QuickActionsRow />
         <DefaultCardSection
           card={defaultCard}
@@ -117,7 +120,10 @@ export function HomeScreen() {
           onCardPress={handleDefaultCardPress}
         />
 
-        <OffersGrid />
+        <OffersGrid
+            onOfferPress={(offer) => navigation.navigate('CampaignDetail', { bannerId: offer.bannerId })}
+            onSeeAllPress={() => navigation.navigate('CampaignsList')}
+          />
 
         <View style={{ height: spacing[20] }} />
       </ScrollView>

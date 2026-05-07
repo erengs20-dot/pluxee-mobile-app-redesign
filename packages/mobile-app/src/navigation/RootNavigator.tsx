@@ -29,6 +29,8 @@ import { WalletTransferFormScreen } from '../screens/WalletTransferFormScreen';
 import { CodeUsageScreen } from '../screens/CodeUsageScreen';
 import { PaymentCodeScreen } from '../screens/PaymentCodeScreen';
 import { BrandCodesListScreen } from '../screens/BrandCodesListScreen';
+import { CampaignDetailScreen } from '../screens/CampaignDetailScreen';
+import { CampaignsListScreen } from '../screens/CampaignsListScreen';
 import type { RootStackParamList } from './types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -53,6 +55,8 @@ export function RootNavigator() {
         <Stack.Screen name="PaymentCode" component={PaymentCodeScreen} />
         <Stack.Screen name="CodeUsage" component={CodeUsageScreen} />
         <Stack.Screen name="BrandCodesList" component={BrandCodesListScreen} />
+        <Stack.Screen name="CampaignDetail" component={CampaignDetailScreen} />
+        <Stack.Screen name="CampaignsList" component={CampaignsListScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

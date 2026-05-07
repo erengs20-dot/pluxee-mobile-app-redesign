@@ -113,7 +113,7 @@ export function StoryViewerScreen({ route, navigation }: Props) {
             {story.brandName}
           </Text>
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.closeBtn} activeOpacity={0.7}>
-            <Icon name="close" size={24} color="inverse" />
+            <Icon name="xmark" size={24} color="inverse" />
           </TouchableOpacity>
         </View>
 

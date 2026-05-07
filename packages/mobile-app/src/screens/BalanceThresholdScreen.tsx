@@ -4,7 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Text, Icon, semantic, spacing, radius } from '@pluxee/design-system';
 import type { RootStackParamList } from '../navigation/types';
-import { MOCK_CARDS } from '../data/cards';
+import { MOCK_CARDS, CARD_CATEGORY_META, formatCurrency } from '../data/cards';
 import { CardDetailHeader } from '../components/cardDetail/CardDetailHeader';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'BalanceThresholdLoad'>;
@@ -29,16 +29,25 @@ export function BalanceThresholdScreen({ route, navigation }: Props) {
       <CardDetailHeader title="Bakiye Altina Dusunce Yukleme" onBack={() => navigation.goBack()} />
       <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled">
         <Text variant="body.smallBold" color="primary" style={styles.label}>Yukleme yapilacak kart</Text>
-        {cards.map((c) => (
-          <TouchableOpacity key={c.id} style={styles.cardRow} onPress={() => setSelectedCardId(c.id)}>
-            <Icon name={c.category === 'meal' ? 'food' : 'gift'} size={24} color="primary" />
-            <View style={styles.cardInfo}>
-              <Text variant="body.mediumBold" color="primary">{c.name}</Text>
-              <Text variant="body.smallMedium" color="tertiary">{c.lastDigits}</Text>
-            </View>
-            {selectedCardId === c.id && <Icon name="checkmark" size={24} color="success" />}
-          </TouchableOpacity>
-        ))}
+        {cards.map((c) => {
+          const meta = CARD_CATEGORY_META[c.category];
+          const isSelected = selectedCardId === c.id;
+          return (
+            <TouchableOpacity key={c.id} style={styles.cardRow} onPress={() => setSelectedCardId(c.id)}>
+              <View style={[styles.categoryIcon, { backgroundColor: meta.bgColor }]}>
+                <Icon name={meta.iconName} size={20} color="primary" />
+              </View>
+              <View style={styles.cardInfo}>
+                <Text variant="body.mediumBold" color="primary" numberOfLines={1}>{c.name}</Text>
+                <Text variant="body.smallMedium" color="tertiary">{c.fullCardNumber}</Text>
+                <Text variant="body.smallBold" color="primary" style={{ marginTop: 2 }}>{'\u20ba '}{formatCurrency(c.balance)}</Text>
+              </View>
+              <View style={[styles.checkCircle, { borderColor: meta.bgColor }, isSelected && { backgroundColor: meta.bgColor }]}>
+                {isSelected && <Icon name="checkmark" size={16} color="primary" />}
+              </View>
+            </TouchableOpacity>
+          );
+        })}
 
         <Text variant="body.smallBold" color="primary" style={styles.label}>Bakiye limiti</Text>
         <Text variant="body.smallMedium" color="tertiary">Bakiyeniz bu tutarin altina dustugunde otomatik yukleme yapilir</Text>
@@ -86,6 +95,8 @@ const styles = StyleSheet.create({
   scrollContent: { padding: spacing[4], paddingBottom: spacing[6], gap: spacing[2] },
   label: { marginTop: spacing[3] },
   cardRow: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffffff', borderRadius: radius.lg, padding: spacing[3], gap: spacing[3], borderWidth: 1, borderColor: semantic.border.tertiary, marginBottom: spacing[2] },
+  categoryIcon: { width: 40, height: 40, borderRadius: radius.lg, alignItems: 'center', justifyContent: 'center' },
+  checkCircle: { width: 24, height: 24, borderRadius: 12, borderWidth: 2, alignItems: 'center', justifyContent: 'center' },
   cardInfo: { flex: 1, gap: 2 },
   inputWrap: { flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: semantic.border.tertiary, borderRadius: radius.md, paddingHorizontal: spacing[3], paddingVertical: spacing[3], gap: spacing[2], backgroundColor: '#ffffff' },
   input: { flex: 1, fontSize: 18, fontWeight: '700', color: semantic.text.primary },

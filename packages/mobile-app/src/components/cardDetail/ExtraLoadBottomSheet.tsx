@@ -25,7 +25,7 @@ export function ExtraLoadBottomSheet({
           <View style={styles.headerRow}>
             <Text variant="title.mobileCard" color="primary">Extra Yukle</Text>
             <TouchableOpacity onPress={onClose} style={styles.closeBtn}>
-              <Icon name="close" size={24} color="primary" />
+              <Icon name="xmark" size={24} color="primary" />
             </TouchableOpacity>
           </View>
           <TouchableOpacity style={styles.option} onPress={onSingleLoad} activeOpacity={0.7}>

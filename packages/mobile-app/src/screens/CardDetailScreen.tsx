@@ -148,6 +148,23 @@ export function CardDetailScreen({ route, navigation }: Props) {
           />
         )}
       </ScrollView>
+
+      <ExtraLoadBottomSheet
+        visible={showExtraLoadSheet}
+        onClose={() => setShowExtraLoadSheet(false)}
+        onSingleLoad={() => {
+          setShowExtraLoadSheet(false);
+          navigation.navigate('ExtraLoad', { cardId, category });
+        }}
+        onCreateInstruction={() => {
+          setShowExtraLoadSheet(false);
+          navigation.navigate('ExtraLoadType', { cardId, category });
+        }}
+        onViewInstructions={() => {
+          setShowExtraLoadSheet(false);
+          navigation.navigate('AutoLoadList');
+        }}
+      />
     </View>
   );
 }

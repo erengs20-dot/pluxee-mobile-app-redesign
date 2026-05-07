@@ -11,7 +11,7 @@
  *   navigation.navigate('CardDetail', { cardId: '1', category: 'meal' })
  */
 import React, { useMemo } from 'react';
-import { View, ScrollView, StyleSheet } from 'react-native';
+import { View, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Text, semantic, spacing } from '@pluxee/design-system';
@@ -23,6 +23,10 @@ import { CardHero } from '../components/cardDetail/CardHero';
 import { BalanceCard } from '../components/cardDetail/BalanceCard';
 import { RecentTransactionsList } from '../components/cardDetail/RecentTransactionsList';
 import { CARD_CATEGORY_META } from '../data/cards';
+import { getAllBrands } from '../data/brands';
+import { getActiveCodes, getActiveCodeCount } from '../data/codes';
+import { BrandGrid } from '../components/cardDetail/BrandGrid';
+import { BrandCodeCard } from '../components/cardDetail/BrandCodeCard';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'CardDetail'>;
 
@@ -34,8 +38,6 @@ export function CardDetailScreen({ route, navigation }: Props) {
   const card = useMemo(() => getCardById(cardId), [cardId]);
   const meta = useMemo(() => CARD_CATEGORY_META[category], [category]);
 
-  // Faz 6.2 placeholder: gift ve transport icin ozel layout var, simdilik basit mesaj
-  const isFaz62Pending = category === 'gift' || category === 'transport';
 
   // Kart bulunamadi (mock data senkronizasyon hatasi - normalde olmamali)
   if (!card) {
@@ -92,16 +94,46 @@ export function CardDetailScreen({ route, navigation }: Props) {
           }}
         />
 
-        {/* Faz 6.2 placeholder veya gercek transactions */}
-        {isFaz62Pending ? (
+        {/* Gift: Markalar + Kodlarim / Diger: Transactions */}
+        {category === 'gift' ? (
+          <>
+            <BrandGrid
+              brands={getAllBrands()}
+              initialCount={12}
+              onBrandPress={(brand) => {
+                navigation.navigate('BrandDetail', { brandId: brand.id });
+              }}
+            />
+
+            {getActiveCodeCount() > 0 && (
+              <View style={styles.codesSection}>
+                <View style={styles.codesSectionHeader}>
+                  <Text variant="title.mobileCard" color="primary">
+                    Marka Kodlarim ({getActiveCodeCount()} adet)
+                  </Text>
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate('BrandCodesList')}
+                    activeOpacity={0.6}
+                  >
+                    <Text variant="body.mediumBold" color="link">
+                      Tumunu gor
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                {getActiveCodes().slice(0, 2).map((code) => (
+                  <BrandCodeCard
+                    key={code.id}
+                    code={code}
+                    onPress={() => navigation.navigate('CodeUsage', { codeId: code.id })}
+                  />
+                ))}
+              </View>
+            )}
+          </>
+        ) : category === 'transport' ? (
           <View style={styles.placeholderWrap}>
             <Text variant="title.mobileCard" color="primary" align="center">
-              {meta.label} ekranina ozel icerik yakinda
-            </Text>
-            <Text variant="body.medium" color="secondary" align="center" style={styles.placeholderMessage}>
-              {category === 'gift'
-                ? 'Markalarim grid ve tek seferlik kullanim akislari Faz 6.2\'de eklenecek.'
-                : 'Sanal kart, QR ile odeme ve gecerli noktalar Faz 6.2\'de eklenecek.'}
+              Ulasim ekranina ozel icerik yakinda
             </Text>
           </View>
         ) : (
@@ -146,5 +178,15 @@ const styles = StyleSheet.create({
   },
   placeholderMessage: {
     textAlign: 'center',
+  },
+  codesSection: {
+    paddingHorizontal: spacing[4],
+    paddingTop: spacing[5],
+    gap: spacing[3],
+  },
+  codesSectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 });

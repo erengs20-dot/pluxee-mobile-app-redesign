@@ -107,7 +107,7 @@ export function HomeScreen() {
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
-        <StoriesBar onStoryPress={(story) => navigation.navigate('CampaignDetail', { bannerId: story.bannerId })} />
+        <StoriesBar onStoryPress={(story) => { const idx = require('../data/stories').MOCK_STORIES.findIndex((s: any) => s.id === story.id); navigation.navigate('StoryViewer', { initialIndex: idx >= 0 ? idx : 0 }); }} />
         <CampaignCarousel
             onBannerPress={(banner) => navigation.navigate('CampaignDetail', { bannerId: banner.id })}
             onSeeAllPress={() => navigation.navigate('CampaignsList')}

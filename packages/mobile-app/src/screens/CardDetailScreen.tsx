@@ -10,7 +10,7 @@
  * NAVIGATION:
  *   navigation.navigate('CardDetail', { cardId: '1', category: 'meal' })
  */
-import React, { useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { View, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -27,6 +27,7 @@ import { getAllBrands } from '../data/brands';
 import { getActiveCodes, getActiveCodeCount } from '../data/codes';
 import { BrandGrid } from '../components/cardDetail/BrandGrid';
 import { BrandCodeCard } from '../components/cardDetail/BrandCodeCard';
+import { ExtraLoadBottomSheet } from '../components/cardDetail/ExtraLoadBottomSheet';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'CardDetail'>;
 
@@ -35,6 +36,7 @@ export function CardDetailScreen({ route, navigation }: Props) {
 
   // route.params degisirse card ve meta yeniden hesaplansin
   // (Stack screen instance cache'inden bagimsiz olarak)
+  const [showExtraLoadSheet, setShowExtraLoadSheet] = useState(false);
   const card = useMemo(() => getCardById(cardId), [cardId]);
   const meta = useMemo(() => CARD_CATEGORY_META[category], [category]);
 
@@ -87,7 +89,7 @@ export function CardDetailScreen({ route, navigation }: Props) {
           showExtraLoad={meta.hasExtraLoad}
           showPlusPoints={meta.hasPlusPoints}
           onExtraLoad={() => {
-            navigation.navigate('ExtraLoadType', { cardId, category });
+            setShowExtraLoadSheet(true);
           }}
           onRefresh={() => {
             // TODO: API call - bakiye yenile

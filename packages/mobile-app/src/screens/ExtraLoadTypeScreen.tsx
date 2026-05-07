@@ -11,50 +11,43 @@ type Props = NativeStackScreenProps<RootStackParamList, 'ExtraLoadType'>;
 export function ExtraLoadTypeScreen({ route, navigation }: Props) {
   const { cardId, category } = route.params;
 
-  const options = [
-    {
-      key: 'single',
-      title: 'Extra Yukle',
-      description: 'Tek seferlik bakiye yukleme',
-      example: 'Ornek: 2.500 TL aninda yukle',
-      screen: 'ExtraLoad' as const,
-    },
-    {
-      key: 'recurring',
-      title: 'Duzenli yukleme talimati',
-      description: 'Belirlediginiz gun/hafta/ay periyodunda otomatik yukleme',
-      example: 'Ornek: Her ayin 1. gunu 1.000 TL otomatik yukleme',
-      screen: 'RecurringLoad' as const,
-    },
-    {
-      key: 'threshold',
-      title: 'Bakiye altina dusunce yukleme',
-      description: 'Kart bakiyesi belirli tutarin altina dusunce otomatik yukleme',
-      example: 'Ornek: Bakiye 500 TL altina dusunce 1.000 TL yukle',
-      screen: 'BalanceThresholdLoad' as const,
-    },
-  ];
-
   return (
     <View style={styles.root}>
       <StatusBar style="light" />
       <CardDetailHeader title="Talimat Tipi Secin" onBack={() => navigation.goBack()} />
       <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContent}>
-        {options.map((opt) => (
-          <TouchableOpacity
-            key={opt.key}
-            style={styles.card}
-            onPress={() => navigation.navigate(opt.screen, { cardId, category })}
-            activeOpacity={0.85}
-          >
-            <Text variant="title.mobileCard" color="primary">{opt.title}</Text>
-            <Text variant="body.medium" color="secondary">{opt.description}</Text>
-            <View style={styles.exampleBox}>
-              <Text variant="body.smallMedium" color="success">{opt.example}</Text>
-            </View>
-            <View style={styles.accentLine} />
-          </TouchableOpacity>
-        ))}
+        <TouchableOpacity
+          style={styles.card}
+          onPress={() => navigation.navigate('RecurringLoad', { cardId, category })}
+          activeOpacity={0.85}
+        >
+          <Text variant="title.mobileCard" color="primary">Duzenli yukleme talimati</Text>
+          <Text variant="body.medium" color="secondary">
+            Belirlediginiz gun/hafta/ay periyodunda otomatik yukleme
+          </Text>
+          <View style={styles.exampleBox}>
+            <Text variant="body.smallMedium" color="success">
+              Ornek: Her ayin 1. gunu 1.000 TL otomatik yukleme
+            </Text>
+          </View>
+          <View style={styles.accentLine} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.card}
+          onPress={() => navigation.navigate('BalanceThresholdLoad', { cardId, category })}
+          activeOpacity={0.85}
+        >
+          <Text variant="title.mobileCard" color="primary">Bakiye altina dusunce yukleme</Text>
+          <Text variant="body.medium" color="secondary">
+            Kart bakiyesi belirli tutarin altina dusunce otomatik yukleme
+          </Text>
+          <View style={styles.exampleBox}>
+            <Text variant="body.smallMedium" color="success">
+              Ornek: Bakiye 500 TL altina dusunce 1.000 TL yukle
+            </Text>
+          </View>
+          <View style={styles.accentLine} />
+        </TouchableOpacity>
       </ScrollView>
     </View>
   );

@@ -11,7 +11,7 @@ interface OffersGridProps {
 export function OffersGrid({ onOfferPress }: OffersGridProps) {
   return (
     <View style={styles.container}>
-      <Text variant="title.mobileMain" color="primary" style={styles.header}>
+      <Text variant="title.mobileSection" color="primary" style={styles.header}>
         Ayin Firsatlari
       </Text>
 
@@ -86,7 +86,6 @@ const styles = StyleSheet.create({
     borderRadius: radius.full,
   },
   badgeText: {
-    fontSize: 9,
     letterSpacing: 0.5,
   },
   content: {

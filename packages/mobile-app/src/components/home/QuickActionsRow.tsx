@@ -30,8 +30,8 @@ interface QuickActionsRowProps {
 export function QuickActionsRow({ onActionPress }: QuickActionsRowProps) {
   return (
     <View style={styles.container}>
-      <Text variant="body.smallBold" color="tertiary" style={styles.title}>
-        HIZLI ISLEMLER
+      <Text variant="title.mobileSection" color="primary">
+        Hizli Islemler
       </Text>
 
       <View style={styles.row}>
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     paddingVertical: spacing[4],
   },
   title: {
-    fontSize: 11,
+
     letterSpacing: 1,
     marginBottom: spacing[3],
     paddingHorizontal: spacing[1],
@@ -94,6 +94,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   label: {
-    fontSize: 12,
+
   },
 });

@@ -29,7 +29,7 @@ export function DefaultCardSection({
       {/* SEMSIE BASLIK */}
       <View style={styles.umbrellaHeader}>
         <Icon name="wallet" size={16} color="primary" />
-        <Text variant="body.mediumBold" color="primary">
+        <Text variant="title.mobileSection" color="primary">
           Kartlarim
         </Text>
       </View>
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: spacing[2],
   },
-  balanceText: { fontSize: 16 },
+  balanceText: {},
   eyeBtn: { padding: spacing[1] },
   divider: {
     height: 1,

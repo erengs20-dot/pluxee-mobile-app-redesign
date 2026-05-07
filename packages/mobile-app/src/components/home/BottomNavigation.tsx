@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     backgroundColor: semantic.background.activeTab,
   },
   navLabel: {
-    fontSize: 11,
+
   },
   navLabelActive: {
     fontWeight: '700',

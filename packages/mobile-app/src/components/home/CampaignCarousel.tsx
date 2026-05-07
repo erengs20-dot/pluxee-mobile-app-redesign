@@ -158,7 +158,6 @@ const styles = StyleSheet.create({
     borderRadius: radius.full,
   },
   badgeText: {
-    fontSize: 10,
     letterSpacing: 0.5,
   },
   cardTitle: {

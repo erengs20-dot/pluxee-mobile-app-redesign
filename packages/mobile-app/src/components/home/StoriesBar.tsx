@@ -96,6 +96,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   brandName: {
-    fontSize: 11,
+
   },
 });

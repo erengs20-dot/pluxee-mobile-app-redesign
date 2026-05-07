@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   logoX: {
-    fontSize: 28,
+
     fontWeight: '900',
     color: semantic.brand.primary, // Navy
     lineHeight: 32,
@@ -87,11 +87,11 @@ const styles = StyleSheet.create({
   welcomeBack: {
     color: '#ffffff',
     opacity: 0.85,
-    fontSize: 14,
+
   },
   userName: {
     color: '#ffffff',
-    fontSize: 24,
+
     fontWeight: '900',
     marginTop: 2,
   },

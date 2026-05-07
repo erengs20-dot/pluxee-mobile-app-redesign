@@ -1,9 +1,12 @@
 /**
- * CampaignCarousel - Anasayfa kampanya banner carousel'i
- * Yatay scroll, snap-to-page. Son slot "Tumunu Gor" CTA.
- * Altinda pagination dots.
+ * CampaignCarousel - Romanya tasarim dili
+ *
+ * Yatay scroll kartlar:
+ *   - Beyaz kart + sol gorsel alani + sag baslik/aciklama
+ *   - Alt yesil accent border
+ *   - Son kart: "Tum Kampanyalari Gor" (navy bg)
+ *   - Pagination dots
  */
-
 import React, { useState, useRef } from 'react';
 import {
   View,
@@ -14,7 +17,7 @@ import {
   type NativeSyntheticEvent,
   type NativeScrollEvent,
 } from 'react-native';
-import { Text, Icon, Background, semantic, spacing, radius } from '@pluxee/design-system';
+import { Text, Icon, semantic, spacing, radius } from '@pluxee/design-system';
 import { MOCK_BANNERS, type Banner } from '../../data/campaigns';
 
 interface CampaignCarouselProps {
@@ -23,12 +26,9 @@ interface CampaignCarouselProps {
 }
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
-// Banner gen: ekran - kenar padding - peek (sonraki banner gozuksun)
-const CONTAINER_PADDING = spacing[4];
-const PEEK_WIDTH = spacing[12]; // sagda sonraki banner'in gozukecek miktari
 const CARD_GAP = spacing[3];
-const CARD_WIDTH = SCREEN_WIDTH - CONTAINER_PADDING * 2 - PEEK_WIDTH;
-const CARD_HEIGHT = 180;
+const CARD_WIDTH = SCREEN_WIDTH - spacing[4] * 2 - spacing[8];
+const CARD_HEIGHT = 160;
 const PAGE_OFFSET = CARD_WIDTH + CARD_GAP;
 
 export function CampaignCarousel({
@@ -49,6 +49,16 @@ export function CampaignCarousel({
 
   return (
     <View style={styles.container}>
+      <View style={styles.sectionHeader}>
+        <Text variant="title.mobileMain" color="primary">Kampanyalar</Text>
+        <TouchableOpacity onPress={onSeeAllPress} activeOpacity={0.6}>
+          <Text variant="body.mediumBold" color="link">Tumunu gor</Text>
+        </TouchableOpacity>
+      </View>
+      <Text variant="body.smallMedium" color="tertiary" style={styles.subtitle}>
+        Sana ozel en guncel firsatlari kesfet
+      </Text>
+
       <ScrollView
         ref={scrollRef}
         horizontal
@@ -62,68 +72,47 @@ export function CampaignCarousel({
         {MOCK_BANNERS.map((banner) => (
           <TouchableOpacity
             key={banner.id}
-            style={[styles.bannerCard, { backgroundColor: banner.bgColor }]}
+            style={styles.card}
             onPress={() => onBannerPress?.(banner)}
             activeOpacity={0.85}
           >
-            <View style={[styles.badge, { backgroundColor: banner.badgeBgColor }]}>
-              <Text variant="body.smallBold" color="primary" style={styles.badgeText}>
-                {banner.badge}
-              </Text>
-            </View>
-            <Text
-              variant="title.mobileCard"
-              style={[styles.bannerTitle, { color: banner.textColor }]}
-            >
-              {banner.title}
-            </Text>
-            <View style={styles.ctaWrap}>
-              <View style={styles.ctaBtn}>
-                <Text variant="body.smallBold" color="inverse">
-                  Kesfet
+            <View style={styles.cardInner}>
+              <View style={[styles.imageArea, { backgroundColor: banner.bgColor }]}>
+                <Text variant="body.largeBold" color="inverse" align="center">
+                  {banner.badge.slice(0, 2)}
+                </Text>
+              </View>
+              <View style={styles.textArea}>
+                <View style={[styles.badgePill, { backgroundColor: banner.badgeBgColor }]}>
+                  <Text variant="body.smallBold" color="primary" style={styles.badgeText}>
+                    {banner.badge}
+                  </Text>
+                </View>
+                <Text variant="body.mediumBold" color="primary" numberOfLines={3} style={styles.cardTitle}>
+                  {banner.title}
                 </Text>
               </View>
             </View>
+            <View style={styles.accentBorder} />
           </TouchableOpacity>
         ))}
 
         <TouchableOpacity
-          style={styles.bannerCard}
+          style={styles.seeAllCard}
           onPress={onSeeAllPress}
           activeOpacity={0.85}
         >
-          <Background
-            variant="chevron"
-            colorTheme="green"
-            reverse
-            width={CARD_WIDTH}
-            height={CARD_HEIGHT}
-            borderRadius={radius['2xl']}
-          >
-            <View style={styles.seeAllContent}>
-              <View style={styles.seeAllIconWrap}>
-                <View style={styles.seeAllArrowBtn}>
-                  <Icon name="arrowRight" size={24} color="primary" />
-                </View>
-              </View>
-              <Text
-                variant="title.mobileCard"
-                color="inverse"
-                align="center"
-                style={styles.seeAllTitle}
-              >
-                Tum Kampanyalari Gor
-              </Text>
-              <Text
-                variant="body.smallMedium"
-                color="inverse"
-                align="center"
-                style={styles.seeAllSubtitle}
-              >
-                8+ kampanya seni bekliyor
-              </Text>
+          <View style={styles.seeAllInner}>
+            <View style={styles.seeAllArrow}>
+              <Icon name="arrowRight" size={24} color="inverse" />
             </View>
-          </Background>
+            <Text variant="title.mobileCard" color="inverse" align="center">
+              Tum Kampanyalari Gor
+            </Text>
+            <Text variant="body.smallMedium" color="inverse" align="center" style={styles.seeAllSub}>
+              {MOCK_BANNERS.length}+ kampanya seni bekliyor
+            </Text>
+          </View>
         </TouchableOpacity>
       </ScrollView>
 
@@ -140,48 +129,91 @@ export function CampaignCarousel({
 }
 
 const styles = StyleSheet.create({
-  container: { paddingVertical: spacing[2] },
-  scrollContent: { paddingHorizontal: spacing[1], gap: spacing[3] },
-  bannerCard: {
+  container: {
+    paddingVertical: spacing[3],
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: spacing[4],
+    marginBottom: spacing[1],
+  },
+  subtitle: {
+    paddingHorizontal: spacing[4],
+    marginBottom: spacing[3],
+  },
+  scrollContent: {
+    paddingHorizontal: spacing[4],
+    gap: CARD_GAP,
+  },
+  card: {
     width: CARD_WIDTH,
     height: CARD_HEIGHT,
-    borderRadius: radius['2xl'],
-    padding: spacing[4],
-    justifyContent: 'space-between',
+    backgroundColor: '#ffffff',
+    borderRadius: radius.lg,
     overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: semantic.border.tertiary,
   },
-  badge: {
+  cardInner: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  imageArea: {
+    width: CARD_WIDTH * 0.35,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textArea: {
+    flex: 1,
+    padding: spacing[3],
+    justifyContent: 'center',
+    gap: spacing[2],
+  },
+  badgePill: {
     alignSelf: 'flex-start',
     paddingHorizontal: spacing[2],
-    paddingVertical: spacing[1],
+    paddingVertical: 2,
     borderRadius: radius.full,
   },
-  badgeText: { fontSize: 10, letterSpacing: 0.5 },
-  bannerTitle: { fontSize: 16, fontWeight: '700', lineHeight: 22 },
-  ctaWrap: { alignSelf: 'flex-start' },
-  ctaBtn: {
-    backgroundColor: '#221c46',
-    paddingHorizontal: spacing[4],
-    paddingVertical: spacing[2],
-    borderRadius: radius.full,
+  badgeText: {
+    fontSize: 10,
+    letterSpacing: 0.5,
   },
-  seeAllContent: {
+  cardTitle: {
+    lineHeight: 20,
+  },
+  accentBorder: {
+    height: 3,
+    backgroundColor: semantic.brand.secondary,
+  },
+  seeAllCard: {
+    width: CARD_WIDTH,
+    height: CARD_HEIGHT,
+    backgroundColor: semantic.brand.primary,
+    borderRadius: radius.lg,
+    overflow: 'hidden',
+  },
+  seeAllInner: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    gap: spacing[2],
     padding: spacing[4],
   },
-  seeAllIconWrap: { marginBottom: spacing[3] },
-  seeAllArrowBtn: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+  seeAllArrow: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     backgroundColor: semantic.brand.secondary,
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: spacing[2],
   },
-  seeAllTitle: { fontSize: 16, marginBottom: spacing[1] },
-  seeAllSubtitle: { opacity: 0.8 },
+  seeAllSub: {
+    opacity: 0.7,
+  },
   dotsContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -189,6 +221,14 @@ const styles = StyleSheet.create({
     gap: spacing[1],
     marginTop: spacing[3],
   },
-  dot: { width: 6, height: 6, borderRadius: 3, backgroundColor: '#d4d0c8' },
-  dotActive: { backgroundColor: '#221c46', width: 24 },
+  dot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: '#d4d0c8',
+  },
+  dotActive: {
+    backgroundColor: semantic.brand.primary,
+    width: 24,
+  },
 });

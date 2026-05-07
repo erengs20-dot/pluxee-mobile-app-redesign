@@ -1,12 +1,11 @@
 /**
- * StoriesBar - Anasayfa hikayeler seridi
+ * StoriesBar - Anasayfa hikayeler seridi (Romanya tasarim dili)
  *
  * Yatay scroll, her story:
- *   - Yuvarlak avatar (initials, marka rengi)
- *   - Yeni icerik varsa yesil dot
- *   - Altinda marka adi
+ *   - Kare kart (beyaz bg, yesil ust accent cizgi, marka rengi ikon alani)
+ *   - Marka adi (bold, navy)
+ *   - Yeni icerik varsa yesil ust accent cizgi
  */
-
 import React from 'react';
 import {
   View,
@@ -14,7 +13,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import { Text, semantic, spacing } from '@pluxee/design-system';
+import { Text, semantic, spacing, radius } from '@pluxee/design-system';
 import { MOCK_STORIES, type Story } from '../../data/stories';
 
 interface StoriesBarProps {
@@ -32,27 +31,24 @@ export function StoriesBar({ onStoryPress }: StoriesBarProps) {
         {MOCK_STORIES.map((story) => (
           <TouchableOpacity
             key={story.id}
-            style={styles.storyItem}
+            style={styles.storyCard}
             onPress={() => onStoryPress?.(story)}
             activeOpacity={0.7}
           >
-            <View style={styles.avatarWrap}>
-              <View style={[styles.avatar, { backgroundColor: story.bgColor }]}>
-                <Text variant="body.largeBold" color="inverse">
-                  {story.initials}
-                </Text>
-              </View>
-              {story.hasNew && <View style={styles.newDot} />}
+            {story.hasNew && <View style={styles.newAccent} />}
+            <View style={[styles.iconCircle, { backgroundColor: story.bgColor }]}>
+              <Text variant="body.mediumBold" color="inverse">
+                {story.initials}
+              </Text>
             </View>
             <Text
-              variant="body.smallMedium"
+              variant="body.smallBold"
               color="primary"
               align="center"
+              numberOfLines={2}
               style={styles.brandName}
             >
-              {story.brandName.length > 9
-                ? story.brandName.substring(0, 8) + '...'
-                : story.brandName}
+              {story.brandName}
             </Text>
           </TouchableOpacity>
         ))}
@@ -66,38 +62,41 @@ const styles = StyleSheet.create({
     paddingVertical: spacing[3],
   },
   scrollContent: {
-    paddingHorizontal: spacing[1],
+    paddingHorizontal: spacing[4],
     gap: spacing[3],
   },
-  storyItem: {
+  storyCard: {
+    width: 88,
+    backgroundColor: '#ffffff',
+    borderRadius: radius.lg,
+    paddingVertical: spacing[3],
+    paddingHorizontal: spacing[2],
     alignItems: 'center',
-    width: 72,
-  },
-  avatarWrap: {
+    gap: spacing[2],
+    borderWidth: 1,
+    borderColor: semantic.border.tertiary,
+    overflow: 'hidden',
     position: 'relative',
-    marginBottom: spacing[1],
   },
-  avatar: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
+  newAccent: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 3,
+    backgroundColor: semantic.brand.secondary,
+    borderTopLeftRadius: radius.lg,
+    borderTopRightRadius: radius.lg,
+  },
+  iconCircle: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 2,
-    borderColor: '#ffffff',
-  },
-  newDot: {
-    position: 'absolute',
-    top: 2,
-    right: 2,
-    width: 14,
-    height: 14,
-    borderRadius: 7,
-    backgroundColor: semantic.brand.secondary, // Yesil
-    borderWidth: 2.5,
-    borderColor: '#ffffff',
   },
   brandName: {
-    fontSize: 12,
+    fontSize: 11,
+    lineHeight: 14,
   },
 });

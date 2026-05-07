@@ -41,7 +41,7 @@ export function BrandDetailScreen({ route, navigation }: Props) {
         navigation.navigate('WalletTransferForm', { brandId: brand.id });
         break;
       case 'payment_code':
-        navigation.navigate('BalanceTransferForm', { brandId: brand.id });
+        navigation.navigate('PaymentCode', { brandId: brand.id });
         break;
     }
   };

@@ -45,6 +45,7 @@ export type RootStackParamList = {
     brandId: string;
     codeId: string;
   };
+  PaymentCode: { brandId: string };
   CodeUsage: { codeId: string };
 };
 

@@ -24,6 +24,10 @@ import { BrandDetailScreen } from '../screens/BrandDetailScreen';
 import { BalanceTransferFormScreen } from '../screens/BalanceTransferFormScreen';
 import { SmsVerificationScreen } from '../screens/SmsVerificationScreen';
 import { TransferSuccessScreen } from '../screens/TransferSuccessScreen';
+import { MobileCodePurchaseScreen } from '../screens/MobileCodePurchaseScreen';
+import { WalletTransferFormScreen } from '../screens/WalletTransferFormScreen';
+import { CodeUsageScreen } from '../screens/CodeUsageScreen';
+import { BrandCodesListScreen } from '../screens/BrandCodesListScreen';
 import type { RootStackParamList } from './types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -43,6 +47,10 @@ export function RootNavigator() {
         <Stack.Screen name="BalanceTransferForm" component={BalanceTransferFormScreen} />
         <Stack.Screen name="SmsVerification" component={SmsVerificationScreen} />
         <Stack.Screen name="TransferSuccess" component={TransferSuccessScreen} />
+        <Stack.Screen name="MobileCodePurchase" component={MobileCodePurchaseScreen} />
+        <Stack.Screen name="WalletTransferForm" component={WalletTransferFormScreen} />
+        <Stack.Screen name="CodeUsage" component={CodeUsageScreen} />
+        <Stack.Screen name="BrandCodesList" component={BrandCodesListScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

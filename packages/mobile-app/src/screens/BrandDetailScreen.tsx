@@ -40,15 +40,19 @@ export function BrandDetailScreen({ route, navigation }: Props) {
       case 'wallet_transfer':
         navigation.navigate('WalletTransferForm', { brandId: brand.id });
         break;
+      case 'payment_code':
+        navigation.navigate('BalanceTransferForm', { brandId: brand.id });
+        break;
     }
   };
 
-  const ctaLabel =
-    brand.paymentMethod === 'balance_transfer'
-      ? 'Bakiye Aktar'
-      : brand.paymentMethod === 'mobile_code'
-        ? 'Kod al'
-        : 'Puan Yukle';
+  const ctaLabels: Record<string, string> = {
+    balance_transfer: 'Bakiye Aktar',
+    mobile_code: 'Kod al',
+    wallet_transfer: 'Puan Yukle',
+    payment_code: 'Odeme Yap',
+  };
+  const ctaLabel = ctaLabels[brand.paymentMethod] ?? 'Devam';
 
   return (
     <View style={styles.root}>

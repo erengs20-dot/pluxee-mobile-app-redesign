@@ -41,6 +41,9 @@ import { AutoLoadListScreen } from '../screens/AutoLoadListScreen';
 import { CampaignsListScreen } from '../screens/CampaignsListScreen';
 import { VirtualCardTransferScreen } from '../screens/VirtualCardTransferScreen';
 import { TransportPlaceDetailScreen } from '../screens/TransportPlaceDetailScreen';
+import { BrandsListScreen } from '../screens/BrandsListScreen';
+import { NearbyPlacesListScreen } from '../screens/NearbyPlacesListScreen';
+import { WebViewScreen } from '../screens/WebViewScreen';
 import type { RootStackParamList } from './types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -77,6 +80,9 @@ export function RootNavigator() {
         <Stack.Screen name="CampaignsList" component={CampaignsListScreen} />
         <Stack.Screen name="VirtualCardTransfer" component={VirtualCardTransferScreen} />
         <Stack.Screen name="TransportPlaceDetail" component={TransportPlaceDetailScreen} />
+        <Stack.Screen name="BrandsList" component={BrandsListScreen} />
+        <Stack.Screen name="NearbyPlacesList" component={NearbyPlacesListScreen} />
+        <Stack.Screen name="WebView" component={WebViewScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

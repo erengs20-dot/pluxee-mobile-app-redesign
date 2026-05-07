@@ -15,7 +15,7 @@
  */
 
 export type PaymentMethodType = 'balance_transfer' | 'mobile_code' | 'wallet_transfer' | 'payment_code';
-export type BrandCategory = 'gift' | 'fuel';
+export type BrandCategory = 'gift' | 'fuel' | 'online' | 'food_platform';
 
 export interface Brand {
   id: string;
@@ -42,6 +42,16 @@ export interface Brand {
   pointsName?: string;
   /** mobile_code icin alinabilir tutar listesi (orn. [1000, 500, 300]) */
   availableCodeAmounts?: number[];
+
+  // === Mekanlar sayfasi icin (online + food_platform kategorileri) ===
+  /** 'online' kategori markalari icin web sitesi URL (webview'de acilir) */
+  websiteUrl?: string;
+  /** 'food_platform' kategori icin deep link (orn. 'trendyolyemek://') */
+  appDeepLink?: string;
+  /** Deep link basarisiz olursa iOS App Store URL */
+  appStoreUrl?: string;
+  /** Deep link basarisiz olursa Android Play Store URL */
+  playStoreUrl?: string;
 }
 
 export const MOCK_BRANDS: Brand[] = [
@@ -499,6 +509,130 @@ export const MOCK_BRANDS: Brand[] = [
     pointsRate: 1.0,
     pointsName: 'TL',
   },
+
+  // === ONLINE ALISVERIS MARKALARI (online) ===
+  // Webview'de marka web sitesi acilir - marka detay sayfasi YOK
+  {
+    id: 'boyner-online',
+    name: 'Boyner',
+    category: 'online',
+    logoUrl: null,
+    paymentMethod: 'balance_transfer',
+    badge: 'ONLINE',
+    tagline: 'Boyner online alisveris',
+    about: 'Boyner online platformunda Pluxee ile odeme yapabilirsin.',
+    websiteUrl: 'https://www.boyner.com.tr',
+  },
+  {
+    id: 'hopi-online',
+    name: 'Hopi',
+    category: 'online',
+    logoUrl: null,
+    paymentMethod: 'balance_transfer',
+    badge: 'ONLINE',
+    tagline: 'Hopi online alisveris',
+    about: 'Hopi platformunda Pluxee ile odeme yapabilirsin.',
+    websiteUrl: 'https://www.hopi.com.tr',
+  },
+  {
+    id: 'dominos-online',
+    name: "Domino's Pizza",
+    category: 'online',
+    logoUrl: null,
+    paymentMethod: 'balance_transfer',
+    badge: 'ONLINE',
+    tagline: "Domino's online siparis",
+    about: "Domino's Pizza online platformunda Pluxee ile odeme yapabilirsin.",
+    websiteUrl: 'https://www.dominos.com.tr',
+  },
+  {
+    id: 'sariyer-online',
+    name: 'Sariyer',
+    category: 'online',
+    logoUrl: null,
+    paymentMethod: 'balance_transfer',
+    badge: 'ONLINE',
+    tagline: 'Sariyer market online',
+    about: 'Sariyer online market platformunda Pluxee ile odeme yapabilirsin.',
+    websiteUrl: 'https://www.sariyermarket.com',
+  },
+  {
+    id: 'mopas-online',
+    name: 'Mopas',
+    category: 'online',
+    logoUrl: null,
+    paymentMethod: 'balance_transfer',
+    badge: 'ONLINE',
+    tagline: 'Mopas market online',
+    about: 'Mopas online platformunda Pluxee ile odeme yapabilirsin.',
+    websiteUrl: 'https://www.mopas.com.tr',
+  },
+  {
+    id: 'mcdonalds-online',
+    name: "McDonald's",
+    category: 'online',
+    logoUrl: null,
+    paymentMethod: 'balance_transfer',
+    badge: 'ONLINE',
+    tagline: "McDonald's online siparis",
+    about: "McDonald's online platformunda Pluxee ile odeme yapabilirsin.",
+    websiteUrl: 'https://www.mcdonalds.com.tr',
+  },
+
+  // === YEMEK PLATFORMLARI (food_platform) ===
+  // Mobil uygulama acilir - deep link denenir, yoksa store
+  {
+    id: 'trendyol-yemek',
+    name: 'Trendyol Yemek',
+    category: 'food_platform',
+    logoUrl: null,
+    paymentMethod: 'balance_transfer',
+    badge: 'ONLINE',
+    tagline: 'Trendyol Yemek ile siparis',
+    about: 'Trendyol Yemek uygulamasinda Pluxee ile odeme yapabilirsin.',
+    appDeepLink: 'trendyolyemek://',
+    appStoreUrl: 'https://apps.apple.com/tr/app/trendyol-yemek/id1117408000',
+    playStoreUrl: 'https://play.google.com/store/apps/details?id=com.trendyol.tyfoodapp',
+  },
+  {
+    id: 'yemeksepeti',
+    name: 'Yemeksepeti',
+    category: 'food_platform',
+    logoUrl: null,
+    paymentMethod: 'balance_transfer',
+    badge: 'ONLINE',
+    tagline: 'Yemeksepeti ile yemek',
+    about: 'Yemeksepeti uygulamasinda Pluxee ile odeme yapabilirsin.',
+    appDeepLink: 'yemeksepeti://',
+    appStoreUrl: 'https://apps.apple.com/tr/app/yemeksepeti/id375556925',
+    playStoreUrl: 'https://play.google.com/store/apps/details?id=com.inovel.app.yemeksepeti',
+  },
+  {
+    id: 'getir-yemek',
+    name: 'Getir Yemek',
+    category: 'food_platform',
+    logoUrl: null,
+    paymentMethod: 'balance_transfer',
+    badge: 'ONLINE',
+    tagline: 'Getir Yemek ile siparis',
+    about: 'Getir Yemek uygulamasinda Pluxee ile odeme yapabilirsin.',
+    appDeepLink: 'getir://',
+    appStoreUrl: 'https://apps.apple.com/tr/app/getir/id955751530',
+    playStoreUrl: 'https://play.google.com/store/apps/details?id=com.getir',
+  },
+  {
+    id: 'migros-yemek',
+    name: 'Migros Yemek',
+    category: 'food_platform',
+    logoUrl: null,
+    paymentMethod: 'balance_transfer',
+    badge: 'ONLINE',
+    tagline: 'Migros Yemek ile siparis',
+    about: 'Migros Yemek uygulamasinda Pluxee ile odeme yapabilirsin.',
+    appDeepLink: 'migros://',
+    appStoreUrl: 'https://apps.apple.com/tr/app/migros/id1052168057',
+    playStoreUrl: 'https://play.google.com/store/apps/details?id=com.migros.android',
+  },
 ];
 
 /**
@@ -528,4 +662,20 @@ export function getGiftBrands(): Brand[] {
  */
 export function getFuelBrands(): Brand[] {
   return MOCK_BRANDS.filter((b) => b.category === 'fuel');
+}
+
+/**
+ * Sadece Online alisveris markalarini getirir (Mekanlar sayfasinda
+ * "Online alisveris" bolumu icin).
+ */
+export function getOnlineBrands(): Brand[] {
+  return MOCK_BRANDS.filter((b) => b.category === 'online');
+}
+
+/**
+ * Sadece Yemek platformlarini getirir (Mekanlar sayfasinda
+ * "Yemek platformlari" bolumu icin).
+ */
+export function getFoodPlatformBrands(): Brand[] {
+  return MOCK_BRANDS.filter((b) => b.category === 'food_platform');
 }

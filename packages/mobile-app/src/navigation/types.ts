@@ -63,6 +63,14 @@ export type RootStackParamList = {
   VirtualCardTransfer: { cardId: string };
   /** Ulasim gecerli noktalar grid'inden bir noktaya basinca acilan genel bilgi sayfasi */
   TransportPlaceDetail: { placeId: string };
+
+  // Faz 7: Mekanlar (Pluxee'li Noktalar)
+  /** Hediye veya Online markalarinin tam liste ekrani (3 sutun grid) */
+  BrandsList: { category: 'gift' | 'online'; title: string };
+  /** Yakindaki restoran veya market liste ekrani */
+  NearbyPlacesList: { placeType: 'restaurant' | 'market'; title: string };
+  /** Online alisveris markasi web sitesi (in-app webview) */
+  WebView: { url: string | undefined; title: string };
 };
 
 declare global {

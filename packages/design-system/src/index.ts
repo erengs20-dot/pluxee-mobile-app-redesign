@@ -135,7 +135,7 @@ export type { InputProps } from './components/atoms/Input';
 
 // ===== Background =====
 export { Background } from './components/atoms/Background';
-export type { BackgroundProps, BackgroundVariant, BackgroundColorTheme } from './components/atoms/Background';
+export type { BackgroundProps, BackgroundVariant, BackgroundColorTheme, ColorTriad } from './components/atoms/Background';
 
 // ===== Toggle =====
 export { Toggle } from './components/atoms/Toggle';

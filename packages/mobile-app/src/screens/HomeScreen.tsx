@@ -33,9 +33,15 @@ import {
   type BottomSheetRef,
 } from '../components/CardListBottomSheet';
 import { SetDefaultCardModal } from '../components/SetDefaultCardModal';
+import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { MOCK_CARDS, type UserCard } from '../data/cards';
+import type { RootStackParamList } from '../navigation/types';
+
+type NavigationType = NativeStackNavigationProp<RootStackParamList>;
 
 export function HomeScreen() {
+  const navigation = useNavigation<NavigationType>();
   const [defaultCardId, setDefaultCardId] = useState<string>(
     MOCK_CARDS.find((c) => c.isDefault)?.id ?? MOCK_CARDS[0].id,
   );
@@ -48,12 +54,28 @@ export function HomeScreen() {
     sheetRef.current?.expand();
   };
 
-  const handleCardSelect = (card: UserCard) => {
+  // Kart listesi (bottom sheet) - 3 cizgi tiklanirsa: varsayilan yap modalı
+  // Default karta tiklarsa: sessizce ignore (button zaten gizli olabilir)
+  // Default olmayan karta: once sheet kapanir, sonra modal acilir (z-index sorunu)
+  const handleMakeDefault = (card: UserCard) => {
     if (card.id === defaultCardId) {
-      sheetRef.current?.close();
+      // Zaten varsayilan - bir sey yapmaya gerek yok
       return;
     }
-    setPendingCard(card);
+    // Sheet'i kapat, animasyon bittikten sonra modal'i ac
+    sheetRef.current?.close();
+    setTimeout(() => {
+      setPendingCard(card);
+    }, 350); // Sheet animasyonu ~250-300ms, biraz tampon ekleyelim
+  };
+
+  // Kart listesi (bottom sheet) - kart govdesi tiklanirsa: detaya git
+  const handleCardListItemPress = (card: UserCard) => {
+    sheetRef.current?.close();
+    navigation.navigate('CardDetail', {
+      cardId: card.id,
+      category: card.category,
+    });
   };
 
   const handleConfirmDefault = () => {
@@ -66,6 +88,13 @@ export function HomeScreen() {
 
   const handleCancelDefault = () => {
     setPendingCard(null);
+  };
+
+  const handleDefaultCardPress = () => {
+    navigation.navigate('CardDetail', {
+      cardId: defaultCard.id,
+      category: defaultCard.category,
+    });
   };
 
   return (
@@ -85,6 +114,7 @@ export function HomeScreen() {
           card={defaultCard}
           totalCardsCount={MOCK_CARDS.length}
           onOtherCardsPress={handleOpenCardList}
+          onCardPress={handleDefaultCardPress}
         />
 
         <OffersGrid />
@@ -94,7 +124,9 @@ export function HomeScreen() {
 
       <CardListBottomSheet
         ref={sheetRef}
-        onCardSelect={handleCardSelect}
+        defaultCardId={defaultCardId}
+        onCardPress={handleCardListItemPress}
+        onMakeDefault={handleMakeDefault}
       />
 
       <SetDefaultCardModal

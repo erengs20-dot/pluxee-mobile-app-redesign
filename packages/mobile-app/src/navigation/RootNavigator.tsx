@@ -19,6 +19,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { BottomTabNavigator } from './BottomTabNavigator';
+import { CardDetailScreen } from '../screens/CardDetailScreen';
 import type { RootStackParamList } from './types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -33,7 +34,7 @@ export function RootNavigator() {
         }}
       >
         <Stack.Screen name="MainTabs" component={BottomTabNavigator} />
-        {/* Faz 6: Card detail screens buraya eklenecek */}
+        <Stack.Screen name="CardDetail" component={CardDetailScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

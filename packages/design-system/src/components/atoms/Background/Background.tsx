@@ -19,7 +19,7 @@ import Svg, { Path, Rect } from 'react-native-svg';
 export type BackgroundVariant = 'chevron' | 'slopeSm' | 'slopeMd' | 'heading';
 export type BackgroundColorTheme = 'green' | 'corail' | 'backOffice';
 
-interface ColorTriad {
+export interface ColorTriad {
   dark: string;
   bright: string;
   light: string;
@@ -53,6 +53,8 @@ export interface BackgroundProps {
   backgroundColor?: string;
   children?: React.ReactNode;
   style?: StyleProp<ViewStyle>;
+  /** Tam triad override - theme yerine bu kullanilir (kategori renkleri icin) */
+  customColors?: ColorTriad;
   borderRadius?: number;
 }
 
@@ -169,12 +171,14 @@ export function Background({
   width = '100%',
   height = '100%',
   backgroundColor,
+  customColors,
   children,
   style,
   borderRadius,
 }: BackgroundProps) {
-  const baseColors = COLOR_THEMES[colorTheme];
-  const colors: ColorTriad = backgroundColor
+  // customColors > backgroundColor > theme oncelik sirasi
+  const baseColors = customColors ?? COLOR_THEMES[colorTheme];
+  const colors: ColorTriad = !customColors && backgroundColor
     ? { ...baseColors, dark: backgroundColor }
     : baseColors;
 

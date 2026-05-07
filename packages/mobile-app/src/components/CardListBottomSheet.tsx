@@ -1,5 +1,9 @@
 /**
  * CardListBottomSheet - Romanya stili + Servis grupli liste
+ *
+ * UX (Faz 6.1+):
+ *   - Karta tikla -> CardDetail'e git (sheet kapanir)
+ *   - 3 nokta (...) tikla -> Varsayilan yap (SetDefaultCardModal acilir)
  */
 
 import React, { forwardRef, useImperativeHandle, useState } from 'react';
@@ -32,7 +36,12 @@ import {
 } from '../data/cards';
 
 interface CardListBottomSheetProps {
-  onCardSelect: (card: UserCard) => void;
+  /** Su anki varsayilan kart id'si (HomeScreen state'inden) */
+  defaultCardId: string;
+  /** Kart govdesine dokunuldu - detay sayfasina gidilmeli */
+  onCardPress: (card: UserCard) => void;
+  /** 3 cizgi menusune dokunuldu - varsayilan yap modalı acilmali */
+  onMakeDefault: (card: UserCard) => void;
 }
 
 export interface BottomSheetRef {
@@ -46,7 +55,7 @@ const SHEET_HEIGHT = SCREEN_HEIGHT * 0.85;
 const CATEGORY_ORDER: CardCategory[] = ['meal', 'gift', 'food', 'business', 'transport'];
 
 export const CardListBottomSheet = forwardRef<BottomSheetRef, CardListBottomSheetProps>(
-  ({ onCardSelect }, ref) => {
+  ({ defaultCardId, onCardPress, onMakeDefault }, ref) => {
     const [visible, setVisible] = useState(false);
     const slideAnim = useRef(new Animated.Value(SHEET_HEIGHT)).current;
 
@@ -88,8 +97,10 @@ export const CardListBottomSheet = forwardRef<BottomSheetRef, CardListBottomShee
 
     Object.keys(cardsByCategory).forEach((cat) => {
       cardsByCategory[cat as CardCategory].sort((a, b) => {
-        if (a.isDefault && !b.isDefault) return -1;
-        if (!a.isDefault && b.isDefault) return 1;
+        const aIsDefault = a.id === defaultCardId;
+        const bIsDefault = b.id === defaultCardId;
+        if (aIsDefault && !bIsDefault) return -1;
+        if (!aIsDefault && bIsDefault) return 1;
         return 0;
       });
     });
@@ -117,7 +128,7 @@ export const CardListBottomSheet = forwardRef<BottomSheetRef, CardListBottomShee
                     Kartlarim
                   </Text>
                   <Text variant="body.smallMedium" color="tertiary">
-                    Bir karti varsayilan yapmak icin sec
+                    Tum kartlarin burada
                   </Text>
                 </View>
                 <TouchableOpacity onPress={handleClose} style={styles.closeBtn}>
@@ -145,12 +156,8 @@ export const CardListBottomSheet = forwardRef<BottomSheetRef, CardListBottomShee
 
                       <View style={styles.cardsInCategory}>
                         {cards.map((card) => (
-                          <TouchableOpacity
-                            key={card.id}
-                            style={styles.cardWrap}
-                            onPress={() => onCardSelect(card)}
-                            activeOpacity={0.7}
-                          >
+                          <View key={card.id} style={styles.cardWrap}>
+                            {/* Sol renkli serit (kategori) */}
                             <View
                               style={[
                                 styles.stripe,
@@ -159,7 +166,7 @@ export const CardListBottomSheet = forwardRef<BottomSheetRef, CardListBottomShee
                             />
 
                             <View style={styles.cardContent}>
-                              {card.isDefault && (
+                              {card.id === defaultCardId && (
                                 <View style={styles.tagWrap}>
                                   <Tag variant="success" iconName="starFilled">
                                     SECILI KART
@@ -167,29 +174,46 @@ export const CardListBottomSheet = forwardRef<BottomSheetRef, CardListBottomShee
                                 </View>
                               )}
 
+                              {/* Hero satiri: govde tiklanabilir + sag tarafta 3 nokta */}
                               <View style={styles.hero}>
-                                <View style={styles.categoryIcon}>
-                                  <Icon name={meta.iconName} size={24} color="primary" />
-                                </View>
+                                {/* Govde - tiklayinca CardDetail'e gider */}
+                                <TouchableOpacity
+                                  style={styles.heroBody}
+                                  onPress={() => onCardPress(card)}
+                                  activeOpacity={0.7}
+                                >
+                                  <View style={styles.categoryIcon}>
+                                    <Icon name={meta.iconName} size={24} color="primary" />
+                                  </View>
 
-                                <View style={styles.cardInfo}>
-                                  <Text variant="body.mediumBold" color="primary" numberOfLines={1}>
-                                    {card.name}
-                                  </Text>
-                                  <Text variant="body.smallMedium" color="tertiary" numberOfLines={1}>
-                                    {'\u2022\u2022\u2022\u2022 '}{card.lastDigits}
-                                  </Text>
-                                </View>
+                                  <View style={styles.cardInfo}>
+                                    <Text variant="body.mediumBold" color="primary" numberOfLines={1}>
+                                      {card.name}
+                                    </Text>
+                                    <Text variant="body.smallMedium" color="tertiary" numberOfLines={1}>
+                                      {'\u2022\u2022\u2022\u2022 '}{card.lastDigits}
+                                    </Text>
+                                  </View>
 
-                                <View style={styles.balanceRight}>
-                                  <Text variant="body.mediumBold" color="primary">
+                                  <Text variant="body.mediumBold" color="primary" style={styles.balanceText}>
                                     {'\u20ba '}{formatCurrency(card.balance)}
                                   </Text>
-                                  <Icon name="chevronRight" size={16} color="tertiary" />
-                                </View>
+                                </TouchableOpacity>
+
+                                {/* 3 cizgi menu - varsayilan yap (default kartta gizli) */}
+                                {card.id !== defaultCardId && (
+                                  <TouchableOpacity
+                                    onPress={() => onMakeDefault(card)}
+                                    style={styles.dotsButton}
+                                    hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                                    activeOpacity={0.6}
+                                  >
+                                    <Icon name="menu" size={24} color="tertiary" />
+                                  </TouchableOpacity>
+                                )}
                               </View>
                             </View>
-                          </TouchableOpacity>
+                          </View>
                         ))}
                       </View>
                     </View>
@@ -281,11 +305,19 @@ const styles = StyleSheet.create({
     paddingBottom: spacing[1],
   },
   hero: {
-    paddingHorizontal: spacing[4],
-    paddingVertical: spacing[3],
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingRight: spacing[2],
+  },
+  heroBody: {
+    flex: 1,
+    flexShrink: 1,
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing[3],
+    paddingHorizontal: spacing[4],
+    paddingVertical: spacing[3],
+    minWidth: 0,
   },
   categoryIcon: {
     width: 40,
@@ -300,9 +332,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 2,
   },
-  balanceRight: {
-    flexDirection: 'row',
+  balanceText: {
+    marginRight: spacing[1],
+  },
+  dotsButton: {
+    width: 40,
+    height: 40,
     alignItems: 'center',
-    gap: spacing[2],
+    justifyContent: 'center',
   },
 });

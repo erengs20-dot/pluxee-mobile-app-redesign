@@ -11,12 +11,14 @@ interface DefaultCardSectionProps {
   card: UserCard;
   totalCardsCount: number;
   onOtherCardsPress: () => void;
+  onCardPress?: () => void;
 }
 
 export function DefaultCardSection({
   card,
   totalCardsCount,
   onOtherCardsPress,
+  onCardPress,
 }: DefaultCardSectionProps) {
   const [balanceVisible, setBalanceVisible] = useState(true);
   const meta = CARD_CATEGORY_META[card.category];
@@ -45,8 +47,13 @@ export function DefaultCardSection({
             </Tag>
           </View>
 
-          {/* HERO */}
-          <View style={styles.hero}>
+          {/* HERO - tiklanabilir, kart detayina gider */}
+          <TouchableOpacity
+            style={styles.hero}
+            onPress={onCardPress}
+            activeOpacity={0.7}
+            disabled={!onCardPress}
+          >
             {/* Kategori ikonu - notr (gri) */}
             <View style={styles.categoryIcon}>
               <Icon name={meta.iconName} size={24} color="primary" />
@@ -80,7 +87,7 @@ export function DefaultCardSection({
                 />
               </TouchableOpacity>
             </View>
-          </View>
+          </TouchableOpacity>
 
           {/* DIVIDER */}
           <View style={styles.divider} />

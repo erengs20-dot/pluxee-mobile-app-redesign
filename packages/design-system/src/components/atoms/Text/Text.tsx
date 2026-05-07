@@ -23,6 +23,7 @@ import {
   Text as RNText,
   type TextProps as RNTextProps,
   type TextStyle,
+  type StyleProp,
 } from 'react-native';
 import { typography } from '../../../tokens/typography';
 import { semantic } from '../../../theme/semantic';
@@ -41,7 +42,7 @@ export interface TextProps extends Omit<RNTextProps, 'style'> {
   variant?: TypographyVariant;
   color?: TextColor;
   /** Ek custom style (token sistemini bozmadan ufak override için) */
-  style?: TextStyle;
+  style?: StyleProp<TextStyle>;
   /** Hizalama kısayolu */
   align?: 'left' | 'center' | 'right';
 }

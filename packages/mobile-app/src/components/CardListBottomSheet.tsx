@@ -169,7 +169,7 @@ export const CardListBottomSheet = forwardRef<BottomSheetRef, CardListBottomShee
 
                               <View style={styles.hero}>
                                 <View style={styles.categoryIcon}>
-                                  <Icon name={meta.iconName} size={20} color="primary" />
+                                  <Icon name={meta.iconName} size={24} color="primary" />
                                 </View>
 
                                 <View style={styles.cardInfo}>

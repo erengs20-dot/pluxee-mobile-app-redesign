@@ -28,7 +28,6 @@ import { CampaignCarousel } from '../components/home/CampaignCarousel';
 import { QuickActionsRow } from '../components/home/QuickActionsRow';
 import { DefaultCardSection } from '../components/home/DefaultCardSection';
 import { OffersGrid } from '../components/home/OffersGrid';
-import { BottomNavigation } from '../components/home/BottomNavigation';
 import {
   CardListBottomSheet,
   type BottomSheetRef,
@@ -106,7 +105,6 @@ export function HomeScreen() {
       />
 
       </View>
-      <BottomNavigation activeTab="home" />
     </View>
   );
 }

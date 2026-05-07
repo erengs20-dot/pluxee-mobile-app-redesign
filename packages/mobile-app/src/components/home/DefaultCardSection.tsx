@@ -40,59 +40,63 @@ export function DefaultCardSection({
 
         {/* IC ICERIK */}
         <View style={styles.cardContent}>
-          {/* Tag */}
-          <View style={styles.tagWrap}>
-            <Tag variant="success" iconName="starFilled">
-              SECILI KART
-            </Tag>
-          </View>
-
-          {/* HERO - tiklanabilir, kart detayina gider */}
+          {/* DIVIDER USTU - tum alan kart detayini acar (goz haric) */}
           <TouchableOpacity
-            style={styles.hero}
+            style={styles.topPressable}
             onPress={onCardPress}
             activeOpacity={0.7}
             disabled={!onCardPress}
           >
-            {/* Kategori ikonu - notr (gri) */}
-            <View style={styles.categoryIcon}>
-              <Icon name={meta.iconName} size={24} color="primary" />
+            {/* Tag */}
+            <View style={styles.tagWrap}>
+              <Tag variant="success" iconName="starFilled">
+                SECILI KART
+              </Tag>
             </View>
 
-            <View style={styles.cardInfo}>
-              <Text variant="body.mediumBold" color="primary" numberOfLines={1}>
-                {card.name}
-              </Text>
-              <Text variant="body.smallMedium" color="tertiary" numberOfLines={1}>
-                {meta.label.toUpperCase()} {'\u00b7'} {'\u2022\u2022\u2022\u2022 '}
-                {card.lastDigits}
-              </Text>
-            </View>
+            {/* HERO ICERIK */}
+            <View style={styles.hero}>
+              {/* Kategori ikonu - notr (gri) */}
+              <View style={styles.categoryIcon}>
+                <Icon name={meta.iconName} size={24} color="primary" />
+              </View>
 
-            <View style={styles.balanceRight}>
-              <Text variant="body.largeBold" color="primary" style={styles.balanceText}>
-                {balanceVisible
-                  ? `\u20ba ${formatCurrency(card.balance)}`
-                  : '\u2022\u2022\u2022\u2022\u2022'}
-              </Text>
-              <TouchableOpacity
-                onPress={() => setBalanceVisible((v) => !v)}
-                style={styles.eyeBtn}
-                hitSlop={8}
-              >
-                <Icon
-                  name={balanceVisible ? 'eyeOpenOutline' : 'eyeCloseOutline'}
-                  size={16}
-                  color="tertiary"
-                />
-              </TouchableOpacity>
+              <View style={styles.cardInfo}>
+                <Text variant="body.mediumBold" color="primary" numberOfLines={1}>
+                  {card.name}
+                </Text>
+                <Text variant="body.smallMedium" color="tertiary" numberOfLines={1}>
+                  {meta.label.toUpperCase()} {'\u00b7'} {'\u2022\u2022\u2022\u2022 '}
+                  {card.lastDigits}
+                </Text>
+              </View>
+
+              <View style={styles.balanceRight}>
+                <Text variant="body.largeBold" color="primary" style={styles.balanceText}>
+                  {balanceVisible
+                    ? `\u20ba ${formatCurrency(card.balance)}`
+                    : '\u2022\u2022\u2022\u2022\u2022'}
+                </Text>
+                {/* GOZ - nested TouchableOpacity, kendi onPress'i (RN en ictekini secer) */}
+                <TouchableOpacity
+                  onPress={() => setBalanceVisible((v) => !v)}
+                  style={styles.eyeBtn}
+                  hitSlop={12}
+                >
+                  <Icon
+                    name={balanceVisible ? 'eyeOpenOutline' : 'eyeCloseOutline'}
+                    size={16}
+                    color="tertiary"
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
           </TouchableOpacity>
 
           {/* DIVIDER */}
           <View style={styles.divider} />
 
-          {/* FOOTER */}
+          {/* FOOTER - kart listesi bottom sheet */}
           <TouchableOpacity
             style={styles.footer}
             onPress={onOtherCardsPress}
@@ -132,6 +136,9 @@ const styles = StyleSheet.create({
   },
   cardContent: {
     flex: 1,
+  },
+  topPressable: {
+    // Divider ustu tum alan tiklanabilir
   },
   tagWrap: {
     paddingHorizontal: spacing[4],

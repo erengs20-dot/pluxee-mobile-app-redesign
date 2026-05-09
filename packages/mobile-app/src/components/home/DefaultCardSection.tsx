@@ -102,10 +102,10 @@ export function DefaultCardSection({
             onPress={onOtherCardsPress}
             activeOpacity={0.7}
           >
-            <Text variant="body.smallBold" color="link">
-              {otherCount} kart daha gor
+            <Text variant="body.largeBold" color="link" style={styles.footerText}>
+              Tum kartlarimi gor
             </Text>
-            <Icon name="chevronRight" size={16} color="info" />
+            <Icon name="chevronRight" size={24} color="info" />
           </TouchableOpacity>
         </View>
       </View>
@@ -115,14 +115,14 @@ export function DefaultCardSection({
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: spacing[4],
+    marginVertical: spacing[2],
   },
   umbrellaHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing[2],
     paddingHorizontal: spacing[1],
-    marginBottom: spacing[2],
+    marginBottom: spacing[1],
   },
   cardWrap: {
     flexDirection: 'row',

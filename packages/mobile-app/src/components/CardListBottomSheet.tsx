@@ -200,17 +200,24 @@ export const CardListBottomSheet = forwardRef<BottomSheetRef, CardListBottomShee
                                   </Text>
                                 </TouchableOpacity>
 
-                                {/* 3 cizgi menu - varsayilan yap (default kartta gizli) */}
-                                {card.id !== defaultCardId && (
-                                  <TouchableOpacity
-                                    onPress={() => onMakeDefault(card)}
-                                    style={styles.dotsButton}
-                                    hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-                                    activeOpacity={0.6}
-                                  >
-                                    <Icon name="menu" size={24} color="tertiary" />
-                                  </TouchableOpacity>
-                                )}
+                                {/* Radio button - varsayilan yap (default kartta dolu, digerlerinde bos) */}
+                                <TouchableOpacity
+                                  onPress={() => card.id !== defaultCardId && onMakeDefault(card)}
+                                  style={styles.radioButton}
+                                  hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                                  activeOpacity={0.6}
+                                  disabled={card.id === defaultCardId}
+                                >
+                                  <View style={[
+                                    styles.radioOuter,
+                                    { borderColor: meta.stripeColor },
+                                    card.id === defaultCardId && { backgroundColor: meta.stripeColor },
+                                  ]}>
+                                    {card.id === defaultCardId && (
+                                      <View style={styles.radioInner} />
+                                    )}
+                                  </View>
+                                </TouchableOpacity>
                               </View>
                             </View>
                           </View>
@@ -335,10 +342,21 @@ const styles = StyleSheet.create({
   balanceText: {
     marginRight: spacing[1],
   },
-  dotsButton: {
-    width: 40,
-    height: 40,
+  radioButton: {
+    padding: 4,
+  },
+  radioOuter: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    borderWidth: 2,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  radioInner: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: '#ffffff',
   },
 });

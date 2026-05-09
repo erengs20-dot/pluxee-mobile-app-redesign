@@ -45,6 +45,11 @@ import { BrandsListScreen } from '../screens/BrandsListScreen';
 import { NearbyPlacesListScreen } from '../screens/NearbyPlacesListScreen';
 import { WebViewScreen } from '../screens/WebViewScreen';
 import { PlacesFilterScreen } from '../screens/PlacesFilterScreen';
+import { AddCardByNumberScreen } from '../screens/AddCardByNumberScreen';
+import { ServiceSelectionScreen } from '../screens/ServiceSelectionScreen';
+import { CardAgreementScreen } from '../screens/CardAgreementScreen';
+import { AgreementDetailScreen } from '../screens/AgreementDetailScreen';
+import { AddCardSuccessScreen } from '../screens/AddCardSuccessScreen';
 import type { RootStackParamList } from './types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -84,6 +89,11 @@ export function RootNavigator() {
         <Stack.Screen name="BrandsList" component={BrandsListScreen} />
         <Stack.Screen name="NearbyPlacesList" component={NearbyPlacesListScreen} />
         <Stack.Screen name="WebView" component={WebViewScreen} />
+        <Stack.Screen name="AddCardByNumber" component={AddCardByNumberScreen} />
+        <Stack.Screen name="ServiceSelection" component={ServiceSelectionScreen} />
+        <Stack.Screen name="CardAgreement" component={CardAgreementScreen} />
+        <Stack.Screen name="AgreementDetail" component={AgreementDetailScreen} />
+        <Stack.Screen name="AddCardSuccess" component={AddCardSuccessScreen} options={{ gestureEnabled: false }} />
         <Stack.Screen name="PlacesFilter" component={PlacesFilterScreen} options={{ animation: 'slide_from_bottom' }} />
       </Stack.Navigator>
     </NavigationContainer>

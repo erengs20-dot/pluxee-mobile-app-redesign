@@ -120,11 +120,11 @@ export function CampaignCarousel({
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: spacing[3],
+    paddingVertical: spacing[2],
   },
 
   scrollContent: {
-    paddingHorizontal: spacing[4],
+    paddingRight: spacing[4],
     gap: CARD_GAP,
   },
   card: {

@@ -48,11 +48,11 @@ export function OffersGrid({ onOfferPress }: OffersGridProps) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: spacing[4],
+    paddingVertical: spacing[2],
     paddingHorizontal: spacing[4],
   },
   header: {
-    marginBottom: spacing[4],
+    marginBottom: spacing[1],
   },
   grid: {
     flexDirection: 'row',
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     borderWidth: 1,
     borderColor: semantic.border.tertiary,
-    marginBottom: spacing[3],
+    marginBottom: spacing[1],
   },
   cardLeft: {
     marginRight: '2%',

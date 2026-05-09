@@ -72,6 +72,14 @@ export type RootStackParamList = {
   /** Online alisveris markasi web sitesi (in-app webview) */
   WebView: { url: string | undefined; title: string };
 
+
+  // Faz 8: Kart Ekleme akisi
+  AddCardByNumber: undefined;
+  ServiceSelection: undefined;
+  CardAgreement: { category: CardCategory };
+  AgreementDetail: { category: CardCategory };
+  AddCardSuccess: { category: CardCategory; cardNumber: string; isPersonal: boolean };
+
   /** Mekanlar/listeler icin context-based filtre modal'i */
   PlacesFilter: {
     context: 'main' | 'gift' | 'online' | 'restaurants' | 'markets';

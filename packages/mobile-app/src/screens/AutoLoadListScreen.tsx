@@ -36,14 +36,14 @@ export function AutoLoadListScreen({ navigation }: Props) {
 
             {load.type === 'recurring' ? (
               <View style={styles.row}>
-                <Text variant="body.mediumBold" color="success">Her {load.frequency === 'Haftalik' ? 'hafta ' + load.day : 'ayin ' + load.day + '.'} gunu kartinizdan yuklenecek tutar</Text>
-                <Text variant="title.mobileCard" color="success">{formatCurrency(load.amount)} TL</Text>
+                <Text variant="body.mediumBold" color="success" style={styles.rowLeft}>Her {load.frequency === 'Haftalik' ? 'hafta ' + load.day : 'ayin ' + load.day + '.'} gunu kartinizdan yuklenecek tutar</Text>
+                <Text variant="title.mobileCard" color="success" style={styles.rowRight}>{formatCurrency(load.amount)} TL</Text>
               </View>
             ) : (
               <>
                 <View style={styles.row}>
-                  <Text variant="body.mediumBold" color="success">Bakiye {load.threshold} TL altina indiginde kartinizdan yuklenecek tutar</Text>
-                  <Text variant="title.mobileCard" color="success">{formatCurrency(load.amount)} TL</Text>
+                  <Text variant="body.mediumBold" color="success" style={styles.rowLeft}>Bakiye {load.threshold} TL altina indiginde kartinizdan yuklenecek tutar</Text>
+                  <Text variant="title.mobileCard" color="success" style={styles.rowRight}>{formatCurrency(load.amount)} TL</Text>
                 </View>
                 <View style={styles.divider} />
                 <View style={styles.row}>
@@ -88,7 +88,9 @@ const styles = StyleSheet.create({
   typeBadge: { backgroundColor: '#e6f7e6', paddingHorizontal: spacing[3], paddingVertical: spacing[2], borderRadius: radius.full, alignSelf: 'flex-start' },
   cardHeader: { flexDirection: 'row', alignItems: 'center', gap: spacing[3], paddingVertical: spacing[2] },
   cardInfo: { flex: 1, gap: 2 },
-  row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: spacing[2] },
+  row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', paddingVertical: spacing[2], gap: spacing[3] },
+  rowLeft: { flex: 1 },
+  rowRight: { flexShrink: 0 },
   divider: { height: 1, backgroundColor: semantic.brand.secondary },
   actions: { flexDirection: 'row', gap: spacing[3], marginTop: spacing[3] },
   editBtn: { flex: 1, backgroundColor: semantic.brand.secondary, paddingVertical: spacing[3], borderRadius: radius.md },

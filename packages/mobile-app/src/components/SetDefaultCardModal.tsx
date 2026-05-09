@@ -88,12 +88,12 @@ export function SetDefaultCardModal({
           <View style={styles.actions}>
             <View style={{ flex: 1 }}>
               <Button variant="secondaryOutlined" onPress={onCancel}>
-                Vazgeç
+                Hayir
               </Button>
             </View>
             <View style={{ flex: 1 }}>
               <Button variant="primaryFilled" onPress={onConfirm}>
-                Evet, Varsayılan
+                Evet
               </Button>
             </View>
           </View>

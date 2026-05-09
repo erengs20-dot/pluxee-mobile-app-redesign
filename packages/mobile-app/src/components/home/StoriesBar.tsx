@@ -63,7 +63,7 @@ export function StoriesBar({ onStoryPress }: StoriesBarProps) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: spacing[3],
+    paddingVertical: spacing[2],
   },
   scrollContent: {
     paddingHorizontal: spacing[4],

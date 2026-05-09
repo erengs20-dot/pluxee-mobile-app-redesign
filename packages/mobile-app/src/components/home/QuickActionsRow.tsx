@@ -30,7 +30,7 @@ interface QuickActionsRowProps {
 export function QuickActionsRow({ onActionPress }: QuickActionsRowProps) {
   return (
     <View style={styles.container}>
-      <Text variant="title.mobileSection" color="primary">
+      <Text variant="title.mobileSection" color="primary" style={styles.title}>
         Hizli Islemler
       </Text>
 
@@ -67,22 +67,20 @@ export function QuickActionsRow({ onActionPress }: QuickActionsRowProps) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: spacing[4],
+    paddingVertical: spacing[2],
   },
   title: {
 
     letterSpacing: 1,
-    marginBottom: spacing[3],
-    paddingHorizontal: spacing[1],
+    marginBottom: spacing[1],
   },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: spacing[1],
   },
   actionItem: {
     alignItems: 'center',
-    flex: 1,
+    width: 64,
     gap: spacing[2],
   },
   iconBox: {

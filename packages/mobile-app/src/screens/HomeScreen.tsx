@@ -33,6 +33,7 @@ import {
   type BottomSheetRef,
 } from '../components/CardListBottomSheet';
 import { SetDefaultCardModal } from '../components/SetDefaultCardModal';
+import { AddCardBottomSheet, type AddCardSheetRef } from '../components/AddCardBottomSheet';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { MOCK_CARDS, type UserCard } from '../data/cards';
@@ -47,6 +48,7 @@ export function HomeScreen() {
   );
   const [pendingCard, setPendingCard] = useState<UserCard | null>(null);
   const sheetRef = useRef<BottomSheetRef>(null);
+  const addCardRef = useRef<AddCardSheetRef>(null);
 
   const defaultCard = MOCK_CARDS.find((c) => c.id === defaultCardId)!;
 
@@ -112,7 +114,13 @@ export function HomeScreen() {
             onBannerPress={(banner) => navigation.navigate('CampaignDetail', { bannerId: banner.id })}
             onSeeAllPress={() => navigation.navigate('CampaignsList')}
           />
-        <QuickActionsRow />
+        <QuickActionsRow
+            onActionPress={(action) => {
+              if (action.id === '1') {
+                addCardRef.current?.open();
+              }
+            }}
+          />
         <DefaultCardSection
           card={defaultCard}
           totalCardsCount={MOCK_CARDS.length}
@@ -133,6 +141,12 @@ export function HomeScreen() {
         defaultCardId={defaultCardId}
         onCardPress={handleCardListItemPress}
         onMakeDefault={handleMakeDefault}
+      />
+
+      <AddCardBottomSheet
+        ref={addCardRef}
+        onSelectByNumber={() => navigation.navigate('AddCardByNumber')}
+        onSelectPersonal={() => navigation.navigate('ServiceSelection')}
       />
 
       <SetDefaultCardModal

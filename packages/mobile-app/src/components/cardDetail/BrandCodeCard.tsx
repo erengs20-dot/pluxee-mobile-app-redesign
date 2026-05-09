@@ -64,11 +64,11 @@ const styles = StyleSheet.create({
   },
   info: {
     flex: 1,
-    gap: 2,
+    gap: spacing[1],
   },
   cta: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 2,
+    gap: spacing[1],
   },
 });

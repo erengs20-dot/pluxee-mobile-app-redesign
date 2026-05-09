@@ -74,7 +74,7 @@ export const AddCardBottomSheet = forwardRef<AddCardSheetRef, Props>(
               }}
             >
               <View style={[styles.optionIcon, { backgroundColor: semantic.brand.primary }]}>
-                <Icon name="wallet" size={24} color="white" />
+                <Icon name="wallet" size={24} color="inverse" />
               </View>
               <View style={styles.optionText}>
                 <Text variant="body.largeBold" color="primary">
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 4,
     backgroundColor: semantic.border.tertiary,
-    borderRadius: 2,
+    borderRadius: radius.xs,
     alignSelf: "center",
     marginTop: spacing[3],
     marginBottom: spacing[2],
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
   },
   optionText: {
     flex: 1,
-    gap: 4,
+    gap: spacing[1],
   },
   optionTitleRow: {
     flexDirection: "row",

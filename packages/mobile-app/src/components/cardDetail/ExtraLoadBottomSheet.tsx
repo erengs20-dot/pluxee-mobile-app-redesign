@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   closeBtn: { padding: spacing[1] },
   option: { flexDirection: 'row', alignItems: 'center', paddingVertical: spacing[3], gap: spacing[3] },
   iconCircle: { width: 44, height: 44, borderRadius: radius.full, alignItems: 'center', justifyContent: 'center' },
-  optionText: { flex: 1, gap: 2 },
+  optionText: { flex: 1, gap: spacing[1] },
   divider: { height: 1, backgroundColor: semantic.border.tertiary },
   viewLink: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: spacing[1], paddingVertical: spacing[4], marginTop: spacing[2] },
 });

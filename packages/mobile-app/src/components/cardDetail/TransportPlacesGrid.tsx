@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   },
   label: {
     textAlign: 'center',
-    fontSize: 11,
+    ...require('@pluxee/design-system').typography.body.smallMedium,
     lineHeight: 14,
   },
 });

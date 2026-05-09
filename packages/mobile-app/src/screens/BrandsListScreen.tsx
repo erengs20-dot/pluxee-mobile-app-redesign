@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing[1],
   },
   giftBadgeText: {
-    fontSize: 9,
+    ...require('@pluxee/design-system').typography.body.xsmallMedium,
     letterSpacing: 0.5,
   },
   emptyWrap: {

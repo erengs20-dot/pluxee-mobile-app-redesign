@@ -67,9 +67,9 @@ const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: semantic.background.primary },
   scrollContent: { paddingBottom: spacing[4] },
   successCard: { backgroundColor: semantic.background.warning, marginHorizontal: spacing[4], marginTop: spacing[5], padding: spacing[6], borderRadius: radius.lg, alignItems: 'center', gap: spacing[3] },
-  detailList: { marginHorizontal: spacing[4], marginTop: spacing[5], backgroundColor: '#ffffff', borderRadius: radius.lg, padding: spacing[4] },
+  detailList: { marginHorizontal: spacing[4], marginTop: spacing[5], backgroundColor: semantic.background.primary, borderRadius: radius.lg, padding: spacing[4] },
   detailRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: spacing[3] },
   divider: { height: 1, backgroundColor: semantic.background.warning },
-  remainingBox: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: spacing[4], marginTop: spacing[3], backgroundColor: '#ffffff', borderRadius: radius.lg, padding: spacing[4] },
-  bottomBar: { paddingHorizontal: spacing[4], paddingTop: spacing[3], paddingBottom: spacing[6], borderTopWidth: 1, borderTopColor: semantic.border.tertiary, backgroundColor: '#ffffff' },
+  remainingBox: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: spacing[4], marginTop: spacing[3], backgroundColor: semantic.background.primary, borderRadius: radius.lg, padding: spacing[4] },
+  bottomBar: { paddingHorizontal: spacing[4], paddingTop: spacing[3], paddingBottom: spacing[6], borderTopWidth: 1, borderTopColor: semantic.border.tertiary, backgroundColor: semantic.background.primary },
 });

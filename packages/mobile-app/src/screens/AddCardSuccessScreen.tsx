@@ -162,14 +162,14 @@ const styles = StyleSheet.create({
   successCircle: {
     width: 96,
     height: 96,
-    borderRadius: 48,
+    borderRadius: radius.full,
     alignItems: "center",
     justifyContent: "center",
   },
   successInner: {
     width: 56,
     height: 56,
-    borderRadius: 28,
+    borderRadius: radius.full,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
   },
   cardText: {
     flex: 1,
-    gap: 2,
+    gap: spacing[1],
   },
   bottomBar: {
     paddingHorizontal: spacing[4],

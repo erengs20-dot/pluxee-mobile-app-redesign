@@ -114,10 +114,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: semantic.border.tertiary,
     borderRadius: radius.md,
-    fontSize: 24,
-    fontWeight: '700',
+    ...require('@pluxee/design-system').typography.title.mobileMain,
     color: semantic.text.primary,
-    backgroundColor: '#ffffff',
+    backgroundColor: semantic.background.primary,
   },
   countdownRow: {
     flexDirection: 'row',

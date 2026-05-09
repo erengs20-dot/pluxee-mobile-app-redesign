@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
   cardInfo: {
     flex: 1,
     justifyContent: 'center',
-    gap: 2,
+    gap: spacing[1],
   },
   balanceRight: {
     flexDirection: 'row',

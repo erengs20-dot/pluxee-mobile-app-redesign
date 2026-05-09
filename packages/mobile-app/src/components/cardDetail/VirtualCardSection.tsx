@@ -163,8 +163,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   cardLogo: {
-    fontSize: 22,
-    fontWeight: '700',
+    ...require('@pluxee/design-system').typography.title.mobileBigSection,
   },
   cardBrand: {
     letterSpacing: 2,
@@ -173,9 +172,8 @@ const styles = StyleSheet.create({
     paddingVertical: spacing[2],
   },
   cardNumber: {
-    fontFamily: 'monospace',
+    ...require('@pluxee/design-system').typography.title.mobileSection,
     letterSpacing: 2,
-    fontSize: 18,
   },
   cardBottomRow: {
     flexDirection: 'row',

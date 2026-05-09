@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   },
   left: {
     flex: 1,
-    gap: 2,
+    gap: spacing[1],
   },
   right: {
     alignItems: 'flex-end',

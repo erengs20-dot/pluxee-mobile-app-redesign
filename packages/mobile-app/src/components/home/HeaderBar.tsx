@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   },
   logoX: {
 
-    fontWeight: '900',
+    fontWeight: '800',
     color: semantic.brand.primary, // Navy
     lineHeight: 32,
   },
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
   userName: {
     color: '#ffffff',
 
-    fontWeight: '900',
+    fontWeight: '800',
     marginTop: 2,
   },
   notificationBtn: {
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     right: 12,
     width: 8,
     height: 8,
-    borderRadius: 4,
+    borderRadius: radius.sm,
     backgroundColor: semantic.text.error,
     borderWidth: 1.5,
     borderColor: '#ffffff',

@@ -21,7 +21,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
-import { semantic, spacing, Text } from '@pluxee/design-system';
+import { semantic, spacing, Text , radius } from '@pluxee/design-system';
 import { HeaderBar } from '../components/home/HeaderBar';
 import { StoriesBar } from '../components/home/StoriesBar';
 import { CampaignCarousel } from '../components/home/CampaignCarousel';
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
   placeholder: {
     backgroundColor: '#ffffff',
     padding: spacing[6],
-    borderRadius: 16,
+    borderRadius: radius.lg,
     marginVertical: spacing[2],
     alignItems: 'center',
   },

@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   scroll: { flex: 1 },
   scrollContent: { padding: spacing[4], gap: spacing[3] },
   card: {
-    backgroundColor: '#ffffff',
+    backgroundColor: semantic.background.primary,
     borderRadius: radius.lg,
     overflow: 'hidden',
     borderWidth: 1,

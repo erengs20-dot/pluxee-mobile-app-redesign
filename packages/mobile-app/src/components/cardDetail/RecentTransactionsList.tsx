@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   seeAllButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 2,
+    gap: spacing[1],
   },
   list: {
     // TransactionListItem'in kendi padding'i var

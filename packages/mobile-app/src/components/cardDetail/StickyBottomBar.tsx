@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   },
   balanceBlock: {
     flex: 1,
-    gap: 2,
+    gap: spacing[1],
   },
 
 });

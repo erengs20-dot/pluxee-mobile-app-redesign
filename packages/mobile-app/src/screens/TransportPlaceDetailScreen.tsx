@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
   brandCircle: {
     width: 56,
     height: 56,
-    borderRadius: 28,
+    borderRadius: radius.full,
     backgroundColor: '#ffffff',
     borderWidth: 1,
     borderColor: semantic.border.tertiary,
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
     padding: spacing[1],
   },
   brandLabel: {
-    fontSize: 8,
+    ...require('@pluxee/design-system').typography.body.xsmallMedium,
     lineHeight: 10,
   },
   centerTag: {
@@ -220,10 +220,10 @@ const styles = StyleSheet.create({
   },
   centerTagInner: {
     alignItems: 'center',
-    gap: 4,
+    gap: spacing[1],
   },
   centerTagLabel: {
-    fontSize: 10,
+    ...require('@pluxee/design-system').typography.body.xsmallMedium,
     lineHeight: 12,
   },
   descBand: {

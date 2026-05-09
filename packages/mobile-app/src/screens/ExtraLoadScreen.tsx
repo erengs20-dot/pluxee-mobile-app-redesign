@@ -141,10 +141,10 @@ const styles = StyleSheet.create({
     paddingVertical: spacing[3],
     gap: spacing[2],
   },
-  input: { flex: 1, fontSize: 18, fontWeight: '700', color: semantic.text.primary },
+  input: { flex: 1, ...require('@pluxee/design-system').typography.title.mobileSection, color: semantic.text.primary },
   checkRow: { flexDirection: 'row', paddingHorizontal: spacing[4], gap: spacing[3], alignItems: 'flex-start' },
   checkbox: {
-    width: 24, height: 24, borderRadius: 4, borderWidth: 1.5,
+    width: 24, height: 24, borderRadius: radius.sm, borderWidth: 1.5,
     borderColor: semantic.border.tertiary, alignItems: 'center', justifyContent: 'center',
   },
   checkboxChecked: { backgroundColor: semantic.brand.primary, borderColor: semantic.brand.primary },

@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   },
   headerCenter: {
     alignItems: "center",
-    gap: 2,
+    gap: spacing[1],
   },
   content: {
     padding: spacing[4],

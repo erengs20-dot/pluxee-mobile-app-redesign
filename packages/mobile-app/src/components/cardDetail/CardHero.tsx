@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   },
   labels: {
     flex: 1,
-    gap: 2,
+    gap: spacing[1],
   },
   subtitle: {
     opacity: 0.85,
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.12)',
   },
   bottomBlock: {
-    gap: 4,
+    gap: spacing[1],
     marginTop: spacing[4],
   },
   cardNumber: {

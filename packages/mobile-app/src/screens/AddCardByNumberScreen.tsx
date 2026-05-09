@@ -238,13 +238,13 @@ const styles = StyleSheet.create({
   dot: {
     width: 12,
     height: 12,
-    borderRadius: 6,
+    borderRadius: radius.md,
   },
   underline: {
     height: 2,
     backgroundColor: semantic.brand.secondary,
     marginTop: spacing[2],
-    borderRadius: 1,
+    borderRadius: radius.xs,
   },
   counter: {
     marginTop: spacing[2],

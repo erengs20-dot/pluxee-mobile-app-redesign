@@ -355,7 +355,7 @@ const styles = StyleSheet.create({
   },
   sidebar: {
     width: 130,
-    backgroundColor: '#ffffff',
+    backgroundColor: semantic.background.primary,
     borderRightWidth: 1,
     borderRightColor: semantic.border.tertiary,
   },
@@ -376,7 +376,7 @@ const styles = StyleSheet.create({
     bottom: spacing[2],
     width: 3,
     backgroundColor: semantic.brand.tertiary, // mavi
-    borderRadius: 2,
+    borderRadius: radius.xs,
   },
   sidebarLabel: {
     flex: 1,
@@ -409,7 +409,7 @@ const styles = StyleSheet.create({
   checkbox: {
     width: 24,
     height: 24,
-    borderRadius: 4,
+    borderRadius: radius.sm,
     borderWidth: 2,
     borderColor: semantic.brand.primary,
     alignItems: 'center',
@@ -439,7 +439,7 @@ const styles = StyleSheet.create({
   radio: {
     width: 22,
     height: 22,
-    borderRadius: 11,
+    borderRadius: radius.full,
     borderWidth: 2,
     borderColor: semantic.brand.primary,
     alignItems: 'center',
@@ -451,7 +451,7 @@ const styles = StyleSheet.create({
   radioDot: {
     width: 12,
     height: 12,
-    borderRadius: 6,
+    borderRadius: radius.md,
     backgroundColor: semantic.cta.secondary,
   },
 
@@ -464,7 +464,7 @@ const styles = StyleSheet.create({
     paddingVertical: spacing[3],
     borderTopWidth: 1,
     borderTopColor: semantic.border.tertiary,
-    backgroundColor: '#ffffff',
+    backgroundColor: semantic.background.primary,
   },
   clearLink: {
     textDecorationLine: 'underline',

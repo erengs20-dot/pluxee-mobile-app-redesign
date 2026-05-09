@@ -120,7 +120,7 @@ export function ServiceSelectionScreen() {
                 ]}
               >
                 {isSelected && (
-                  <Icon name="checkmark" size={16} color="white" />
+                  <Icon name="checkmark" size={16} color="inverse" />
                 )}
               </View>
             </TouchableOpacity>
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
   },
   headerCenter: {
     alignItems: "center",
-    gap: 2,
+    gap: spacing[1],
   },
   content: {
     padding: spacing[4],
@@ -206,12 +206,12 @@ const styles = StyleSheet.create({
   },
   optionText: {
     flex: 1,
-    gap: 2,
+    gap: spacing[1],
   },
   radio: {
     width: 28,
     height: 28,
-    borderRadius: 14,
+    borderRadius: radius.full,
     borderWidth: 2,
     borderColor: semantic.border.tertiary,
     alignItems: "center",

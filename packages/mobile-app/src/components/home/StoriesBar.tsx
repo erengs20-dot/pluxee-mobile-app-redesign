@@ -13,7 +13,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import { Text, semantic, spacing } from '@pluxee/design-system';
+import { Text, semantic, spacing, radius } from '@pluxee/design-system';
 import { MOCK_STORIES, type Story } from '../../data/stories';
 
 interface StoriesBarProps {
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   ring: {
     width: 68,
     height: 68,
-    borderRadius: 34,
+    borderRadius: radius.full,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 2.5,
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   avatar: {
     width: 58,
     height: 58,
-    borderRadius: 29,
+    borderRadius: radius.full,
     alignItems: 'center',
     justifyContent: 'center',
   },

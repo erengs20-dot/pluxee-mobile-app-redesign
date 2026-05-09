@@ -155,20 +155,20 @@ const styles = StyleSheet.create({
   progressRow: {
     flexDirection: 'row',
     paddingHorizontal: spacing[3],
-    gap: 3,
+    gap: spacing[1],
     marginTop: spacing[4],
   },
   progressTrack: {
     flex: 1,
     height: 3,
     backgroundColor: 'rgba(255,255,255,0.3)',
-    borderRadius: 2,
+    borderRadius: radius.xs,
     overflow: 'hidden',
   },
   progressFill: {
     height: '100%',
-    backgroundColor: '#ffffff',
-    borderRadius: 2,
+    backgroundColor: semantic.background.primary,
+    borderRadius: radius.xs,
   },
   header: {
     flexDirection: 'row',
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
   avatarSmall: {
     width: 32,
     height: 32,
-    borderRadius: 16,
+    borderRadius: radius.lg,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
     paddingBottom: spacing[8],
   },
   detailBtn: {
-    backgroundColor: '#ffffff',
+    backgroundColor: semantic.background.primary,
     paddingVertical: spacing[3],
     borderRadius: radius.md,
   },

@@ -85,6 +85,6 @@ const styles = StyleSheet.create({
 
   },
   navLabelActive: {
-    fontWeight: '700',
+    fontWeight: '700', // body.mediumBold equivalent
   },
 });

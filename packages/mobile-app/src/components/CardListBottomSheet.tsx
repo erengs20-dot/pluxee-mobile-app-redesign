@@ -337,7 +337,7 @@ const styles = StyleSheet.create({
   cardInfo: {
     flex: 1,
     justifyContent: 'center',
-    gap: 2,
+    gap: spacing[1],
   },
   balanceText: {
     marginRight: spacing[1],
@@ -348,7 +348,7 @@ const styles = StyleSheet.create({
   radioOuter: {
     width: 24,
     height: 24,
-    borderRadius: 12,
+    borderRadius: radius.full,
     borderWidth: 2,
     alignItems: 'center',
     justifyContent: 'center',
@@ -356,7 +356,7 @@ const styles = StyleSheet.create({
   radioInner: {
     width: 8,
     height: 8,
-    borderRadius: 4,
+    borderRadius: radius.sm,
     backgroundColor: '#ffffff',
   },
 });

@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
   refreshButton: {
     width: 24,
     height: 24,
-    borderRadius: 12,
+    borderRadius: radius.full,
     backgroundColor: semantic.background.success,
     alignItems: 'center',
     justifyContent: 'center',

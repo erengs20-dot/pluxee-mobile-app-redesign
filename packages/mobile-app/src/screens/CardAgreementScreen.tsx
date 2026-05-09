@@ -88,7 +88,7 @@ export function CardAgreementScreen() {
           {WHAT_IS.map((item, i) => (
             <View key={i} style={styles.checkRow}>
               <View style={styles.checkCircle}>
-                <Icon name="checkmark" size={16} color="white" />
+                <Icon name="checkmark" size={16} color="inverse" />
               </View>
               <Text variant="body.smallMedium" color="secondary" style={{ flex: 1, lineHeight: 20 }}>
                 {item}
@@ -122,7 +122,7 @@ export function CardAgreementScreen() {
           activeOpacity={0.7}
         >
           <View style={[styles.checkbox, accepted && styles.checkboxChecked]}>
-            {accepted && <Icon name="checkmark" size={16} color="white" />}
+            {accepted && <Icon name="checkmark" size={16} color="inverse" />}
           </View>
           <Text variant="body.smallMedium" color="primary" style={{ flex: 1 }}>
             Bireysel kart kullanim sozlesmesini okudum ve kabul ediyorum
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
   },
   headerCenter: {
     alignItems: "center",
-    gap: 2,
+    gap: spacing[1],
   },
   content: {
     padding: spacing[4],
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
   checkCircle: {
     width: 24,
     height: 24,
-    borderRadius: 12,
+    borderRadius: radius.full,
     backgroundColor: semantic.background.success,
     alignItems: "center",
     justifyContent: "center",

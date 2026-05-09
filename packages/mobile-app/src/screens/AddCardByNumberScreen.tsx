@@ -94,7 +94,7 @@ export function AddCardByNumberScreen() {
             styles.dot,
             i < digitCount
               ? { backgroundColor: semantic.brand.primary }
-              : { backgroundColor: "#d1d5db" },
+              : { backgroundColor: semantic.border.tertiary },
           ]}
         />
       );

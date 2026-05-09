@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     width: '31%',
     aspectRatio: 1,
     borderWidth: 1.5,
-    borderColor: '#ffdc37',
+    borderColor: semantic.background.brand3,
     borderRadius: radius.lg,
     backgroundColor: '#ffffff',
     alignItems: 'center',

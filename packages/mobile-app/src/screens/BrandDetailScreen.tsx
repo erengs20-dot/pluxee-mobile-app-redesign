@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     paddingBottom: spacing[4],
   },
   heroBanner: {
-    backgroundColor: '#f0e6ff',
+    backgroundColor: semantic.background.info,
     paddingVertical: spacing[8],
     paddingHorizontal: spacing[6],
     alignItems: 'center',

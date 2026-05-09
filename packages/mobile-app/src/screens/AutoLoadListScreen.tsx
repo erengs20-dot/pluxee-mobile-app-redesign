@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
   scroll: { flex: 1 },
   scrollContent: { padding: spacing[4], gap: spacing[4] },
   card: { backgroundColor: '#ffffff', borderRadius: radius.lg, padding: spacing[4], borderWidth: 1, borderColor: semantic.border.tertiary, gap: spacing[2] },
-  typeBadge: { backgroundColor: '#e6f7e6', paddingHorizontal: spacing[3], paddingVertical: spacing[2], borderRadius: radius.full, alignSelf: 'flex-start' },
+  typeBadge: { backgroundColor: semantic.background.successBanner, paddingHorizontal: spacing[3], paddingVertical: spacing[2], borderRadius: radius.full, alignSelf: 'flex-start' },
   cardHeader: { flexDirection: 'row', alignItems: 'center', gap: spacing[3], paddingVertical: spacing[2] },
   cardInfo: { flex: 1, gap: 2 },
   row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', paddingVertical: spacing[2], gap: spacing[3] },

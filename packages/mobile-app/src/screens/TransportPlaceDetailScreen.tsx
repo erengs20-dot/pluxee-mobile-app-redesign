@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
     transform: [{ translateX: -45 }, { translateY: -45 }],
     width: 90,
     height: 90,
-    backgroundColor: '#fcd5d2',
+    backgroundColor: semantic.background.brand4,
     borderRadius: radius.lg,
     alignItems: 'center',
     justifyContent: 'center',
@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
     lineHeight: 12,
   },
   descBand: {
-    backgroundColor: '#fcd5d2',
+    backgroundColor: semantic.background.brand4,
     paddingVertical: spacing[5],
     paddingHorizontal: spacing[4],
     marginBottom: spacing[2],

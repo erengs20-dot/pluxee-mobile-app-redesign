@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     borderColor: semantic.brand.secondary,
   },
   ringInactive: {
-    borderColor: '#e0e0e0',
+    borderColor: semantic.border.tertiary,
   },
   avatar: {
     width: 58,

@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   scroll: { flex: 1 },
   scrollContent: { paddingBottom: spacing[6] },
   heroBanner: {
-    backgroundColor: '#f0e6ff',
+    backgroundColor: semantic.background.info,
     paddingVertical: spacing[6],
     paddingHorizontal: spacing[6],
     alignItems: 'center',

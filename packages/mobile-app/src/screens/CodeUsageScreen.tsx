@@ -2,7 +2,7 @@ import React from 'react';
 import { View, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Text, Icon, semantic, spacing, radius } from '@pluxee/design-system';
+import { Text, Icon, Button, semantic, spacing, radius } from '@pluxee/design-system';
 import type { RootStackParamList } from '../navigation/types';
 import { getCodeById } from '../data/codes';
 import { formatCurrency } from '../data/cards';
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: radius.md,
-    backgroundColor: '#ffdc37',
+    backgroundColor: semantic.background.brand3,
     alignItems: 'center',
     justifyContent: 'center',
   },

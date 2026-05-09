@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
   dragHandle: {
     width: 40,
     height: 4,
-    backgroundColor: "#d1d5db",
+    backgroundColor: semantic.border.tertiary,
     borderRadius: 2,
     alignSelf: "center",
     marginTop: spacing[3],

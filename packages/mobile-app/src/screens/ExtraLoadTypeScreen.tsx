@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   exampleBox: {
-    backgroundColor: '#f0faf0',
+    backgroundColor: semantic.background.successBanner,
     padding: spacing[2],
     borderRadius: radius.md,
     marginTop: spacing[1],

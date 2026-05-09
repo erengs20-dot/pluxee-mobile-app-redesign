@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   },
   cell: {
     width: '31.5%', // 3 sutun (gap dahil)
-    backgroundColor: '#fcd5d2', // sanal kart pembe ile uyumlu
+    backgroundColor: semantic.background.brand4, // sanal kart pembe ile uyumlu
     borderRadius: radius.lg,
     paddingVertical: spacing[3],
     paddingHorizontal: spacing[2],

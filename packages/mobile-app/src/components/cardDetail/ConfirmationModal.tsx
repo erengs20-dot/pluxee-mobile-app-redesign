@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Modal, Pressable, TouchableOpacity } from 'react-native';
-import { Text, Icon, semantic, spacing, radius } from '@pluxee/design-system';
+import { Text, Icon, Button, semantic, spacing, radius } from '@pluxee/design-system';
 
 interface ConfirmationModalProps {
   visible: boolean;
@@ -58,12 +58,12 @@ export function ConfirmationModal({
           <View style={styles.progressBar}>
             <View style={[styles.progressFill, { width: ((progress * 100) + '%') as any }]} />
           </View>
-          <TouchableOpacity style={styles.confirmBtn} onPress={onConfirm} activeOpacity={0.8}>
-            <Text variant="title.mobileCard" color="primary" align="center">{confirmLabel}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.cancelBtn} onPress={onCancel} activeOpacity={0.8}>
-            <Text variant="title.mobileCard" color="primary" align="center">{cancelLabel}</Text>
-          </TouchableOpacity>
+          <Button variant="primaryFilled" size="lg" onPress={onConfirm}>
+            {confirmLabel}
+          </Button>
+          <Button variant="primaryOutlined" size="lg" onPress={onCancel}>
+            {cancelLabel}
+          </Button>
         </Pressable>
       </Pressable>
     </Modal>
@@ -98,29 +98,14 @@ const styles = StyleSheet.create({
   progressBar: {
     width: '100%',
     height: 6,
-    backgroundColor: '#e0e0e0',
-    borderRadius: 3,
+    backgroundColor: semantic.background.disabled,
+    borderRadius: radius.xs,
     overflow: 'hidden',
   },
   progressFill: {
     height: '100%',
-    backgroundColor: '#1b51dc',
-    borderRadius: 3,
+    backgroundColor: semantic.cta.secondary,
+    borderRadius: radius.xs,
   },
-  confirmBtn: {
-    width: '100%',
-    backgroundColor: '#ffdc37',
-    paddingVertical: spacing[4],
-    borderRadius: radius.lg,
-    alignItems: 'center',
-  },
-  cancelBtn: {
-    width: '100%',
-    backgroundColor: '#ffffff',
-    paddingVertical: spacing[4],
-    borderRadius: radius.lg,
-    borderWidth: 2,
-    borderColor: semantic.brand.primary,
-    alignItems: 'center',
-  },
+
 });

@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     borderRadius: radius.md,
   },
   cardVisual: {
-    backgroundColor: '#fcd5d2',
+    backgroundColor: semantic.background.brand4,
     borderRadius: radius.lg,
     padding: spacing[5],
     gap: spacing[5],

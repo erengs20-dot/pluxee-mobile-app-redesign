@@ -129,13 +129,13 @@ const styles = StyleSheet.create({
   },
   progressBar: {
     height: 6,
-    backgroundColor: '#e0e0e0',
-    borderRadius: 3,
+    backgroundColor: semantic.background.disabled,
+    borderRadius: radius.xs,
     overflow: 'hidden',
   },
   progressFill: {
     height: '100%',
-    backgroundColor: '#1b51dc',
-    borderRadius: 3,
+    backgroundColor: semantic.cta.secondary,
+    borderRadius: radius.xs,
   },
 });

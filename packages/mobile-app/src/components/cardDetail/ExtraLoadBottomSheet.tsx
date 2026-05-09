@@ -29,7 +29,7 @@ export function ExtraLoadBottomSheet({
             </TouchableOpacity>
           </View>
           <TouchableOpacity style={styles.option} onPress={onSingleLoad} activeOpacity={0.7}>
-            <View style={[styles.iconCircle, { backgroundColor: '#f0e6ff' }]}>
+            <View style={[styles.iconCircle, { backgroundColor: semantic.background.info }]}>
               <Icon name="wallet" size={24} color="primary" />
             </View>
             <View style={styles.optionText}>
@@ -40,7 +40,7 @@ export function ExtraLoadBottomSheet({
           </TouchableOpacity>
           <View style={styles.divider} />
           <TouchableOpacity style={styles.option} onPress={onCreateInstruction} activeOpacity={0.7}>
-            <View style={[styles.iconCircle, { backgroundColor: '#f0e6ff' }]}>
+            <View style={[styles.iconCircle, { backgroundColor: semantic.background.info }]}>
               <Icon name="refresh" size={24} color="primary" />
             </View>
             <View style={styles.optionText}>
@@ -62,11 +62,11 @@ export function ExtraLoadBottomSheet({
 const styles = StyleSheet.create({
   overlay: { flex: 1, backgroundColor: 'rgba(34, 28, 70, 0.4)', justifyContent: 'flex-end' },
   sheet: { backgroundColor: '#ffffff', borderTopLeftRadius: radius['2xl'], borderTopRightRadius: radius['2xl'], paddingHorizontal: spacing[4], paddingBottom: spacing[8] },
-  handle: { width: 40, height: 4, backgroundColor: '#d4d0c8', borderRadius: 2, alignSelf: 'center', marginTop: spacing[3], marginBottom: spacing[4] },
+  handle: { width: 40, height: 4, backgroundColor: semantic.border.tertiary, borderRadius: radius.xs, alignSelf: 'center', marginTop: spacing[3], marginBottom: spacing[4] },
   headerRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing[4] },
   closeBtn: { padding: spacing[1] },
   option: { flexDirection: 'row', alignItems: 'center', paddingVertical: spacing[3], gap: spacing[3] },
-  iconCircle: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
+  iconCircle: { width: 44, height: 44, borderRadius: radius.full, alignItems: 'center', justifyContent: 'center' },
   optionText: { flex: 1, gap: 2 },
   divider: { height: 1, backgroundColor: semantic.border.tertiary },
   viewLink: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: spacing[1], paddingVertical: spacing[4], marginTop: spacing[2] },

@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
   seeAllArrow: {
     width: 48,
     height: 48,
-    borderRadius: 24,
+    borderRadius: radius.full,
     backgroundColor: semantic.brand.secondary,
     alignItems: 'center',
     justifyContent: 'center',
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
     width: 6,
     height: 6,
     borderRadius: 3,
-    backgroundColor: '#d4d0c8',
+    backgroundColor: semantic.border.tertiary,
   },
   dotActive: {
     backgroundColor: semantic.brand.primary,

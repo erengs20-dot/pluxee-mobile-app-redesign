@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { View, ScrollView, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Text, semantic, spacing, radius } from '@pluxee/design-system';
+import { Text, Button, semantic, spacing, radius } from '@pluxee/design-system';
 import type { RootStackParamList } from '../navigation/types';
 import { getBrandById } from '../data/brands';
 import { MOCK_CARDS, formatCurrency } from '../data/cards';
@@ -86,9 +86,13 @@ export function BalanceTransferFormScreen({ route, navigation }: Props) {
         </View>
       </ScrollView>
       <View style={styles.bottomBar}>
-        <TouchableOpacity style={styles.submitBtn} onPress={handleSubmit} activeOpacity={0.8}>
-          <Text variant="body.largeBold" color="primary" align="center">{pointsName} Yukle</Text>
-        </TouchableOpacity>
+        <Button
+          variant="primaryFilled"
+          size="lg"
+          onPress={handleSubmit}
+        >
+          {pointsName} Yukle
+        </Button>
       </View>
       <ConfirmationModal
         visible={showConfirm}
@@ -110,6 +114,6 @@ const styles = StyleSheet.create({
   amountInput: { fontSize: 24, fontWeight: '700', textAlign: 'right' },
   pointsBox: { backgroundColor: semantic.background.warning, borderColor: semantic.background.warning, justifyContent: 'space-between' },
   infoBox: { flexDirection: 'row', gap: spacing[2], paddingVertical: spacing[3] },
-  submitBtn: { backgroundColor: '#ffdc37', paddingVertical: spacing[4], borderRadius: radius.md, alignItems: 'center' },
+  submitBtn: { },
   bottomBar: { paddingHorizontal: spacing[4], paddingTop: spacing[3], paddingBottom: spacing[6], borderTopWidth: 1, borderTopColor: semantic.border.tertiary, backgroundColor: '#ffffff' },
 });

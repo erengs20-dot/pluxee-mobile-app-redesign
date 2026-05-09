@@ -2,7 +2,7 @@ import React from 'react';
 import { View, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Text, Icon, semantic, spacing, radius } from '@pluxee/design-system';
+import { Text, Icon, Button, semantic, spacing, radius } from '@pluxee/design-system';
 import type { RootStackParamList } from '../navigation/types';
 import { formatCurrency } from '../data/cards';
 import { CardDetailHeader } from '../components/cardDetail/CardDetailHeader';
@@ -73,11 +73,13 @@ export function LoadSuccessScreen({ route, navigation }: Props) {
       </ScrollView>
 
       <View style={styles.bottomBar}>
-        <TouchableOpacity style={styles.submitBtn} onPress={() => navigation.popToTop()} activeOpacity={0.8}>
-          <Text variant="body.largeBold" color="primary" align="center">
-            {isInstruction ? 'Mevcut talimatlarini gor' : 'Tamam'}
-          </Text>
-        </TouchableOpacity>
+        <Button
+          variant="primaryFilled"
+          size="lg"
+          onPress={() => navigation.popToTop()}
+        >
+          {isInstruction ? 'Mevcut talimatlarini gor' : 'Tamam'}
+        </Button>
       </View>
     </View>
   );
@@ -86,8 +88,8 @@ export function LoadSuccessScreen({ route, navigation }: Props) {
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: semantic.background.primary },
   scrollContent: { padding: spacing[4], paddingBottom: spacing[6] },
-  successCard: { backgroundColor: '#e6f7e6', borderRadius: radius.lg, padding: spacing[6], alignItems: 'center', gap: spacing[3], marginBottom: spacing[4] },
-  detailCard: { backgroundColor: '#e6f7e6', borderRadius: radius.lg, padding: spacing[4] },
+  successCard: { backgroundColor: semantic.background.successBanner, borderRadius: radius.lg, padding: spacing[6], alignItems: 'center', gap: spacing[3], marginBottom: spacing[4] },
+  detailCard: { backgroundColor: semantic.background.successBanner, borderRadius: radius.lg, padding: spacing[4] },
   sectionTitle: { marginBottom: spacing[3] },
   row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: spacing[3] },
   divider: { height: 1, backgroundColor: semantic.brand.primary, marginVertical: spacing[1] },

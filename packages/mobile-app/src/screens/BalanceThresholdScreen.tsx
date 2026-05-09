@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, ScrollView, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Text, Icon, semantic, spacing, radius } from '@pluxee/design-system';
+import { Text, Icon, Button, semantic, spacing, radius } from '@pluxee/design-system';
 import type { RootStackParamList } from '../navigation/types';
 import { MOCK_CARDS, CARD_CATEGORY_META, formatCurrency } from '../data/cards';
 import { CardDetailHeader } from '../components/cardDetail/CardDetailHeader';
@@ -77,13 +77,14 @@ export function BalanceThresholdScreen({ route, navigation }: Props) {
       </ScrollView>
 
       <View style={styles.bottomBar}>
-        <TouchableOpacity
-          style={[styles.submitBtn, !isValid && styles.submitBtnDisabled]}
-          onPress={() => isValid && navigation.navigate('PaymentMethod', { cardId: selectedCardId, amount: numAmount, loadType: 'threshold', threshold: numThreshold, maxLimit: numMaxLimit, description })}
+        <Button
+          variant="primaryFilled"
+          size="lg"
           disabled={!isValid}
+          onPress={() => isValid && navigation.navigate('PaymentMethod', { cardId: selectedCardId, amount: numAmount, loadType: 'threshold', threshold: numThreshold, maxLimit: numMaxLimit, description })}
         >
-          <Text variant="body.largeBold" color={isValid ? 'primary' : 'disabled'} align="center">Odeme yontemi sec</Text>
-        </TouchableOpacity>
+          Odeme yontemi sec
+        </Button>
       </View>
     </View>
   );
@@ -96,11 +97,11 @@ const styles = StyleSheet.create({
   label: { marginTop: spacing[3] },
   cardRow: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffffff', borderRadius: radius.lg, padding: spacing[3], gap: spacing[3], borderWidth: 1, borderColor: semantic.border.tertiary, marginBottom: spacing[2] },
   categoryIcon: { width: 40, height: 40, borderRadius: radius.lg, alignItems: 'center', justifyContent: 'center' },
-  checkCircle: { width: 24, height: 24, borderRadius: 12, borderWidth: 2, alignItems: 'center', justifyContent: 'center' },
+  checkCircle: { width: 24, height: 24, borderRadius: radius.full, borderWidth: 2, alignItems: 'center', justifyContent: 'center' },
   cardInfo: { flex: 1, gap: 2 },
   inputWrap: { flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: semantic.border.tertiary, borderRadius: radius.md, paddingHorizontal: spacing[3], paddingVertical: spacing[3], gap: spacing[2], backgroundColor: '#ffffff' },
   input: { flex: 1, fontSize: 18, fontWeight: '700', color: semantic.text.primary },
   bottomBar: { paddingHorizontal: spacing[4], paddingTop: spacing[3], paddingBottom: spacing[6], borderTopWidth: 1, borderTopColor: semantic.border.tertiary, backgroundColor: '#ffffff' },
   submitBtn: { backgroundColor: semantic.brand.secondary, paddingVertical: spacing[4], borderRadius: radius.md },
-  submitBtnDisabled: { backgroundColor: '#e0e0e0' },
+  submitBtnDisabled: { backgroundColor: semantic.background.disabled },
 });

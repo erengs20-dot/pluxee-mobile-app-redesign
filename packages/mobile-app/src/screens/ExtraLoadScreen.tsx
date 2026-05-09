@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, ScrollView, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Text, Icon, semantic, spacing, radius } from '@pluxee/design-system';
+import { Text, Icon, Button, semantic, spacing, radius } from '@pluxee/design-system';
 import type { RootStackParamList } from '../navigation/types';
 import { MOCK_CARDS, formatCurrency } from '../data/cards';
 import { CardDetailHeader } from '../components/cardDetail/CardDetailHeader';
@@ -85,8 +85,10 @@ export function ExtraLoadScreen({ route, navigation }: Props) {
       </ScrollView>
 
       <View style={styles.bottomBar}>
-        <TouchableOpacity
-          style={[styles.submitBtn, !isValid && styles.submitBtnDisabled]}
+        <Button
+          variant="primaryFilled"
+          size="lg"
+          disabled={!isValid}
           onPress={() => {
             if (isValid) {
               navigation.navigate('PaymentMethod', {
@@ -94,13 +96,9 @@ export function ExtraLoadScreen({ route, navigation }: Props) {
               });
             }
           }}
-          activeOpacity={0.8}
-          disabled={!isValid}
         >
-          <Text variant="body.largeBold" color={isValid ? 'primary' : 'disabled'} align="center">
-            Odeme yontemi sec
-          </Text>
-        </TouchableOpacity>
+          Odeme yontemi sec
+        </Button>
       </View>
     </View>
   );
@@ -156,5 +154,5 @@ const styles = StyleSheet.create({
     borderTopWidth: 1, borderTopColor: semantic.border.tertiary, backgroundColor: '#ffffff',
   },
   submitBtn: { backgroundColor: semantic.brand.secondary, paddingVertical: spacing[4], borderRadius: radius.md },
-  submitBtnDisabled: { backgroundColor: '#e0e0e0' },
+  submitBtnDisabled: { backgroundColor: semantic.background.disabled },
 });

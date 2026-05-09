@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, ScrollView, StyleSheet, TextInput, TouchableOpacity, Modal, Pressable } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Text, Icon, semantic, spacing, radius } from '@pluxee/design-system';
+import { Text, Icon, Button, semantic, spacing, radius } from '@pluxee/design-system';
 import type { RootStackParamList } from '../navigation/types';
 import { MOCK_CARDS, CARD_CATEGORY_META, formatCurrency } from '../data/cards';
 import { CardDetailHeader } from '../components/cardDetail/CardDetailHeader';
@@ -95,13 +95,14 @@ export function RecurringLoadScreen({ route, navigation }: Props) {
       </ScrollView>
 
       <View style={styles.bottomBar}>
-        <TouchableOpacity
-          style={[styles.submitBtn, !isValid && styles.submitBtnDisabled]}
-          onPress={() => isValid && navigation.navigate('PaymentMethod', { cardId: selectedCardId, amount, loadType: 'recurring', frequency, day })}
+        <Button
+          variant="primaryFilled"
+          size="lg"
           disabled={!isValid}
+          onPress={() => isValid && navigation.navigate('PaymentMethod', { cardId: selectedCardId, amount, loadType: 'recurring', frequency, day })}
         >
-          <Text variant="body.largeBold" color={isValid ? 'primary' : 'disabled'} align="center">Odeme yontemi sec</Text>
-        </TouchableOpacity>
+          Odeme yontemi sec
+        </Button>
       </View>
 
       {/* Gun secici Modal */}
@@ -154,7 +155,7 @@ const styles = StyleSheet.create({
   dropdown: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: spacing[3], paddingHorizontal: spacing[4], borderRadius: radius.md, borderWidth: 1, borderColor: semantic.border.tertiary, marginBottom: spacing[2], backgroundColor: '#ffffff' },
   cardRow: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffffff', borderRadius: radius.lg, padding: spacing[3], gap: spacing[3], borderWidth: 1, borderColor: semantic.border.tertiary, marginBottom: spacing[2] },
   categoryIcon: { width: 40, height: 40, borderRadius: radius.lg, alignItems: 'center', justifyContent: 'center' },
-  checkCircle: { width: 24, height: 24, borderRadius: 12, borderWidth: 2, alignItems: 'center', justifyContent: 'center' },
+  checkCircle: { width: 24, height: 24, borderRadius: radius.full, borderWidth: 2, alignItems: 'center', justifyContent: 'center' },
   cardInfo: { flex: 1, gap: 2 },
   quickRow: { flexDirection: 'row', gap: spacing[3], marginTop: spacing[2] },
   quickBtn: { flex: 1, paddingVertical: spacing[3], borderRadius: radius.md, borderWidth: 1.5, borderColor: semantic.brand.primary, alignItems: 'center' },
@@ -162,12 +163,12 @@ const styles = StyleSheet.create({
   inputWrap: { flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: semantic.border.tertiary, borderRadius: radius.md, paddingHorizontal: spacing[3], paddingVertical: spacing[3], gap: spacing[2] },
   input: { flex: 1, fontSize: 18, fontWeight: '700', color: semantic.text.primary },
   checkRow: { flexDirection: 'row', gap: spacing[3], alignItems: 'flex-start', marginTop: spacing[3] },
-  checkbox: { width: 24, height: 24, borderRadius: 4, borderWidth: 1.5, borderColor: semantic.border.tertiary, alignItems: 'center', justifyContent: 'center' },
+  checkbox: { width: 24, height: 24, borderRadius: radius.sm, borderWidth: 1.5, borderColor: semantic.border.tertiary, alignItems: 'center', justifyContent: 'center' },
   checkboxChecked: { backgroundColor: semantic.brand.primary, borderColor: semantic.brand.primary },
   checkText: { flex: 1, lineHeight: 18 },
   bottomBar: { paddingHorizontal: spacing[4], paddingTop: spacing[3], paddingBottom: spacing[6], borderTopWidth: 1, borderTopColor: semantic.border.tertiary, backgroundColor: '#ffffff' },
   submitBtn: { backgroundColor: semantic.brand.secondary, paddingVertical: spacing[4], borderRadius: radius.md },
-  submitBtnDisabled: { backgroundColor: '#e0e0e0' },
+  submitBtnDisabled: { backgroundColor: semantic.background.disabled },
   pickerOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' },
   pickerSheet: { backgroundColor: '#ffffff', borderTopLeftRadius: radius.xl, borderTopRightRadius: radius.xl, paddingTop: spacing[3], paddingBottom: spacing[6], maxHeight: '70%' },
   pickerHandle: { width: 40, height: 4, backgroundColor: semantic.border.tertiary, borderRadius: 2, alignSelf: 'center', marginBottom: spacing[3] },

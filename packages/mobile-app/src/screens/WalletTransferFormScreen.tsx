@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, ScrollView, StyleSheet, TextInput } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Text, semantic, spacing, radius } from '@pluxee/design-system';
+import { Text, Button, semantic, spacing, radius } from '@pluxee/design-system';
 import type { RootStackParamList } from '../navigation/types';
 import { getBrandById } from '../data/brands';
 import { CardDetailHeader } from '../components/cardDetail/CardDetailHeader';
@@ -80,16 +80,14 @@ export function WalletTransferFormScreen({ route, navigation }: Props) {
       </ScrollView>
 
       <View style={styles.bottomBar}>
-        <TouchableOpacity
-          style={[styles.submitBtn, numericAmount <= 0 && styles.submitBtnDisabled]}
-          onPress={handleSubmit}
-          activeOpacity={0.8}
+        <Button
+          variant="primaryFilled"
+          size="lg"
           disabled={numericAmount <= 0}
+          onPress={handleSubmit}
         >
-          <Text variant="body.largeBold" color={numericAmount > 0 ? 'primary' : 'disabled'} align="center">
-            Pluxee {brand.name} Puan Yukle
-          </Text>
-        </TouchableOpacity>
+          {'Pluxee ' + brand.name + ' Puan Yukle'}
+        </Button>
       </View>
 
       <ConfirmationModal
@@ -129,6 +127,6 @@ const styles = StyleSheet.create({
   input: { flex: 1, fontSize: 16, color: semantic.text.primary },
   amountInput: { fontSize: 24, fontWeight: '700', textAlign: 'right' },
   bottomBar: { paddingHorizontal: spacing[4], paddingTop: spacing[3], paddingBottom: spacing[6], borderTopWidth: 1, borderTopColor: semantic.border.tertiary, backgroundColor: '#ffffff' },
-  submitBtn: { backgroundColor: '#ffdc37', paddingVertical: spacing[4], borderRadius: radius.md, alignItems: 'center' },
-  submitBtnDisabled: { backgroundColor: '#e0e0e0' },
+  submitBtn: { },
+  submitBtnDisabled: { backgroundColor: semantic.background.disabled },
 });

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Text, Icon, semantic, spacing, radius } from '@pluxee/design-system';
+import { Text, Icon, Button, semantic, spacing, radius } from '@pluxee/design-system';
 import type { RootStackParamList } from '../navigation/types';
 import { MOCK_CARDS, formatCurrency } from '../data/cards';
 import { MOCK_MASTERPASS_CARDS } from '../data/masterpass';
@@ -61,12 +61,16 @@ export function PaymentMethodScreen({ route, navigation }: Props) {
           <Text variant="body.smallMedium" color="primary" style={styles.summaryLabel}>{summaryLabel}</Text>
           <Text variant="title.mobileMain" color="primary">{formatCurrency(amount)} TL</Text>
         </View>
-        <TouchableOpacity style={styles.submitBtn} onPress={() => {
-          const mp = MOCK_MASTERPASS_CARDS.find((m) => m.id === selectedMpId);
-          navigation.navigate('LoadSuccess', { cardId, amount, loadType, paymentMethod: mp?.name ?? 'Kart', oldBalance: card?.balance ?? 0 });
-        }} activeOpacity={0.8}>
-          <Text variant="body.largeBold" color="primary" align="center">{ctaLabel}</Text>
-        </TouchableOpacity>
+        <Button
+          variant="primaryFilled"
+          size="lg"
+          onPress={() => {
+            const mp = MOCK_MASTERPASS_CARDS.find((m) => m.id === selectedMpId);
+            navigation.navigate('LoadSuccess', { cardId, amount, loadType, paymentMethod: mp?.name ?? 'Kart', oldBalance: card?.balance ?? 0 });
+          }}
+        >
+          {ctaLabel}
+        </Button>
       </View>
     </View>
   );
@@ -78,9 +82,9 @@ const styles = StyleSheet.create({
   scrollContent: { paddingBottom: spacing[4] },
   cardInfo: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: spacing[4], paddingVertical: spacing[4], gap: spacing[3] },
   cardName: { flex: 1 },
-  mpSection: { paddingHorizontal: spacing[4], paddingTop: spacing[4], gap: spacing[3], backgroundColor: '#f0faf0', paddingBottom: spacing[4] },
+  mpSection: { paddingHorizontal: spacing[4], paddingTop: spacing[4], gap: spacing[3], backgroundColor: semantic.background.successBanner, paddingBottom: spacing[4] },
   mpCard: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffffff', borderRadius: radius.lg, padding: spacing[3], gap: spacing[3], borderWidth: 1, borderColor: semantic.border.tertiary },
-  mpCardActive: { backgroundColor: '#e6f7e6', borderColor: semantic.brand.secondary },
+  mpCardActive: { backgroundColor: semantic.background.successBanner, borderColor: semantic.brand.secondary },
   mpInfo: { flex: 1, gap: 2 },
   addCard: { flexDirection: 'row', alignItems: 'center', gap: spacing[2], paddingVertical: spacing[2] },
   infoBox: { paddingHorizontal: spacing[4], paddingVertical: spacing[4] },

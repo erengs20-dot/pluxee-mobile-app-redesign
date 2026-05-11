@@ -73,6 +73,15 @@ export type RootStackParamList = {
   WebView: { url: string | undefined; title: string };
 
 
+  // Faz 9: Hesabim alt ekranlari
+  MemberInfo: undefined;
+  Settings: undefined;
+  ChangePassword: undefined;
+  InvoiceInfo: undefined;
+  Notifications: undefined;
+  Favorites: undefined;
+  HelpCenter: undefined;
+
   // Faz 8: Kart Ekleme akisi
   AddCardByNumber: undefined;
   ServiceSelection: undefined;

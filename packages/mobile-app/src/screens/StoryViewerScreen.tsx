@@ -162,13 +162,13 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 3,
     backgroundColor: 'rgba(255,255,255,0.3)',
-    borderRadius: radius.xs,
+    borderRadius: radius.sm,
     overflow: 'hidden',
   },
   progressFill: {
     height: '100%',
     backgroundColor: semantic.background.primary,
-    borderRadius: radius.xs,
+    borderRadius: radius.sm,
   },
   header: {
     flexDirection: 'row',

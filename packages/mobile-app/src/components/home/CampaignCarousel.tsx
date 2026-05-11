@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
   dot: {
     width: 6,
     height: 6,
-    borderRadius: radius.xs,
+    borderRadius: radius.sm,
     backgroundColor: semantic.border.tertiary,
   },
   dotActive: {

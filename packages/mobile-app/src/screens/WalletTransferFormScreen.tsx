@@ -54,7 +54,7 @@ export function WalletTransferFormScreen({ route, navigation }: Props) {
         </View>
 
         <View style={styles.form}>
-          <Text variant="body.smallBold" color="warning">Aktarilacak tutari gir *</Text>
+          <Text variant="body.mediumBold" color="warning">Aktarilacak tutari gir *</Text>
           <View style={styles.inputWrap}>
             <TextInput
               style={[styles.input, styles.amountInput]}
@@ -66,7 +66,7 @@ export function WalletTransferFormScreen({ route, navigation }: Props) {
             <Text variant="body.largeBold" color="tertiary">TL</Text>
           </View>
 
-          <Text variant="body.smallBold" color="warning">Cep Telefonu Numarasi *</Text>
+          <Text variant="body.mediumBold" color="warning">Cep Telefonu Numarasi *</Text>
           <View style={styles.inputWrap}>
             <TextInput
               style={styles.input}

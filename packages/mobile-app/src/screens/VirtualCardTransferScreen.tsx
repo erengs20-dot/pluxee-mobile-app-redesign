@@ -206,7 +206,7 @@ export function VirtualCardTransferScreen({ route, navigation }: Props) {
             <View style={styles.modalBtn}>
               <Button
                 variant="primaryFilled"
-                size="md"
+                size="lg"
                 onPress={handleConfirm}
                 disabled={secondsLeft > 0}
               >
@@ -216,7 +216,7 @@ export function VirtualCardTransferScreen({ route, navigation }: Props) {
             <View style={styles.modalBtn}>
               <Button
                 variant="primaryOutlined"
-                size="md"
+                size="lg"
                 onPress={() => setConfirmModalVisible(false)}
               >
                 Vazgec
@@ -306,7 +306,7 @@ const styles = StyleSheet.create({
   progressBar: {
     height: 4,
     backgroundColor: semantic.background.disabled,
-    borderRadius: radius.xs,
+    borderRadius: radius.sm,
     overflow: 'hidden',
   },
   progressFill: {

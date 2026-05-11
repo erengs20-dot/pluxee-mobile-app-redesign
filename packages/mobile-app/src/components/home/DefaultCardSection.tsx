@@ -177,6 +177,7 @@ const styles = StyleSheet.create({
     backgroundColor: semantic.border.tertiary,
     marginHorizontal: spacing[4],
   },
+  footerText: { flex: 1 },
   footer: {
     paddingHorizontal: spacing[4],
     paddingVertical: spacing[3],

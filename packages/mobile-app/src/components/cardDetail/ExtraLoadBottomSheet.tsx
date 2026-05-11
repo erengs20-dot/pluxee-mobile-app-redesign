@@ -62,7 +62,7 @@ export function ExtraLoadBottomSheet({
 const styles = StyleSheet.create({
   overlay: { flex: 1, backgroundColor: 'rgba(34, 28, 70, 0.4)', justifyContent: 'flex-end' },
   sheet: { backgroundColor: '#ffffff', borderTopLeftRadius: radius['2xl'], borderTopRightRadius: radius['2xl'], paddingHorizontal: spacing[4], paddingBottom: spacing[8] },
-  handle: { width: 40, height: 4, backgroundColor: semantic.border.tertiary, borderRadius: radius.xs, alignSelf: 'center', marginTop: spacing[3], marginBottom: spacing[4] },
+  handle: { width: 40, height: 4, backgroundColor: semantic.border.tertiary, borderRadius: radius.sm, alignSelf: 'center', marginTop: spacing[3], marginBottom: spacing[4] },
   headerRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing[4] },
   closeBtn: { padding: spacing[1] },
   option: { flexDirection: 'row', alignItems: 'center', paddingVertical: spacing[3], gap: spacing[3] },

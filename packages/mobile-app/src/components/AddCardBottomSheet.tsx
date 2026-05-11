@@ -56,7 +56,7 @@ export const AddCardBottomSheet = forwardRef<AddCardSheetRef, Props>(
             {/* Header */}
             <View style={styles.header}>
               <View style={{ width: 32 }} />
-              <Text variant="title.mobileDefault" color="primary">
+              <Text variant="title.mobileCard" color="primary">
                 Kart Ekle
               </Text>
               <TouchableOpacity onPress={handleClose} hitSlop={12}>
@@ -80,7 +80,7 @@ export const AddCardBottomSheet = forwardRef<AddCardSheetRef, Props>(
                 <Text variant="body.largeBold" color="primary">
                   Kart numarasi ile kart ekle
                 </Text>
-                <Text variant="body.smallMedium" color="secondary">
+                <Text variant="body.medium" color="secondary">
                   Firma kartini eklemek icin kart numarani gir
                 </Text>
               </View>
@@ -106,7 +106,7 @@ export const AddCardBottomSheet = forwardRef<AddCardSheetRef, Props>(
                   </Text>
                   <Tag variant="success">YENI</Tag>
                 </View>
-                <Text variant="body.smallMedium" color="secondary">
+                <Text variant="body.medium" color="secondary">
                   Kendin icin bireysel kart olustur, bakiye yukleyerek kullan
                 </Text>
               </View>
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 4,
     backgroundColor: semantic.border.tertiary,
-    borderRadius: radius.xs,
+    borderRadius: radius.sm,
     alignSelf: "center",
     marginTop: spacing[3],
     marginBottom: spacing[2],

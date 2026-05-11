@@ -60,7 +60,7 @@ export function ExtraLoadScreen({ route, navigation }: Props) {
             ))}
           </View>
 
-          <Text variant="body.smallBold" color="primary">Yuklenecek tutari gir</Text>
+          <Text variant="body.mediumBold" color="primary">Yuklenecek tutari gir</Text>
           <View style={styles.inputWrap}>
             <TextInput
               style={styles.input}
@@ -71,14 +71,14 @@ export function ExtraLoadScreen({ route, navigation }: Props) {
             />
             <Text variant="body.largeBold" color="tertiary">TL</Text>
           </View>
-          <Text variant="body.smallMedium" color="tertiary">Gunluk maksimum yukleme limiti: 2.500 TL</Text>
+          <Text variant="body.medium" color="tertiary">Gunluk maksimum yukleme limiti: 2.500 TL</Text>
         </View>
 
         <TouchableOpacity style={styles.checkRow} onPress={() => setAgreed(!agreed)} activeOpacity={0.7}>
           <View style={[styles.checkbox, agreed && styles.checkboxChecked]}>
             {agreed && <Icon name="checkmark" size={16} color="inverse" />}
           </View>
-          <Text variant="body.smallMedium" color="primary" style={styles.checkText}>
+          <Text variant="body.medium" color="primary" style={styles.checkText}>
             Pluxee On Bilgilendirme Formu'nu okudum, Pluxee Mesafeli Satis Sozlesmesi'ni onayliyorum.
           </Text>
         </TouchableOpacity>

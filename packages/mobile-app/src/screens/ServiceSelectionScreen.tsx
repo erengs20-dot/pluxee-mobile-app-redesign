@@ -77,10 +77,10 @@ export function ServiceSelectionScreen() {
           <Icon name="chevronLeft" size={24} color="primary" />
         </TouchableOpacity>
         <View style={styles.headerCenter}>
-          <Text variant="title.mobileDefault" color="primary">
+          <Text variant="title.mobileCard" color="primary">
             Servis Secimi
           </Text>
-          <Text variant="body.smallMedium" color="secondary">
+          <Text variant="body.medium" color="secondary">
             Hangi servis icin kart olusturacaksin?
           </Text>
         </View>

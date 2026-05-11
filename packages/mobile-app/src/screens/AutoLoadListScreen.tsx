@@ -20,7 +20,7 @@ export function AutoLoadListScreen({ navigation }: Props) {
         {MOCK_AUTO_LOADS.map((load) => (
           <View key={load.id} style={styles.card}>
             <View style={styles.typeBadge}>
-              <Text variant="body.smallBold" color="primary">
+              <Text variant="body.mediumBold" color="primary">
                 {load.type === 'recurring' ? 'Duzenli yukleme talimati' : 'Bakiye altina dusunce yukleme'}
               </Text>
             </View>

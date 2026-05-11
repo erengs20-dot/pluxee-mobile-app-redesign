@@ -165,7 +165,7 @@ function PlaceListCard({ place, onPress }: PlaceListCardProps) {
       <View style={styles.metaRow}>
         <View style={styles.metaLeft}>
           <Icon name="location" size={16} color="info" />
-          <Text variant="body.smallBold" color="link">
+          <Text variant="body.mediumBold" color="link">
             {place.distanceKm.toFixed(2)} km
           </Text>
           <Text variant="body.smallMedium" color="tertiary" style={styles.cityText}>
@@ -175,7 +175,7 @@ function PlaceListCard({ place, onPress }: PlaceListCardProps) {
         {place.plusPointsPercent > 0 && (
           <View style={styles.plusPointsWrap}>
             <Icon name="cardCredit" size={16} color="info" />
-            <Text variant="body.smallBold" color="link">
+            <Text variant="body.mediumBold" color="link">
               %{place.plusPointsPercent} Plus Puan
             </Text>
           </View>

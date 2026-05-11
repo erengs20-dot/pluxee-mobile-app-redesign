@@ -13,14 +13,14 @@ export function StickyBottomBar({ balance, ctaLabel, onPress }: StickyBottomBarP
   return (
     <View style={styles.container}>
       <View style={styles.balanceBlock}>
-        <Text variant="body.smallMedium" color="tertiary">
+        <Text variant="body.medium" color="tertiary">
           Kullanilabilir bakiye
         </Text>
         <Text variant="title.mobileCard" color="primary">
           {formatCurrency(balance)} <Text variant="body.smallMedium" color="primary">TL</Text>
         </Text>
       </View>
-      <Button variant="primaryFilled" size="md" onPress={onPress}>
+      <Button variant="primaryFilled" size="lg" onPress={onPress}>
         {ctaLabel}
       </Button>
     </View>

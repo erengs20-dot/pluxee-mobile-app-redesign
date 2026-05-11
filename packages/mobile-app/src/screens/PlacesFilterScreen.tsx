@@ -49,7 +49,7 @@ interface FilterConfig {
 const CONFIGS: Record<FilterContext, FilterConfig> = {
   main: { visibleTabs: ['location', 'payment'] },
   gift: { visibleTabs: ['payment'] },
-  online: { visibleTabs: [] },
+  online: { visibleTabs: ['category', 'product'] },
   restaurants: { visibleTabs: ['category', 'product', 'spendPoint', 'location', 'payment'] },
   markets: { visibleTabs: ['location', 'payment'] },
 };
@@ -67,6 +67,27 @@ const MOCK_PRODUCTS = ['Yemek', 'Icecek', 'Tatli', 'Atistirmalik', 'Kahvalti'];
 
 // Mock harcama noktalari
 const MOCK_SPEND_POINTS = ['Magaza', 'Online', 'Mobil', 'Self-checkout'];
+
+// Online Alisveris icin kategori ve urun filtreleri
+const ONLINE_CATEGORIES = [
+  'Akaryakit & Arac Bakim',
+  'E-Ticaret',
+  'Ev & Yasam',
+  'Giyim',
+  'Kahve & Icecek',
+  'Kisisel Bakim',
+  'Market & Gida',
+  'Saglikli Yasam & Seyahat',
+  'Restoran & Market',
+  'Teknoloji',
+  'Ulasim',
+];
+
+const ONLINE_PRODUCTS = [
+  'Yemek',
+  'Hediye',
+  'Gida',
+];
 
 export interface FilterState {
   categories: string[];
@@ -160,7 +181,7 @@ export function PlacesFilterScreen({ route, navigation }: Props) {
                 >
                   {isActive && <View style={styles.sidebarActiveIndicator} />}
                   <Text
-                    variant={isActive ? 'body.smallBold' : 'body.smallMedium'}
+                    variant={isActive ? 'body.mediumBold' : 'body.medium'}
                     color="primary"
                     style={styles.sidebarLabel}
                   >
@@ -174,7 +195,15 @@ export function PlacesFilterScreen({ route, navigation }: Props) {
 
           {/* SAG ICERIK */}
           <ScrollView style={styles.content} contentContainerStyle={styles.contentInner}>
-            {activeTab === 'category' && (
+            {activeTab === 'category' && context === 'online' && (
+              <CheckboxList
+                items={ONLINE_CATEGORIES}
+                selected={filters.categories}
+                onToggle={(v) => setFilters({ ...filters, categories: toggleArray(filters.categories, v) })}
+              />
+            )}
+
+            {activeTab === 'category' && context !== 'online' && (
               <CheckboxList
                 items={[...RESTAURANT_CATEGORIES]}
                 selected={filters.categories}
@@ -182,7 +211,15 @@ export function PlacesFilterScreen({ route, navigation }: Props) {
               />
             )}
 
-            {activeTab === 'product' && (
+            {activeTab === 'product' && context === 'online' && (
+              <CheckboxList
+                items={ONLINE_PRODUCTS}
+                selected={filters.products}
+                onToggle={(v) => setFilters({ ...filters, products: toggleArray(filters.products, v) })}
+              />
+            )}
+
+            {activeTab === 'product' && context !== 'online' && (
               <CheckboxList
                 items={MOCK_PRODUCTS}
                 selected={filters.products}
@@ -220,7 +257,7 @@ export function PlacesFilterScreen({ route, navigation }: Props) {
                       <View style={[styles.radio, filters.cityId === city.id && styles.radioActive]}>
                         {filters.cityId === city.id && <View style={styles.radioDot} />}
                       </View>
-                      <Text variant="body.medium" color="primary">{city.name}</Text>
+                      <Text variant="body.largeMedium" color="primary">{city.name}</Text>
                     </TouchableOpacity>
                   ))}
                 </View>
@@ -246,7 +283,7 @@ export function PlacesFilterScreen({ route, navigation }: Props) {
                           <View style={[styles.radio, filters.district === d.name && styles.radioActive]}>
                             {filters.district === d.name && <View style={styles.radioDot} />}
                           </View>
-                          <Text variant="body.medium" color="primary">{d.name}</Text>
+                          <Text variant="body.largeMedium" color="primary">{d.name}</Text>
                         </TouchableOpacity>
                       ))}
                     </View>
@@ -270,7 +307,7 @@ export function PlacesFilterScreen({ route, navigation }: Props) {
                           <View style={[styles.radio, filters.neighborhood === n && styles.radioActive]}>
                             {filters.neighborhood === n && <View style={styles.radioDot} />}
                           </View>
-                          <Text variant="body.medium" color="primary">{n}</Text>
+                          <Text variant="body.largeMedium" color="primary">{n}</Text>
                         </TouchableOpacity>
                       ))}
                     </View>
@@ -294,12 +331,12 @@ export function PlacesFilterScreen({ route, navigation }: Props) {
       {/* FOOTER */}
       <View style={styles.footer}>
         <TouchableOpacity onPress={handleClearAll} activeOpacity={0.7}>
-          <Text variant="body.smallBold" color="link" style={styles.clearLink}>
+          <Text variant="body.mediumBold" color="link" style={styles.clearLink}>
             Filtreleri temizle
           </Text>
         </TouchableOpacity>
         <View style={styles.applyBtnWrap}>
-          <Button variant="primaryFilled" size="md" onPress={handleApply}>
+          <Button variant="chamfered" size="lg" onPress={handleApply}>
             Sonuclari gor
           </Button>
         </View>
@@ -334,7 +371,7 @@ function CheckboxList<T extends string>({ items, selected, onToggle, renderLabel
             <View style={[styles.checkbox, isSelected && styles.checkboxActive]}>
               {isSelected && <Icon name="checkmark" size={16} color="inverse" />}
             </View>
-            <Text variant="body.medium" color="primary">
+            <Text variant="body.largeMedium" color="primary">
               {renderLabel ? renderLabel(item) : item}
             </Text>
           </TouchableOpacity>
@@ -376,7 +413,7 @@ const styles = StyleSheet.create({
     bottom: spacing[2],
     width: 3,
     backgroundColor: semantic.brand.tertiary, // mavi
-    borderRadius: radius.xs,
+    borderRadius: radius.sm,
   },
   sidebarLabel: {
     flex: 1,

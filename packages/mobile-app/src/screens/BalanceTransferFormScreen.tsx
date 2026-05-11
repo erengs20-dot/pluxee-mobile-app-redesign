@@ -60,20 +60,20 @@ export function BalanceTransferFormScreen({ route, navigation }: Props) {
         keyboardShouldPersistTaps="handled"
       >
         <View style={styles.form}>
-          <Text variant="body.smallBold" color="warning">Soyad *</Text>
+          <Text variant="body.mediumBold" color="warning">Soyad *</Text>
           <View style={styles.inputWrap}>
             <TextInput style={styles.input} value={surname} onChangeText={setSurname} placeholder="Soyad" />
           </View>
-          <Text variant="body.smallBold" color="warning">Cep Telefonu Numarasi *</Text>
+          <Text variant="body.mediumBold" color="warning">Cep Telefonu Numarasi *</Text>
           <View style={styles.inputWrap}>
             <TextInput style={styles.input} value={phone} onChangeText={setPhone} placeholder="0(5XX) XXX XX XX" keyboardType="phone-pad" />
           </View>
-          <Text variant="body.smallBold" color="warning">Aktarilacak tutari gir *</Text>
+          <Text variant="body.mediumBold" color="warning">Aktarilacak tutari gir *</Text>
           <View style={styles.inputWrap}>
             <TextInput style={[styles.input, styles.amountInput]} value={amount} onChangeText={setAmount} placeholder="0,00" keyboardType="numeric" />
             <Text variant="body.largeBold" color="tertiary">TL</Text>
           </View>
-          <Text variant="body.smallBold" color="warning">Alinacak {pointsName} gir *</Text>
+          <Text variant="body.mediumBold" color="warning">Alinacak {pointsName} gir *</Text>
           <View style={[styles.inputWrap, styles.pointsBox]}>
             <Text variant="title.mobileCard" color="warning">{calculatedPoints}</Text>
             <Text variant="body.mediumBold" color="warning">{pointsName}</Text>

@@ -64,10 +64,10 @@ export function AgreementDetailScreen() {
           <Icon name="chevronLeft" size={24} color="primary" />
         </TouchableOpacity>
         <View style={styles.headerCenter}>
-          <Text variant="title.mobileDefault" color="primary">
+          <Text variant="title.mobileCard" color="primary">
             Sozlesme Metni
           </Text>
-          <Text variant="body.smallMedium" color="secondary">
+          <Text variant="body.medium" color="secondary">
             {meta.label}
           </Text>
         </View>
@@ -79,10 +79,10 @@ export function AgreementDetailScreen() {
       <ScrollView contentContainerStyle={styles.content}>
         {/* Baslik karti */}
         <View style={styles.titleCard}>
-          <Text variant="title.mobileDefault" color="primary">
+          <Text variant="title.mobileCard" color="primary">
             Pluxee 3C Bireysel Kart Kullanim Sozlesmesi
           </Text>
-          <Text variant="body.smallMedium" color="secondary">
+          <Text variant="body.medium" color="secondary">
             {meta.label} {" \u00B7 "} Surum 1.0 {" \u00B7 "} Mayis 2026
           </Text>
         </View>
@@ -94,7 +94,7 @@ export function AgreementDetailScreen() {
               {section.title}
             </Text>
             <View style={styles.sectionCard}>
-              <Text variant="body.smallMedium" color="secondary" style={styles.sectionText}>
+              <Text variant="body.medium" color="secondary" style={styles.sectionText}>
                 {section.content}
               </Text>
             </View>

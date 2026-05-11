@@ -87,7 +87,7 @@ export function AddCardSuccessScreen() {
         </View>
 
         {/* Baslik */}
-        <Text variant="title.mobileDefault" color="primary" align="center">
+        <Text variant="title.mobileCard" color="primary" align="center">
           {isPersonal
             ? "Bireysel kartiniz olusturuldu!"
             : "Kartiniz basariyla eklendi!"}

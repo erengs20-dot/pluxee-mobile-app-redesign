@@ -31,7 +31,7 @@ export function BrandCodeCard({ code, onPress }: BrandCodeCardProps) {
         </Text>
       </View>
       <View style={styles.cta}>
-        <Text variant="body.smallBold" color="link">
+        <Text variant="body.mediumBold" color="link">
           Kodu gor / kullan
         </Text>
         <Icon name="chevronRight" size={16} color="info" />

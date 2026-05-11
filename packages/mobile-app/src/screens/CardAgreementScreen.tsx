@@ -64,7 +64,7 @@ export function CardAgreementScreen() {
           <Icon name="chevronLeft" size={24} color="primary" />
         </TouchableOpacity>
         <View style={styles.headerCenter}>
-          <Text variant="title.mobileDefault" color="primary">
+          <Text variant="title.mobileCard" color="primary">
             Bireysel Kart Sozlesmesi
           </Text>
           <Text variant="body.smallMedium" color="secondary">
@@ -90,7 +90,7 @@ export function CardAgreementScreen() {
               <View style={styles.checkCircle}>
                 <Icon name="checkmark" size={16} color="inverse" />
               </View>
-              <Text variant="body.smallMedium" color="secondary" style={{ flex: 1, lineHeight: 20 }}>
+              <Text variant="body.medium" color="secondary" style={{ flex: 1, lineHeight: 20 }}>
                 {item}
               </Text>
             </View>
@@ -108,7 +108,7 @@ export function CardAgreementScreen() {
           {CONDITIONS.map((item, i) => (
             <View key={i} style={styles.conditionRow}>
               <Icon name="info" size={16} color="secondary" />
-              <Text variant="body.smallMedium" color="secondary" style={{ flex: 1, lineHeight: 20 }}>
+              <Text variant="body.medium" color="secondary" style={{ flex: 1, lineHeight: 20 }}>
                 {item}
               </Text>
             </View>
@@ -124,7 +124,7 @@ export function CardAgreementScreen() {
           <View style={[styles.checkbox, accepted && styles.checkboxChecked]}>
             {accepted && <Icon name="checkmark" size={16} color="inverse" />}
           </View>
-          <Text variant="body.smallMedium" color="primary" style={{ flex: 1 }}>
+          <Text variant="body.medium" color="primary" style={{ flex: 1 }}>
             Bireysel kart kullanim sozlesmesini okudum ve kabul ediyorum
           </Text>
         </TouchableOpacity>

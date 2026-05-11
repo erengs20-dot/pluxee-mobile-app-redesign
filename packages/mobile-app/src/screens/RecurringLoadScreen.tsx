@@ -35,7 +35,7 @@ export function RecurringLoadScreen({ route, navigation }: Props) {
       <StatusBar style="light" />
       <CardDetailHeader title="Duzenli Yukleme Talimati" onBack={() => navigation.goBack()} />
       <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled">
-        <Text variant="body.smallBold" color="primary" style={styles.label}>Yukleme sikligi</Text>
+        <Text variant="body.mediumBold" color="primary" style={styles.label}>Yukleme sikligi</Text>
         <View style={styles.selectBox}>
           {FREQUENCIES.map((f) => (
             <TouchableOpacity key={f} style={[styles.selectOption, frequency === f && styles.selectActive]} onPress={() => { setFrequency(f); setDay(f === 'Haftalik' ? 'Pazartesi' : '1'); }}>
@@ -44,13 +44,13 @@ export function RecurringLoadScreen({ route, navigation }: Props) {
           ))}
         </View>
 
-        <Text variant="body.smallBold" color="primary" style={styles.label}>Yukleme gunu</Text>
+        <Text variant="body.mediumBold" color="primary" style={styles.label}>Yukleme gunu</Text>
         <TouchableOpacity style={styles.dropdown} onPress={() => setDayPickerOpen(true)}>
           <Text variant="body.medium" color="primary">{dayLabel}</Text>
           <Icon name="chevronDown" size={16} color="primary" />
         </TouchableOpacity>
 
-        <Text variant="body.smallBold" color="primary" style={styles.label}>Yukleme yapilacak kart</Text>
+        <Text variant="body.mediumBold" color="primary" style={styles.label}>Yukleme yapilacak kart</Text>
         {cards.map((c) => {
           const meta = CARD_CATEGORY_META[c.category];
           const isSelected = selectedCardId === c.id;
@@ -61,8 +61,8 @@ export function RecurringLoadScreen({ route, navigation }: Props) {
               </View>
               <View style={styles.cardInfo}>
                 <Text variant="body.mediumBold" color="primary" numberOfLines={1}>{c.name}</Text>
-                <Text variant="body.smallMedium" color="tertiary">{c.fullCardNumber}</Text>
-                <Text variant="body.smallBold" color="primary" style={{ marginTop: 2 }}>{'\u20ba '}{formatCurrency(c.balance)}</Text>
+                <Text variant="body.medium" color="tertiary">{c.fullCardNumber}</Text>
+                <Text variant="body.mediumBold" color="primary" style={{ marginTop: 2 }}>{'\u20ba '}{formatCurrency(c.balance)}</Text>
               </View>
               <View style={[styles.checkCircle, { borderColor: meta.bgColor }, isSelected && { backgroundColor: meta.bgColor }]}>
                 {isSelected && <Icon name="checkmark" size={16} color="primary" />}
@@ -71,7 +71,7 @@ export function RecurringLoadScreen({ route, navigation }: Props) {
           );
         })}
 
-        <Text variant="body.smallBold" color="primary" style={styles.label}>Yuklenecek tutari gir</Text>
+        <Text variant="body.mediumBold" color="primary" style={styles.label}>Yuklenecek tutari gir</Text>
         <View style={styles.quickRow}>
           {QUICK_AMOUNTS.map((a) => (
             <TouchableOpacity key={a} style={[styles.quickBtn, selectedAmount === a && styles.quickBtnActive]} onPress={() => { setSelectedAmount(a); setCustomAmount(a.toString()); }}>
@@ -88,7 +88,7 @@ export function RecurringLoadScreen({ route, navigation }: Props) {
           <View style={[styles.checkbox, agreed && styles.checkboxChecked]}>
             {agreed && <Icon name="checkmark" size={16} color="inverse" />}
           </View>
-          <Text variant="body.smallMedium" color="primary" style={styles.checkText}>
+          <Text variant="body.medium" color="primary" style={styles.checkText}>
             Pluxee On Bilgilendirme Formu'nu okudum, Pluxee Mesafeli Satis Sozlesmesi'ni onayliyorum.
           </Text>
         </TouchableOpacity>
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
   submitBtnDisabled: { backgroundColor: semantic.background.disabled },
   pickerOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' },
   pickerSheet: { backgroundColor: semantic.background.primary, borderTopLeftRadius: radius.xl, borderTopRightRadius: radius.xl, paddingTop: spacing[3], paddingBottom: spacing[6], maxHeight: '70%' },
-  pickerHandle: { width: 40, height: 4, backgroundColor: semantic.border.tertiary, borderRadius: radius.xs, alignSelf: 'center', marginBottom: spacing[3] },
+  pickerHandle: { width: 40, height: 4, backgroundColor: semantic.border.tertiary, borderRadius: radius.sm, alignSelf: 'center', marginBottom: spacing[3] },
   pickerHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: spacing[4], paddingBottom: spacing[3], borderBottomWidth: 1, borderBottomColor: semantic.border.tertiary },
   pickerCloseBtn: { padding: spacing[1] },
   pickerList: { paddingVertical: spacing[2] },

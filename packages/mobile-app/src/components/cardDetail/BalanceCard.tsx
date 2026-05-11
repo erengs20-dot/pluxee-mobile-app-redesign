@@ -109,7 +109,7 @@ export function BalanceCard({
           <View style={styles.buttonWrap}>
             <Button
               variant="primaryOutlined"
-              size="md"
+              size="lg"
               leftIcon={<Icon name="wallet" size={16} color="primary" />}
               onPress={onExtraLoad}
 

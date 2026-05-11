@@ -156,7 +156,7 @@ export function PaymentScreen() {
       <View style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
-          <Text variant="title.mobileDefault" color="primary">
+          <Text variant="title.mobileCard" color="primary">
             Odeme
           </Text>
         </View>
@@ -306,7 +306,7 @@ export function PaymentScreen() {
             <View style={styles.dragHandle} />
             <View style={styles.pickerHeader}>
               <View style={{ width: 32 }} />
-              <Text variant="title.mobileDefault" color="primary">
+              <Text variant="title.mobileCard" color="primary">
                 Kart Sec
               </Text>
               <TouchableOpacity
@@ -385,7 +385,7 @@ export function PaymentScreen() {
             <View style={styles.dragHandle} />
             {/* Header */}
             <View style={styles.qrHeader}>
-              <Text variant="title.mobileDefault" color="primary">
+              <Text variant="title.mobileCard" color="primary">
                 Odeme Yap
               </Text>
               <TouchableOpacity onPress={handleCloseQr} hitSlop={12}>
@@ -479,7 +479,7 @@ export function PaymentScreen() {
                   </View>
 
                   <Text
-                    variant="title.mobileDefault"
+                    variant="title.mobileCard"
                     color="primary"
                     align="center"
                   >
@@ -639,7 +639,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 4,
     backgroundColor: semantic.border.tertiary,
-    borderRadius: radius.xs,
+    borderRadius: radius.sm,
     alignSelf: "center",
     marginTop: spacing[3],
     marginBottom: spacing[2],
@@ -767,14 +767,14 @@ const styles = StyleSheet.create({
   progressBar: {
     height: 6,
     backgroundColor: semantic.background.disabled,
-    borderRadius: radius.xs,
+    borderRadius: radius.sm,
     overflow: "hidden",
     width: "100%",
   },
   progressFill: {
     height: "100%",
     backgroundColor: semantic.cta.secondary,
-    borderRadius: radius.xs,
+    borderRadius: radius.sm,
   },
   // Cancel - QR sheet icinde
   cancelInSheet: {

@@ -28,7 +28,7 @@ export function BalanceThresholdScreen({ route, navigation }: Props) {
       <StatusBar style="light" />
       <CardDetailHeader title="Bakiye Altina Dusunce Yukleme" onBack={() => navigation.goBack()} />
       <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled">
-        <Text variant="body.smallBold" color="primary" style={styles.label}>Yukleme yapilacak kart</Text>
+        <Text variant="body.mediumBold" color="primary" style={styles.label}>Yukleme yapilacak kart</Text>
         {cards.map((c) => {
           const meta = CARD_CATEGORY_META[c.category];
           const isSelected = selectedCardId === c.id;
@@ -39,8 +39,8 @@ export function BalanceThresholdScreen({ route, navigation }: Props) {
               </View>
               <View style={styles.cardInfo}>
                 <Text variant="body.mediumBold" color="primary" numberOfLines={1}>{c.name}</Text>
-                <Text variant="body.smallMedium" color="tertiary">{c.fullCardNumber}</Text>
-                <Text variant="body.smallBold" color="primary" style={{ marginTop: 2 }}>{'\u20ba '}{formatCurrency(c.balance)}</Text>
+                <Text variant="body.medium" color="tertiary">{c.fullCardNumber}</Text>
+                <Text variant="body.mediumBold" color="primary" style={{ marginTop: 2 }}>{'\u20ba '}{formatCurrency(c.balance)}</Text>
               </View>
               <View style={[styles.checkCircle, { borderColor: meta.bgColor }, isSelected && { backgroundColor: meta.bgColor }]}>
                 {isSelected && <Icon name="checkmark" size={16} color="primary" />}
@@ -49,28 +49,28 @@ export function BalanceThresholdScreen({ route, navigation }: Props) {
           );
         })}
 
-        <Text variant="body.smallBold" color="primary" style={styles.label}>Bakiye limiti</Text>
-        <Text variant="body.smallMedium" color="tertiary">Bakiyeniz bu tutarin altina dustugunde otomatik yukleme yapilir</Text>
+        <Text variant="body.mediumBold" color="primary" style={styles.label}>Bakiye limiti</Text>
+        <Text variant="body.medium" color="tertiary">Bakiyeniz bu tutarin altina dustugunde otomatik yukleme yapilir</Text>
         <View style={styles.inputWrap}>
           <TextInput style={styles.input} value={threshold} onChangeText={setThreshold} keyboardType="numeric" />
           <Text variant="body.largeBold" color="tertiary">TL</Text>
         </View>
 
-        <Text variant="body.smallBold" color="primary" style={styles.label}>Yuklenecek tutar</Text>
-        <Text variant="body.smallMedium" color="tertiary">Gunluk maksimum yukleme limiti: 2.500 TL</Text>
+        <Text variant="body.mediumBold" color="primary" style={styles.label}>Yuklenecek tutar</Text>
+        <Text variant="body.medium" color="tertiary">Gunluk maksimum yukleme limiti: 2.500 TL</Text>
         <View style={styles.inputWrap}>
           <TextInput style={styles.input} value={amount} onChangeText={setAmount} keyboardType="numeric" />
           <Text variant="body.largeBold" color="tertiary">TL</Text>
         </View>
 
-        <Text variant="body.smallBold" color="primary" style={styles.label}>Aylik maksimum limit</Text>
-        <Text variant="body.smallMedium" color="tertiary">Bu limiti asmamak icin otomatik yukleme durdurulur. Maksimum: 30.000 TL</Text>
+        <Text variant="body.mediumBold" color="primary" style={styles.label}>Aylik maksimum limit</Text>
+        <Text variant="body.medium" color="tertiary">Bu limiti asmamak icin otomatik yukleme durdurulur. Maksimum: 30.000 TL</Text>
         <View style={styles.inputWrap}>
           <TextInput style={styles.input} value={maxLimit} onChangeText={setMaxLimit} keyboardType="numeric" />
           <Text variant="body.largeBold" color="tertiary">TL</Text>
         </View>
 
-        <Text variant="body.smallBold" color="primary" style={styles.label}>Talimat aciklamasi</Text>
+        <Text variant="body.mediumBold" color="primary" style={styles.label}>Talimat aciklamasi</Text>
         <View style={styles.inputWrap}>
           <TextInput style={[styles.input, { fontWeight: '400' }]} value={description} onChangeText={setDescription} placeholder="Orn: Talya harclik otomatik yukleme" />
         </View>

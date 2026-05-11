@@ -50,6 +50,13 @@ import { ServiceSelectionScreen } from '../screens/ServiceSelectionScreen';
 import { CardAgreementScreen } from '../screens/CardAgreementScreen';
 import { AgreementDetailScreen } from '../screens/AgreementDetailScreen';
 import { AddCardSuccessScreen } from '../screens/AddCardSuccessScreen';
+import { MemberInfoScreen } from '../screens/MemberInfoScreen';
+import { SettingsScreen } from '../screens/SettingsScreen';
+import { ChangePasswordScreen } from '../screens/ChangePasswordScreen';
+import { InvoiceInfoScreen } from '../screens/InvoiceInfoScreen';
+import { NotificationsScreen } from '../screens/NotificationsScreen';
+import { FavoritesScreen } from '../screens/FavoritesScreen';
+import { HelpCenterScreen } from '../screens/HelpCenterScreen';
 import type { RootStackParamList } from './types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -89,6 +96,13 @@ export function RootNavigator() {
         <Stack.Screen name="BrandsList" component={BrandsListScreen} />
         <Stack.Screen name="NearbyPlacesList" component={NearbyPlacesListScreen} />
         <Stack.Screen name="WebView" component={WebViewScreen} />
+        <Stack.Screen name="MemberInfo" component={MemberInfoScreen} />
+        <Stack.Screen name="Settings" component={SettingsScreen} />
+        <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} />
+        <Stack.Screen name="InvoiceInfo" component={InvoiceInfoScreen} />
+        <Stack.Screen name="Notifications" component={NotificationsScreen} />
+        <Stack.Screen name="Favorites" component={FavoritesScreen} />
+        <Stack.Screen name="HelpCenter" component={HelpCenterScreen} />
         <Stack.Screen name="AddCardByNumber" component={AddCardByNumberScreen} />
         <Stack.Screen name="ServiceSelection" component={ServiceSelectionScreen} />
         <Stack.Screen name="CardAgreement" component={CardAgreementScreen} />

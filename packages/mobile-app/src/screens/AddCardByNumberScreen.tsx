@@ -113,7 +113,7 @@ export function AddCardByNumberScreen() {
           <TouchableOpacity onPress={() => navigation.goBack()} hitSlop={12}>
             <Icon name="chevronLeft" size={24} color="primary" />
           </TouchableOpacity>
-          <Text variant="title.mobileDefault" color="primary">
+          <Text variant="title.mobileCard" color="primary">
             Kart Numarasi ile Ekle
           </Text>
           <TouchableOpacity onPress={() => navigation.goBack()} hitSlop={12}>
@@ -127,7 +127,7 @@ export function AddCardByNumberScreen() {
         >
           {/* Kart numarasi input alani */}
           <View style={styles.inputCard}>
-            <Text variant="body.smallMedium" color="secondary" style={styles.inputLabel}>
+            <Text variant="body.mediumBold" color="secondary" style={styles.inputLabel}>
               KART NUMARASI
             </Text>
             <TouchableOpacity
@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
     height: 2,
     backgroundColor: semantic.brand.secondary,
     marginTop: spacing[2],
-    borderRadius: radius.xs,
+    borderRadius: radius.sm,
   },
   counter: {
     marginTop: spacing[2],

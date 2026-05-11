@@ -65,12 +65,9 @@ export type RootStackParamList = {
   TransportPlaceDetail: { placeId: string };
 
   // Faz 7: Mekanlar (Pluxee'li Noktalar)
-  /** Hediye veya Online markalarinin tam liste ekrani (3 sutun grid) */
-  BrandsList: { category: 'gift' | 'online'; title: string };
-  /** Yakindaki restoran veya market liste ekrani */
-  NearbyPlacesList: { placeType: 'restaurant' | 'market'; title: string };
   /** Online alisveris markasi web sitesi (in-app webview) */
   WebView: { url: string | undefined; title: string };
+  OnlineWebView: { brandId: string; brandName: string };
 
 
   // Faz 9: Hesabim alt ekranlari
@@ -91,9 +88,18 @@ export type RootStackParamList = {
 
   /** Mekanlar/listeler icin context-based filtre modal'i */
   PlacesFilter: {
-    context: 'main' | 'gift' | 'online' | 'restaurants' | 'markets';
-    currentFilters?: import('../screens/PlacesFilterScreen').FilterState;
+    context?: 'general' | 'main' | 'hediye' | 'online' | 'restoran' | 'market';
+    currentFilters?: import('../screens/PlacesFilterScreen').PlacesFilters;
+    onApply?: (filters: import('../screens/PlacesFilterScreen').PlacesFilters) => void;
   };
+  // Pluxeeli Noktalar - yeni Tumunu Gor ekranlari
+  HediyeMarkalari: undefined;
+  OnlineAlisverisMarkalari: undefined;
+  YakindakiRestoranlar: undefined;
+  YakindakiMarketler: undefined;
+  UlasimMarkalari: undefined;
+  MekanDetay: { placeId: string };
+
 };
 
 declare global {

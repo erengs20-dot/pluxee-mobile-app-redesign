@@ -1,503 +1,461 @@
-/**
- * PlacesScreen - Pluxee'li Noktalar
- *
- * Analiz dokumanina birebir sadik implementasyon.
- * 6 ana kategori basligi, dikeye gore dinamik siralama.
- *
- * SIRALAMA KURALLARI (dokumandan):
- *   Yemek/Business -> Online > Yemek Platformlari > Yakin Restoranlar > Yakin Marketler > Hediye > Ulasim
- *   Gida           -> Online > Yakin Marketler > Yemek Platformlari > Yakin Restoranlar > Hediye > Ulasim
- *   Hediye         -> Hediye > Online > Yemek Platformlari > Yakin Restoranlar > Yakin Marketler > Ulasim
- *   Ulasim         -> Ulasim > Hediye > Online > Yemek Platformlari > Yakin Restoranlar > Yakin Marketler
- *   Default (tab)  -> Yemek/Business sirasi
- *
- * SEARCH:
- *   1. karakter: baslayan (starts with)
- *   2+ karakter: iceriyor (includes)
- *   Turkce/Ingilizce karakter duyarsiz, buyuk/kucuk harf duyarsiz
- *   Bosluk farkli kelime = farkli marka (bitisik yazilirsa sonuc donmez)
- *   Sonucu olmayan baslik gizlenir
- */
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from 'react';
+import { View, ScrollView, FlatList, StyleSheet, TouchableOpacity, Linking, Alert } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
 import {
-  View,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  FlatList,
-} from "react-native";
-import { StatusBar } from "expo-status-bar";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
-
+  Text, Icon, IconButton, SearchInput, EmptyState,
+  semantic, spacing, radius,
+} from '@pluxee/design-system';
 import {
-  Text,
-  Icon,
-  SearchInput,
-  EmptyState,
-  semantic,
-  spacing,
-  radius,
-} from "@pluxee/design-system";
-
-import type { RootStackParamList, CardCategory } from "../navigation/types";
+  HEDIYE_BRANDS, ONLINE_BRANDS, YEMEK_PLATFORMS,
+  NEARBY_RESTAURANTS, NEARBY_MARKETS, ULASIM_BRANDS,
+} from '../data/placesPoints';
 import {
-  getGiftBrands,
-  getOnlineBrands,
-  getFoodPlatformBrands,
-  type Brand,
-} from "../data/brands";
-import {
-  getNearbyRestaurants,
-  getNearbyMarkets,
-  type Place,
-  PAYMENT_METHOD_LABELS,
-} from "../data/places";
-import { MOCK_BRANDS } from "../data/brands";
-import { openFoodPlatformApp } from "../utils/openApp";
+  MOCK_USER_PROFILE, searchFilter, getSectionOrder, DEFAULT_DISPLAY_COUNT,
+  evaluateHediyeBrandTap, evaluateOnlineBrandTap, evaluateYemekPlatformTap,
+  evaluateRestoranTap, evaluateMarketTap, evaluateUlasimBrandTap, Vertical,
+} from '../data/placesScenarios';
+import type { PlacesFilters } from './PlacesFilterScreen';
+import { EMPTY_FILTERS } from './PlacesFilterScreen';
+import { MOCK_CARDS } from '../data/cards';
+import { BrandCard } from '../components/places/BrandCard';
+import { OnlineBrandCard } from '../components/places/OnlineBrandCard';
+import { YemekPlatformCard } from '../components/places/YemekPlatformCard';
+import { RestoranMarketCard } from '../components/places/RestoranMarketCard';
+import { UlasimBrandCard } from '../components/places/UlasimBrandCard';
+import { InfoModal, AktarimModal } from '../components/places/Modals';
+import { PaketSecModal } from '../components/places/PaketSecModal';
 
-type Nav = NativeStackNavigationProp<RootStackParamList>;
+type SectionId = 'hediye-markalari' | 'online-alisveris' | 'yemek-platformlari' | 'yakindaki-restoranlar' | 'yakindaki-marketler' | 'ulasim-markalari';
 
-// ============================================================
-// SIRALAMA TABLOSU (Dokumandan)
-// ============================================================
-type SectionId = "online" | "foodPlatforms" | "restaurants" | "markets" | "gift" | "transport";
 
-const SECTION_ORDER: Record<string, SectionId[]> = {
-  meal:      ["online", "foodPlatforms", "restaurants", "markets", "gift", "transport"],
-  business:  ["online", "foodPlatforms", "restaurants", "markets", "gift", "transport"],
-  food:      ["online", "markets", "foodPlatforms", "restaurants", "gift", "transport"],
-  gift:      ["gift", "online", "foodPlatforms", "restaurants", "markets", "transport"],
-  transport: ["transport", "gift", "online", "foodPlatforms", "restaurants", "markets"],
-  default:   ["online", "foodPlatforms", "restaurants", "markets", "gift", "transport"],
+
+
+// === FILTRE LOGIC ===
+// Urun secimi -> hangi section'lar gosterilecek (SectionId tipinde)
+const URUN_TO_SECTIONS: Record<string, SectionId[]> = {
+  'Yemek':    ['online-alisveris', 'yemek-platformlari', 'yakindaki-restoranlar', 'yakindaki-marketler'],
+  'Hediye':   ['online-alisveris', 'hediye-markalari'],
+  'Gıda':     ['online-alisveris', 'yakindaki-marketler'],
+  'Ulaşım':   ['ulasim-markalari'],
+  'Business': ['online-alisveris', 'yemek-platformlari', 'yakindaki-restoranlar'],
+};
+
+// Online alisveris section'inda hangi validFor'a sahip markalar gorunsun
+const URUN_TO_ONLINE_TYPES: Record<string, Array<'yemek' | 'gida' | 'hediye'>> = {
+  'Yemek':    ['yemek'],
+  'Hediye':   ['hediye'],
+  'Gıda':     ['yemek'],     // Gıda secilince yemek markalari gelir
+  'Business': ['yemek'],
+};
+
+const ALL_SECTIONS: SectionId[] = ['hediye-markalari', 'online-alisveris', 'yemek-platformlari', 'yakindaki-restoranlar', 'yakindaki-marketler', 'ulasim-markalari'];
+
+function getVisibleSections(urunler: string[]): Set<SectionId> {
+  // Hicbir urun secilmediyse hepsi gorunur (default)
+  if (urunler.length === 0) {
+    return new Set(ALL_SECTIONS);
+  }
+  const visible = new Set<SectionId>();
+  urunler.forEach(u => {
+    const sections = URUN_TO_SECTIONS[u] ?? [];
+    sections.forEach(s => visible.add(s));
+  });
+  return visible;
+}
+
+function getAllowedOnlineTypes(urunler: string[]): Set<'yemek' | 'gida' | 'hediye'> {
+  if (urunler.length === 0) return new Set(['yemek', 'gida', 'hediye']);
+  const allowed = new Set<'yemek' | 'gida' | 'hediye'>();
+  urunler.forEach(u => {
+    const types = URUN_TO_ONLINE_TYPES[u] ?? [];
+    types.forEach(t => allowed.add(t));
+  });
+  return allowed;
+}
+// Mevcut sistem kart kategorisini Pluxee'li Noktalar dikeyine cevir
+const CARD_CATEGORY_TO_VERTICAL: Record<string, Vertical> = {
+  meal: 'yemek',
+  business: 'business',
+  food: 'gida',
+  gift: 'hediye',
+  transport: 'ulasim',
+};
+
+const getDefaultVertical = (): Vertical => {
+  const defaultCard = MOCK_CARDS.find((c) => c.isDefault) ?? MOCK_CARDS[0];
+  if (!defaultCard) return 'yemek';
+  return CARD_CATEGORY_TO_VERTICAL[defaultCard.category] ?? 'yemek';
 };
 
 const SECTION_TITLES: Record<SectionId, string> = {
-  online: "Online Alisveris",
-  foodPlatforms: "Yemek Platformlari",
-  restaurants: "Yakindaki Restoranlar",
-  markets: "Yakindaki Marketler",
-  gift: "Hediye Markalari",
-  transport: "Ulasim Markalari",
+  'hediye-markalari': 'Hediye markalari',
+  'online-alisveris': 'Online alisveris',
+  'yemek-platformlari': 'Yemek platformlari',
+  'yakindaki-restoranlar': 'Yakindaki restoranlar',
+  'yakindaki-marketler': 'Yakindaki marketler',
+  'ulasim-markalari': 'Ulasim markalari',
 };
 
-// ============================================================
-// TURKCE KARAKTER NORMALIZE
-// ============================================================
-function normalizeTr(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/ı/g, "i")
-    .replace(/ğ/g, "g")
-    .replace(/ü/g, "u")
-    .replace(/ş/g, "s")
-    .replace(/ö/g, "o")
-    .replace(/ç/g, "c")
-    .replace(/İ/g, "i")
-    .replace(/Ğ/g, "g")
-    .replace(/Ü/g, "u")
-    .replace(/Ş/g, "s")
-    .replace(/Ö/g, "o")
-    .replace(/Ç/g, "c");
-}
-
-// ============================================================
-// SEARCH LOGIC (Dokumandan: 1.karakter baslayan, 2+ iceriyor)
-// ============================================================
-function matchesSearch(name: string, query: string): boolean {
-  if (!query.trim()) return true;
-  const normalName = normalizeTr(name);
-  const normalQuery = normalizeTr(query.trim());
-
-  if (normalQuery.length === 1) {
-    // 1. karakter: baslayan
-    return normalName.startsWith(normalQuery);
-  }
-  // 2+ karakter: iceriyor
-  return normalName.includes(normalQuery);
-}
-
-// ============================================================
-// MARKA RENKLERI (basinicial icin)
-// ============================================================
-const BRAND_COLORS: Record<string, string> = {
-  "Trendyol": "#ff6000", "Hepsiburada": "#ff8800", "LC Waikiki": "#e91e63",
-  "Koton": "#6d4c41", "DeFacto": "#d32f2f", "Nike": "#111111",
-  "Adidas": "#000000", "MediaMarkt": "#df0000", "Teknosa": "#00897b",
-  "Migros": "#f57c00", "CarrefourSA": "#1565c0", "Watsons": "#00838f",
-  "Gratis": "#ad1457", "Decathlon": "#0277bd", "Intersport": "#1a237e",
-  "Boyner": "#7b1fa2", "Hopi": "#ff5722", "Sariyer": "#33691e",
-  "Mopas": "#4e342e", "Opet": "#e53935", "BP": "#009688",
-  "Petrol Ofisi": "#1565c0", "Aytemiz": "#ff9800", "TotalEnergies": "#d32f2f",
-  "Starbucks": "#00704A", "Pegasus BolBol": "#fdd835",
+const SECTION_ROUTES: Record<SectionId, string> = {
+  'hediye-markalari': 'HediyeMarkalari',
+  'online-alisveris': 'OnlineAlisverisMarkalari',
+  'yemek-platformlari': '',
+  'yakindaki-restoranlar': 'YakindakiRestoranlar',
+  'yakindaki-marketler': 'YakindakiMarketler',
+  'ulasim-markalari': 'UlasimMarkalari',
 };
-function getBrandColor(name: string): string {
-  return BRAND_COLORS[name] || semantic.brand.primary;
-}
 
-// ============================================================
-// COMPONENT
-// ============================================================
-export function PlacesScreen() {
-  const navigation = useNavigation<Nav>();
-  const route = useRoute();
-  const sourceCategory = (route.params as any)?.sourceCategory ?? "meal";
+export const PlacesScreen: React.FC = () => {
+  const nav = useNavigation<any>();
+  const route = useRoute<any>();
+  const [sourceCategory, setSourceCategory] = useState<Vertical>(
+    (route.params?.sourceCategory as Vertical) || getDefaultVertical()
+  );
+  const [filters, setFilters] = useState<PlacesFilters>(EMPTY_FILTERS);
 
-  const [searchQuery, setSearchQuery] = useState("");
+  // Filtre uygulayarak gorunecek section'lari hesapla
+  const visibleSections = useMemo(() => getVisibleSections(filters.urunler), [filters.urunler]);
+  const allowedOnlineTypes = useMemo(() => getAllowedOnlineTypes(filters.urunler), [filters.urunler]);
 
-  // Data
-  const giftBrands = useMemo(() => getGiftBrands(), []);
-  const onlineBrands = useMemo(() => getOnlineBrands(), []);
-  const foodPlatforms = useMemo(() => getFoodPlatformBrands(), []);
-  const fuelBrands = useMemo(() => MOCK_BRANDS.filter(b => b.category === "fuel"), []);
-  const nearbyRestaurants = useMemo(() => getNearbyRestaurants(10), []);
-  const nearbyMarkets = useMemo(() => getNearbyMarkets(10), []);
+  // Tab'a her donuldugunde default kart kontrolu — kullanici Home'da default karti
+  // degistirdiyse PlacesScreen siralamasi guncellenmeli
+  useFocusEffect(
+    useCallback(() => {
+      if (!route.params?.sourceCategory) {
+        setSourceCategory(getDefaultVertical());
+      }
+    }, [route.params?.sourceCategory])
+  );
+  const [search, setSearch] = useState('');
+  const [infoModal, setInfoModal] = useState<{ visible: boolean; message: string }>({ visible: false, message: '' });
+  const [aktarimModal, setAktarimModal] = useState<{ visible: boolean; message: string; target: 'yemek' | 'gida' | null }>({ visible: false, message: '', target: null });
+  const [paketModal, setPaketModal] = useState<{ visible: boolean; brandId: string; brandName: string }>({ visible: false, brandId: '', brandName: '' });
 
-  // Section data map
-  const sectionData: Record<SectionId, { items: (Brand | Place)[]; type: "brand" | "place" }> = useMemo(() => ({
-    online: { items: onlineBrands, type: "brand" },
-    foodPlatforms: { items: foodPlatforms, type: "brand" },
-    restaurants: { items: nearbyRestaurants, type: "place" },
-    markets: { items: nearbyMarkets, type: "place" },
-    gift: { items: giftBrands, type: "brand" },
-    transport: { items: fuelBrands, type: "brand" },
-  }), [giftBrands, onlineBrands, foodPlatforms, fuelBrands, nearbyRestaurants, nearbyMarkets]);
+  const order = getSectionOrder(sourceCategory) as SectionId[];
+  // Sadece filtreden gecen section'lari goster (default kart sirasini koru)
+  const filteredOrder = order.filter(s => visibleSections.has(s));
 
-  // Siralama
-  const orderedSections = useMemo(() => {
-    return SECTION_ORDER[sourceCategory] || SECTION_ORDER.default;
-  }, [sourceCategory]);
+  const totalResultCount = useMemo(() => {
+    if (!search) return 0;
+    const counts = [
+      HEDIYE_BRANDS.filter(b => searchFilter(search, b.name)).length,
+      ONLINE_BRANDS.filter(b => searchFilter(search, b.name) && b.validFor.some(v => allowedOnlineTypes.has(v))).length,
+      YEMEK_PLATFORMS.filter(b => searchFilter(search, b.name)).length,
+      NEARBY_RESTAURANTS.filter(b => searchFilter(search, b.name)).length,
+      NEARBY_MARKETS.filter(b => searchFilter(search, b.name)).length,
+      ULASIM_BRANDS.filter(b => searchFilter(search, b.name)).length,
+    ];
+    return counts.reduce((a, b) => a + b, 0);
+  }, [search]);
 
-  // Filtrelenmis data (search)
-  const filteredSections = useMemo(() => {
-    if (!searchQuery.trim()) return null;
+  const hasAnyResult = totalResultCount > 0 || !search;
 
-    const result: { id: SectionId; title: string; items: (Brand | Place)[] }[] = [];
-
-    for (const sectionId of orderedSections) {
-      const section = sectionData[sectionId];
-      const filtered = section.items.filter((item) => {
-        const name = "name" in item ? item.name : "";
-        return matchesSearch(name, searchQuery);
-      });
-      if (filtered.length > 0) {
-        result.push({ id: sectionId, title: SECTION_TITLES[sectionId], items: filtered });
+  // ============ Tap handlers ============
+  const handleHediyeTap = (brandId: string, brandName: string) => {
+    const action = evaluateHediyeBrandTap(brandId, MOCK_USER_PROFILE);
+    switch (action.type) {
+      case 'open-detail': nav.navigate('BrandDetail', { brandId }); break;
+      case 'modal-no-balance': setInfoModal({ visible: true, message: 'Hediye markalarinda harcayabilecegin bakiyen bulunmamaktadir.' }); break;
+      case 'modal-not-in-package': setInfoModal({ visible: true, message: 'Sahip oldugun Hediye paketlerinde bu marka bulunmamaktadir.' }); break;
+      case 'modal-select-package': setPaketModal({ visible: true, brandId, brandName }); break;
+    }
+  };
+  const handleOnlineTap = (brand: typeof ONLINE_BRANDS[0]) => {
+    // Case 1: Yemek platformu (4 marka) -> deeplink ile uygulama ac
+    const yemekPlatformDeeplinks: Record<string, string> = {
+      'Trendyol Yemek': 'trendyolyemek://',
+      'Yemeksepeti': 'yemeksepeti://',
+      'Getir Yemek': 'getir://yemek',
+      'Tıkla Gelsin': 'tiklagelsin://',
+    };
+    if (yemekPlatformDeeplinks[brand.name]) {
+      handleYemekPlatformTap(yemekPlatformDeeplinks[brand.name]);
+      return;
+    }
+    // Case 2: Hediye markasi (validFor: ['hediye']) -> Marka detay
+    if (brand.validFor.length === 1 && brand.validFor[0] === 'hediye') {
+      nav.navigate('BrandDetail', { brandId: brand.id });
+      return;
+    }
+    // Case 3: Diger hepsi -> WebView (iframe) + kod al butonu
+    nav.navigate('OnlineWebView', { brandId: brand.id, brandName: brand.name });
+  };
+  const handleYemekPlatformTap = (deeplink: string) => {
+    const action = evaluateYemekPlatformTap(deeplink, MOCK_USER_PROFILE);
+    switch (action.type) {
+      case 'open-deeplink':
+        Linking.openURL(deeplink).catch(() => {
+          Alert.alert('Uygulama bulunamadi', 'Bu platformun uygulamasi cihazinda yuklu degil.');
+        });
+        break;
+      case 'modal-no-balance': setInfoModal({ visible: true, message: 'Bu platformlarda harcayabilecegin bakiyen bulunmamaktadir.' }); break;
+      case 'modal-transfer-required': {
+        setAktarimModal({ visible: true, message: "Bu platformlarda harcama yapabilmen icin Pluxee Yemek'e aktarim yapman gerekmektedir.", target: 'yemek' });
+        break;
       }
     }
-    return result;
-  }, [searchQuery, orderedSections, sectionData]);
-
-  const hasSearchResults = filteredSections === null || filteredSections.length > 0;
-
-  // Handlers
-  const handleBrandPress = (brand: Brand) => {
-    if (brand.category === "online") {
-      navigation.navigate("WebView", { url: brand.websiteUrl, title: brand.name });
-    } else if (brand.category === "food_platform") {
-      openFoodPlatformApp({
-        deepLink: brand.appDeepLink,
-        appStoreUrl: brand.appStoreUrl,
-        playStoreUrl: brand.playStoreUrl,
-        brandName: brand.name,
-      });
-    } else {
-      navigation.navigate("BrandDetail", { brandId: brand.id });
+  };
+  const handleRestoranTap = (placeId: string) => {
+    const action = evaluateRestoranTap(placeId, MOCK_USER_PROFILE);
+    switch (action.type) {
+      case 'navigate-mekan-detay': nav.navigate('MekanDetay', { placeId }); break;
+      case 'modal-no-balance': setInfoModal({ visible: true, message: 'Restoranlarda harcayabilecegin bakiyen bulunmamaktadir.' }); break;
+      case 'modal-transfer-required': setAktarimModal({ visible: true, message: "Restoranlarda harcama yapabilmen icin Pluxee Yemek'e aktarim yapman gerekmektedir.", target: 'yemek' }); break;
+    }
+  };
+  const handleMarketTap = (placeId: string) => {
+    const action = evaluateMarketTap(placeId, MOCK_USER_PROFILE);
+    switch (action.type) {
+      case 'navigate-mekan-detay': nav.navigate('MekanDetay', { placeId }); break;
+      case 'modal-no-balance': setInfoModal({ visible: true, message: 'Marketlerde harcayabilecegin bakiyen bulunmamaktadir.' }); break;
+      case 'modal-transfer-required': setAktarimModal({ visible: true, message: "Marketlerde harcama yapabilmen icin Pluxee Gida'ya aktarim yapman gerekmektedir.", target: 'gida' }); break;
+    }
+  };
+  const handleUlasimTap = (brandId: string) => {
+    const action = evaluateUlasimBrandTap(brandId, MOCK_USER_PROFILE);
+    switch (action.type) {
+      case 'open-detail': nav.navigate('BrandDetail', { brandId }); break;
+      case 'modal-no-balance': setInfoModal({ visible: true, message: 'Ulasim markalarinda harcayabilecegin bakiyen bulunmamaktadir.' }); break;
     }
   };
 
-  const handlePlacePress = (place: Place) => {
-    navigation.navigate("NearbyPlacesList", {
-      placeType: place.placeType,
-      title: place.placeType === "restaurant" ? "Yakindaki Restoranlar" : "Yakindaki Marketler",
-    });
-  };
-
-  const handleSeeAll = (sectionId: SectionId) => {
-    switch (sectionId) {
-      case "gift":
-        navigation.navigate("BrandsList", { category: "gift", title: "Hediye Markalari" });
-        break;
-      case "online":
-        navigation.navigate("BrandsList", { category: "online", title: "Online Alisveris" });
-        break;
-      case "restaurants":
-        navigation.navigate("NearbyPlacesList", { placeType: "restaurant", title: "Yakindaki Restoranlar" });
-        break;
-      case "markets":
-        navigation.navigate("NearbyPlacesList", { placeType: "market", title: "Yakindaki Marketler" });
-        break;
-      case "transport":
-        // Ulasim markalari 5ten az, Tumunu Gor yok (dokumandan)
-        break;
-      case "foodPlatforms":
-        // Bu fazda Tumunu Gor yok (dokumandan)
-        break;
-    }
-  };
-
-  // ============================================================
-  // RENDER HELPERS
-  // ============================================================
-  const renderBrandTile = (brand: Brand) => {
-    const color = getBrandColor(brand.name);
-    return (
-      <TouchableOpacity
-        key={brand.id}
-        style={styles.tile}
-        onPress={() => handleBrandPress(brand)}
-        activeOpacity={0.7}
-      >
-        <View style={[styles.tileIcon, { backgroundColor: color }]}>
-          <Text variant="title.mobileCard" color="inverse">
-            {brand.name.charAt(0).toUpperCase()}
-          </Text>
-        </View>
-        <Text variant="body.smallMedium" color="primary" align="center" numberOfLines={2}>
-          {brand.name}
-        </Text>
-      </TouchableOpacity>
-    );
-  };
-
-  const renderPlaceTile = (place: Place) => {
-    return (
-      <TouchableOpacity
-        key={place.id}
-        style={styles.placeTile}
-        onPress={() => handlePlacePress(place)}
-        activeOpacity={0.7}
-      >
-        <View style={styles.placeTileTop}>
-          <View style={styles.ratingBox}>
-            <Text variant="body.smallBold" color="primary">{place.rating.toFixed(1)}</Text>
-          </View>
-          {place.plusPointsPercent > 0 && (
-            <View style={styles.plusBadge}>
-              <Text variant="body.xsmallBold" color="success">%{place.plusPointsPercent}</Text>
-            </View>
-          )}
-        </View>
-        <Text variant="body.smallBold" color="primary" numberOfLines={2} align="center">
-          {place.name}
-        </Text>
-        <Text variant="body.smallMedium" color="secondary" align="center">
-          {place.distanceKm.toFixed(2)} km
-        </Text>
-      </TouchableOpacity>
-    );
-  };
-
-  const renderSection = (sectionId: SectionId, items: (Brand | Place)[], showAll?: boolean) => {
+  // ============ Section renderer ============
+  const renderSection = (sectionId: SectionId) => {
     const title = SECTION_TITLES[sectionId];
-    const dataType = sectionData[sectionId].type;
-    const displayItems = showAll ? items : items.slice(0, 5);
-    const showSeeAll = !showAll && items.length > 5 && sectionId !== "foodPlatforms" && sectionId !== "transport";
+    const route_ = SECTION_ROUTES[sectionId];
 
-    return (
-      <View key={sectionId} style={styles.section}>
-        <View style={styles.sectionHeader}>
-          <Text variant="title.mobileSection" color="primary">
-            {title}
-          </Text>
-          {showSeeAll && (
-            <TouchableOpacity onPress={() => handleSeeAll(sectionId)} activeOpacity={0.7}>
-              <Text variant="body.mediumBold" color="link">
-                Tumunu Gor
-              </Text>
-            </TouchableOpacity>
+    if (sectionId === 'hediye-markalari') {
+      const filtered = HEDIYE_BRANDS.filter(b => searchFilter(search, b.name));
+      const items = filtered.slice(0, DEFAULT_DISPLAY_COUNT);
+      if (items.length === 0) return null;
+      const remainingCount = filtered.length - DEFAULT_DISPLAY_COUNT;
+      const showAll = filtered.length >= DEFAULT_DISPLAY_COUNT;
+      return (
+        <View key={sectionId} style={styles.section}>
+          <SectionHeader title={title} showAll={showAll} onShowAll={() => nav.navigate(route_)} />
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.hScrollContent}>
+            {items.map(item => (
+              <View key={item.id} style={styles.hItem}>
+                <BrandCard logo={item.logo} name={item.name} size={110} onPress={() => handleHediyeTap(item.id, item.name)} />
+              </View>
+            ))}
+            {remainingCount > 0 && (
+              <View style={styles.hItem}>
+                <TouchableOpacity
+                  onPress={() => nav.navigate(route_)}
+                  activeOpacity={0.7}
+                  style={styles.plusMoreCard}
+                  accessibilityLabel={`${remainingCount} marka daha`}
+                >
+                  <Text variant="title.mobileCard" color="primary" align="center">+{remainingCount}</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          </ScrollView>
+        </View>
+      );
+    }
+
+    if (sectionId === 'online-alisveris') {
+      const filtered = ONLINE_BRANDS.filter(b => searchFilter(search, b.name) && b.validFor.some(v => allowedOnlineTypes.has(v)));
+      const items = filtered.slice(0, DEFAULT_DISPLAY_COUNT);
+      if (items.length === 0) return null;
+      const remainingCount = filtered.length - DEFAULT_DISPLAY_COUNT;
+      const showAll = filtered.length >= DEFAULT_DISPLAY_COUNT;
+      return (
+        <View key={sectionId} style={styles.section}>
+          <SectionHeader title={title} showAll={showAll} onShowAll={() => nav.navigate(route_)} />
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.hScrollContent}>
+            {items.map(item => (
+              <View key={item.id} style={styles.hItem}>
+                <OnlineBrandCard logo={item.logo} name={item.name} size={110} onPress={() => handleOnlineTap(item)} />
+              </View>
+            ))}
+            {remainingCount > 0 && (
+              <View style={styles.hItem}>
+                <TouchableOpacity
+                  onPress={() => nav.navigate(route_)}
+                  activeOpacity={0.7}
+                  style={styles.plusMoreCard}
+                  accessibilityLabel={`${remainingCount} marka daha`}
+                >
+                  <Text variant="title.mobileCard" color="primary" align="center">+{remainingCount}</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          </ScrollView>
+        </View>
+      );
+    }
+
+    if (sectionId === 'yemek-platformlari') {
+      const items = YEMEK_PLATFORMS.filter(b => searchFilter(search, b.name));
+      if (items.length === 0) return null;
+      return (
+        <View key={sectionId} style={styles.section}>
+          <SectionHeader title={title} showAll={false} />
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.hScrollContent}>
+            {items.map(item => (
+              <View key={item.id} style={styles.hItem}>
+                <YemekPlatformCard logo={item.logo} name={item.name} size={110} onPress={() => handleYemekPlatformTap(item.deeplink)} />
+              </View>
+            ))}
+          </ScrollView>
+        </View>
+      );
+    }
+
+    if (sectionId === 'yakindaki-restoranlar') {
+      const items = NEARBY_RESTAURANTS.filter(b => searchFilter(search, b.name)).slice(0, DEFAULT_DISPLAY_COUNT);
+      if (items.length === 0) return null;
+      const showAll = NEARBY_RESTAURANTS.length >= DEFAULT_DISPLAY_COUNT;
+      return (
+        <View key={sectionId} style={styles.section}>
+          <SectionHeader title={title} showAll={showAll} onShowAll={() => nav.navigate(route_)} />
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.hScrollContent}>
+            {items.map(item => (
+              <View key={item.id} style={styles.hItem}>
+                <RestoranMarketCard name={item.name} distanceKm={item.distanceKm} iconName={item.iconName} category="restoran" onPress={() => handleRestoranTap(item.id)} />
+              </View>
+            ))}
+          </ScrollView>
+        </View>
+      );
+    }
+
+    if (sectionId === 'yakindaki-marketler') {
+      const items = NEARBY_MARKETS.filter(b => searchFilter(search, b.name)).slice(0, DEFAULT_DISPLAY_COUNT);
+      if (items.length === 0) return null;
+      const showAll = NEARBY_MARKETS.length >= DEFAULT_DISPLAY_COUNT;
+      return (
+        <View key={sectionId} style={styles.section}>
+          <SectionHeader title={title} showAll={showAll} onShowAll={() => nav.navigate(route_)} />
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.hScrollContent}>
+            {items.map(item => (
+              <View key={item.id} style={styles.hItem}>
+                <RestoranMarketCard name={item.name} distanceKm={item.distanceKm} iconName={item.iconName} category="market" onPress={() => handleMarketTap(item.id)} />
+              </View>
+            ))}
+          </ScrollView>
+        </View>
+      );
+    }
+
+    if (sectionId === 'ulasim-markalari') {
+      const items = ULASIM_BRANDS.filter(b => searchFilter(search, b.name)).slice(0, DEFAULT_DISPLAY_COUNT);
+      if (items.length === 0) return null;
+      const showAll = ULASIM_BRANDS.length >= DEFAULT_DISPLAY_COUNT;
+      return (
+        <View key={sectionId} style={styles.section}>
+          <SectionHeader title={title} showAll={showAll} onShowAll={() => nav.navigate(route_)} />
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.hScrollContent}>
+            {items.map(item => (
+              <View key={item.id} style={styles.hItem}>
+                <UlasimBrandCard logo={item.logo} name={item.name} size={110} onPress={() => handleUlasimTap(item.id)} />
+              </View>
+            ))}
+          </ScrollView>
+        </View>
+      );
+    }
+
+    return null;
+  };
+
+  return (
+    <SafeAreaView style={styles.safe} edges={['top']}>
+      <View style={styles.header}>
+        <IconButton iconName="chevronLeft" variant="ghost" size="md" color="inverse" onPress={() => nav.goBack()} accessibilityLabel="Geri" />
+        <Text variant="title.mobileCard" color="inverse" align="center" style={styles.title}>Pluxee'li Noktalar</Text>
+        <View style={styles.headerRight} />
+      </View>
+
+      <ScrollView style={styles.body} contentContainerStyle={styles.bodyContent} showsVerticalScrollIndicator={false}>
+        <View style={styles.searchRow}>
+          <SearchInput value={search} onChangeText={setSearch} placeholder="Pluxee'li Nokta ara" onClear={() => setSearch('')} />
+        </View>
+        <View style={styles.toolbar}>
+          <TouchableOpacity style={styles.filtreChip} onPress={() => nav.navigate('PlacesFilter', { context: 'general', currentFilters: filters, onApply: setFilters })}>
+            <Icon name="filter" size={16} color="primary" />
+            <Text variant="body.mediumBold" color="primary" style={styles.chipText}>Filtrele</Text>
+          </TouchableOpacity>
+          {search.length > 0 && (
+            <Text variant="body.medium" color="primary" style={styles.resultCount}>{totalResultCount} sonuc</Text>
           )}
         </View>
 
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.horizontalScroll}
-        >
-          {dataType === "brand"
-            ? (displayItems as Brand[]).map(renderBrandTile)
-            : (displayItems as Place[]).map(renderPlaceTile)}
-        </ScrollView>
-      </View>
-    );
-  };
-
-  // ============================================================
-  // MAIN RENDER
-  // ============================================================
-  return (
-    <View style={styles.root}>
-      <StatusBar style="dark" />
-
-      {/* Header */}
-      <View style={styles.header}>
-        <Text variant="title.mobileMain" color="primary">
-          {"Pluxee'li Noktalar"}
-        </Text>
-      </View>
-
-      {/* Search */}
-      <View style={styles.searchWrap}>
-        <SearchInput
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-          placeholder="Pluxee'li Nokta ara"
-        />
-      </View>
-
-      {/* Filtrele + Sirala */}
-      <View style={styles.filterRow}>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.filterScroll}
-        >
-          <TouchableOpacity
-            style={styles.filterChip}
-            onPress={() => navigation.navigate("PlacesFilter", { context: "main" })}
-            activeOpacity={0.7}
-          >
-            <Icon name="filter" size={16} color="primary" />
-            <Text variant="body.mediumBold" color="primary">Filtrele</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.filterChip} activeOpacity={0.7}>
-            <Icon name="sort" size={16} color="primary" />
-            <Text variant="body.mediumBold" color="primary">Sirala</Text>
-          </TouchableOpacity>
-        </ScrollView>
-      </View>
-
-      {/* Content */}
-      <ScrollView
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
-        {filteredSections !== null ? (
-          // SEARCH AKTIF
-          filteredSections.length > 0 ? (
-            filteredSections.map((s) => renderSection(s.id, s.items, true))
-          ) : (
-            <View style={styles.emptyWrap}>
-              <EmptyState
-                iconName="search"
-                title="Sonuc bulunamadi"
-                message="Aradiginiz marka veya mekan bulunamadi. Farkli bir terim deneyin."
-              />
-            </View>
-          )
+        {!hasAnyResult ? (
+          <View style={styles.emptyWrap}>
+            <EmptyState iconName="search" title="Aradiginiz sonuc bulunamadi" />
+          </View>
         ) : (
-          // DEFAULT - siralama dikeye gore
-          orderedSections.map((sectionId) => {
-            const section = sectionData[sectionId];
-            if (section.items.length === 0) return null;
-            return renderSection(sectionId, section.items as any);
-          })
+          filteredOrder.map(renderSection)
         )}
-
-        <View style={{ height: spacing[20] }} />
       </ScrollView>
-    </View>
+
+      <InfoModal visible={infoModal.visible} message={infoModal.message} onClose={() => setInfoModal({ visible: false, message: '' })} />
+      <AktarimModal visible={aktarimModal.visible} message={aktarimModal.message}
+        onConfirm={() => {
+          const t = aktarimModal.target;
+          setAktarimModal({ visible: false, message: '', target: null });
+          if (t) nav.navigate('BrandDetail', { brandId: t === 'yemek' ? 'pluxee-yemek' : 'pluxee-gida' });
+        }}
+        onCancel={() => setAktarimModal({ visible: false, message: '', target: null })} />
+      <PaketSecModal visible={paketModal.visible} brandName={paketModal.brandName}
+        packages={MOCK_USER_PROFILE.hediyePaketler.filter(p => p.brandIds.includes(paketModal.brandId))}
+        onSelect={(pkgId) => { setPaketModal({ visible: false, brandId: '', brandName: '' }); nav.navigate('BrandDetail', { brandId: paketModal.brandId, packageId: pkgId }); }}
+        onClose={() => setPaketModal({ visible: false, brandId: '', brandName: '' })} />
+    </SafeAreaView>
   );
+};
+
+interface SectionHeaderProps {
+  title: string;
+  showAll: boolean;
+  onShowAll?: () => void;
 }
 
+const SectionHeader: React.FC<SectionHeaderProps> = ({ title, showAll, onShowAll }) => (
+  <View style={styles.sectionHeader}>
+    <Text variant="title.mobileSection" color="primary" style={styles.sectionTitle}>{title}</Text>
+    {showAll && onShowAll && (
+      <TouchableOpacity style={styles.showAllBtn} onPress={onShowAll} activeOpacity={0.7}>
+        <Text variant="body.mediumBold" color="info" style={styles.showAllText}>Tumunu gor</Text>
+        <Icon name="arrowRight" size={16} color="info" />
+      </TouchableOpacity>
+    )}
+  </View>
+);
+
 const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: semantic.background.canvas,
-  },
-  header: {
-    paddingHorizontal: spacing[4],
-    paddingTop: spacing[6],
-    paddingBottom: spacing[2],
-    backgroundColor: semantic.background.primary,
-  },
-  searchWrap: {
-    paddingHorizontal: spacing[4],
-    paddingVertical: spacing[2],
-    backgroundColor: semantic.background.primary,
-  },
-  filterRow: {
-    backgroundColor: semantic.background.primary,
-    paddingBottom: spacing[2],
-    borderBottomWidth: 1,
-    borderBottomColor: semantic.border.tertiary,
-  },
-  filterScroll: {
-    paddingHorizontal: spacing[4],
-    gap: spacing[2],
-  },
-  filterChip: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: spacing[1],
-    borderWidth: 1.5,
-    borderColor: semantic.brand.primary,
-    borderRadius: radius.full,
-    paddingHorizontal: spacing[3],
-    paddingVertical: spacing[2],
-  },
-  scrollContent: {
-    paddingTop: spacing[4],
-  },
-  // Section
-  section: {
-    marginBottom: spacing[5],
-  },
-  sectionHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: spacing[4],
-    marginBottom: spacing[3],
-  },
-  horizontalScroll: {
-    paddingHorizontal: spacing[4],
-    gap: spacing[3],
-  },
-  // Brand Tile
-  tile: {
-    width: 80,
-    alignItems: "center",
-    gap: spacing[2],
-  },
-  tileIcon: {
-    width: 64,
-    height: 64,
+  plusMoreCard: {
+    width: 110,
+    height: 110,
     borderRadius: radius.lg,
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#E8E5F9',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  // Place Tile
-  placeTile: {
-    width: 100,
-    alignItems: "center",
-    gap: spacing[1],
-    backgroundColor: semantic.background.primary,
-    borderRadius: radius.lg,
-    padding: spacing[2],
-    borderWidth: 1,
-    borderColor: semantic.border.tertiary,
-  },
-  placeTileTop: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "100%",
-    marginBottom: spacing[1],
-  },
-  ratingBox: {
-    backgroundColor: semantic.background.successBanner,
-    paddingHorizontal: spacing[2],
-    paddingVertical: spacing[1],
-    borderRadius: radius.sm,
-  },
-  plusBadge: {
-    backgroundColor: semantic.background.successBanner,
-    paddingHorizontal: spacing[1],
-    paddingVertical: spacing[1],
-    borderRadius: radius.sm,
-  },
-  // Empty
-  emptyWrap: {
-    paddingHorizontal: spacing[4],
-    paddingVertical: spacing[8],
-  },
+  safe: { flex: 1, backgroundColor: '#1B1D45' },
+  header: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#1B1D45', paddingHorizontal: spacing[4], paddingBottom: spacing[3], paddingTop: spacing[2] },
+  title: { flex: 1 },
+  headerRight: { width: 40 },
+  body: { flex: 1, backgroundColor: semantic.background.primary },
+  bodyContent: { paddingHorizontal: spacing[4], paddingTop: spacing[4], paddingBottom: spacing[8] },
+  searchRow: { marginBottom: spacing[3] },
+  toolbar: { flexDirection: 'row', alignItems: 'center', marginBottom: spacing[5], gap: spacing[3] },
+  filtreChip: { flexDirection: 'row', alignItems: 'center', gap: spacing[2], backgroundColor: '#FFFFFF', paddingHorizontal: spacing[4], paddingVertical: spacing[3], borderRadius: radius.full },
+  chipText: { fontSize: 14 },
+  resultCount: { fontSize: 14 },
+  section: { marginBottom: spacing[5] },
+  sectionHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing[3] },
+  sectionTitle: { fontSize: 18 },
+  showAllBtn: { flexDirection: 'row', alignItems: 'center', gap: spacing[1] },
+  showAllText: { fontSize: 13 },
+  hScrollContent: { gap: spacing[3], paddingRight: spacing[4] },
+  hItem: {},
+  emptyWrap: { paddingVertical: spacing[8] },
 });
+
+export default PlacesScreen;

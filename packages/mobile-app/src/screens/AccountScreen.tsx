@@ -25,6 +25,7 @@ import {
   spacing,
   radius,
 } from "@pluxee/design-system";
+import { TabHeader } from '../components/common/TabHeader';
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import type { RootStackParamList } from "../navigation/types";
@@ -79,36 +80,23 @@ export function AccountScreen() {
   return (
     <View style={styles.root}>
       <StatusBar style="light" />
-      <View style={styles.statusBarSafe} />
-
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* HEADER - Chevron + Avatar + Isim */}
-        <View style={styles.headerWrap}>
-          {/* Chevron arka plan */}
-          <Background variant="chevron" colorTheme="green" height={160} width="100%">
-            <View style={styles.chevronContent}>
-              <Text variant="title.mobileCard" color="inverse" align="center">
-                Profil
-              </Text>
-            </View>
-          </Background>
+        {/* HEADER */}
+        <TabHeader title="Profil" />
 
-          {/* Avatar - chevron'un altina tasarak yarisini disari cikarir */}
-          <View style={styles.avatarContainer}>
-            <View style={styles.avatarRing}>
-              <View style={styles.avatar}>
-                <Icon name="avatar" size={24} color="primary" />
-              </View>
+        {/* Avatar + Isim */}
+        <View style={styles.profileSection}>
+          <View style={styles.avatarWrap}>
+            <View style={styles.avatar}>
+              <Text variant="title.mobileMain" color="inverse">EG</Text>
             </View>
             <TouchableOpacity style={styles.cameraBtn} activeOpacity={0.7}>
               <Icon name="camera" size={16} color="inverse" />
             </TouchableOpacity>
           </View>
-
-          {/* Isim - krem zeminde */}
           <Text variant="title.mobileMain" color="primary" align="center" style={styles.userName}>
             EREN GOKTAS
           </Text>
@@ -145,6 +133,26 @@ export function AccountScreen() {
 }
 
 const styles = StyleSheet.create({
+  profileSection: {
+    alignItems: 'center',
+    paddingTop: 24,
+    paddingBottom: 16,
+    backgroundColor: '#FFFFFF',
+  },
+  avatarWrap: {
+    width: 88,
+    height: 88,
+    marginBottom: 12,
+    position: 'relative',
+  },
+  avatar: {
+    width: 88,
+    height: 88,
+    borderRadius: 44,
+    backgroundColor: '#1B1D45',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   root: {
     flex: 1,
     backgroundColor: semantic.background.canvas,

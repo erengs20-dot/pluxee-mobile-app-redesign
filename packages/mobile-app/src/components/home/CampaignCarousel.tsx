@@ -23,6 +23,7 @@ import { MOCK_BANNERS, type Banner } from '../../data/campaigns';
 interface CampaignCarouselProps {
   onBannerPress?: (banner: Banner) => void;
   onSeeAllPress?: () => void;
+  banners?: Banner[];
 }
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -32,12 +33,14 @@ const CARD_HEIGHT = 160;
 const PAGE_OFFSET = CARD_WIDTH + CARD_GAP;
 
 export function CampaignCarousel({
+  banners,
   onBannerPress,
   onSeeAllPress,
 }: CampaignCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const scrollRef = useRef<ScrollView>(null);
-  const totalSlots = MOCK_BANNERS.length + 1;
+  const activeBanners = banners ?? MOCK_BANNERS;
+  const totalSlots = activeBanners.length + 1;
 
   const handleScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     const offsetX = e.nativeEvent.contentOffset.x;
@@ -59,7 +62,7 @@ export function CampaignCarousel({
         scrollEventThrottle={16}
         contentContainerStyle={styles.scrollContent}
       >
-        {MOCK_BANNERS.map((banner) => (
+        {activeBanners.map((banner) => (
           <TouchableOpacity
             key={banner.id}
             style={styles.card}
@@ -100,7 +103,7 @@ export function CampaignCarousel({
               Tum Kampanyalari Gor
             </Text>
             <Text variant="body.smallMedium" color="inverse" align="center" style={styles.seeAllSub}>
-              {MOCK_BANNERS.length}+ kampanya seni bekliyor
+              {activeBanners.length}+ kampanya seni bekliyor
             </Text>
           </View>
         </TouchableOpacity>

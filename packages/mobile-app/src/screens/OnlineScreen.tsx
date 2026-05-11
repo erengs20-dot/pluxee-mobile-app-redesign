@@ -17,6 +17,9 @@ import {
   FlatList,
   Modal,
   Pressable,
+  Linking,
+  Alert,
+  Image
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
@@ -28,9 +31,13 @@ import {
   spacing,
   radius,
 } from "@pluxee/design-system";
+import { TabHeader } from "../components/common/TabHeader";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { MOCK_BRANDS, type Brand } from "../data/brands";
+import { ONLINE_BRANDS, type OnlineBrand } from "../data/placesPoints";
+import { CampaignCarousel } from "../components/home/CampaignCarousel";
+import { MOCK_BANNERS } from "../data/campaigns";
+import { BrandCard } from "../components/places/BrandCard";
 import type { RootStackParamList } from "../navigation/types";
 
 type Nav = NativeStackNavigationProp<RootStackParamList>;
@@ -38,12 +45,9 @@ type Nav = NativeStackNavigationProp<RootStackParamList>;
 // Kategori filtreleri
 const CATEGORIES = [
   { id: "all", label: "Tumu" },
-  { id: "yemek", label: "Yemek & Restoran" },
-  { id: "market", label: "Market & Gida" },
-  { id: "moda", label: "Moda & Aksesuar" },
-  { id: "teknoloji", label: "Teknoloji" },
-  { id: "spor", label: "Spor" },
-  { id: "bakim", label: "Kisisel Bakim" },
+  { id: "yemek", label: "Yemek" },
+  { id: "gida", label: "Gida" },
+  { id: "hediye", label: "Hediye" },
 ];
 
 // Siralama secenekleri
@@ -55,16 +59,12 @@ const SORT_OPTIONS: { id: SortOption; label: string }[] = [
 ];
 
 // Marka -> kategori eslestirme (mock)
-function getBrandCategory(brand: Brand): string {
-  const name = brand.name.toLowerCase();
-  if (["trendyol", "hepsiburada", "boyner", "hopi"].some(k => name.includes(k))) return "yemek";
-  if (["migros", "carrefoursa", "sariyer", "mopas"].some(k => name.includes(k))) return "market";
-  if (["lc waikiki", "koton", "defacto"].some(k => name.includes(k))) return "moda";
-  if (["mediamarkt", "teknosa"].some(k => name.includes(k))) return "teknoloji";
-  if (["nike", "adidas", "decathlon", "intersport"].some(k => name.includes(k))) return "spor";
-  if (["watsons", "gratis"].some(k => name.includes(k))) return "bakim";
-  if (["domino", "mcdonald"].some(k => name.includes(k))) return "yemek";
-  return "all";
+function getBrandCategory(brand: OnlineBrand): string {
+  // validFor 'hediye' iceriyorsa hediye, 'yemek' iceriyorsa yemek, 'gida' iceriyorsa gida
+  if (brand.validFor.includes('hediye')) return 'hediye';
+  if (brand.validFor.includes('yemek')) return 'yemek';
+  if (brand.validFor.includes('gida')) return 'gida';
+  return 'all';
 }
 
 // Marka renkleri
@@ -108,7 +108,7 @@ export function OnlineScreen() {
 
   // Online + gift markalari
   const allBrands = useMemo(
-    () => MOCK_BRANDS.filter((b) => b.category === "online" || b.category === "gift"),
+    () => ONLINE_BRANDS,
     []
   );
 
@@ -136,17 +136,39 @@ export function OnlineScreen() {
     return result;
   }, [allBrands, searchQuery, selectedCategory, sortBy]);
 
+  // Online markalara ait kampanyalari filtrele (banner title/badge marka adi iceriyor mu)
+  const onlineBanners = useMemo(() => {
+    const brandNames = ONLINE_BRANDS.map(b => b.name.toLocaleLowerCase('tr-TR'));
+    return MOCK_BANNERS.filter(banner => {
+      const text = (banner.title + ' ' + banner.badge).toLocaleLowerCase('tr-TR');
+      return brandNames.some(name => text.includes(name.split(' ')[0]));
+    });
+  }, []);
+
+
   const resultCount = filteredBrands.length;
 
-  const handleBrandPress = (brand: Brand) => {
-    if (brand.websiteUrl) {
-      navigation.navigate("WebView", {
-        url: brand.websiteUrl,
-        title: brand.name,
+  const handleBrandPress = (brand: OnlineBrand) => {
+    // Case 1: Yemek platformu -> deeplink
+    const yemekPlatformDeeplinks: Record<string, string> = {
+      'Trendyol Yemek': 'trendyolyemek://',
+      'Yemeksepeti': 'yemeksepeti://',
+      'Getir Yemek': 'getir://yemek',
+      'Tıkla Gelsin': 'tiklagelsin://',
+    };
+    if (yemekPlatformDeeplinks[brand.name]) {
+      Linking.openURL(yemekPlatformDeeplinks[brand.name]).catch(() => {
+        Alert.alert('Uygulama bulunamadi', 'Bu platformun uygulamasi cihazinda yuklu degil.');
       });
-    } else {
-      navigation.navigate("BrandDetail", { brandId: brand.id });
+      return;
     }
+    // Case 2: Hediye markasi -> BrandDetail
+    if (brand.validFor.length === 1 && brand.validFor[0] === 'hediye') {
+      navigation.navigate('BrandDetail', { brandId: brand.id });
+      return;
+    }
+    // Case 3: Diger hepsi -> OnlineWebView
+    navigation.navigate('OnlineWebView', { brandId: brand.id, brandName: brand.name });
   };
 
   const handleSort = useCallback((option: SortOption) => {
@@ -154,24 +176,22 @@ export function OnlineScreen() {
     setSortModalOpen(false);
   }, []);
 
-  const renderBrandTile = ({ item }: { item: Brand }) => {
-    const color = getBrandColor(item.name);
+  const renderBrandTile = ({ item }: { item: OnlineBrand }) => {
     return (
       <TouchableOpacity
-        style={styles.brandTile}
+        style={styles.brandTileWrap}
         onPress={() => handleBrandPress(item)}
         activeOpacity={0.7}
       >
-        <View style={[styles.brandIcon, { backgroundColor: color }]}>
-          <Text variant="title.mobileCard" color="inverse">
-            {getInitials(item.name)}
-          </Text>
+        <View style={styles.brandTile}>
+          <Image source={item.logo} style={styles.brandLogo} resizeMode="contain" />
         </View>
         <Text
           variant="body.smallMedium"
           color="primary"
           align="center"
           numberOfLines={2}
+          style={styles.brandName}
         >
           {item.name}
         </Text>
@@ -180,16 +200,26 @@ export function OnlineScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.root} edges={["top"]}>
+    <SafeAreaView style={styles.root} edges={["bottom"]}>
       {/* Header */}
-      <View style={styles.header}>
-        <Text variant="title.mobileMain" color="primary">
-          Online Alisveris
-        </Text>
-      </View>
+      <TabHeader title="Online Alışveriş" />
 
       {/* Arama */}
       <View style={styles.searchSection}>
+        {onlineBanners.length > 0 && (
+
+          <CampaignCarousel
+
+            banners={onlineBanners}
+
+            onBannerPress={(banner) => navigation.navigate("CampaignDetail", { bannerId: banner.id })}
+
+            onSeeAllPress={() => navigation.navigate("CampaignsList")}
+
+          />
+
+        )}
+
         <SearchInput
           value={searchQuery}
           onChangeText={setSearchQuery}
@@ -346,11 +376,6 @@ export function OnlineScreen() {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: semantic.background.canvas,
-  },
-  header: {
-    paddingHorizontal: spacing[4],
-    paddingVertical: spacing[3],
     backgroundColor: semantic.background.primary,
   },
   searchSection: {
@@ -399,21 +424,31 @@ const styles = StyleSheet.create({
     paddingBottom: spacing[20],
   },
   gridRow: {
-    justifyContent: "flex-start",
-    gap: spacing[3],
-    marginBottom: spacing[4],
+    justifyContent: "space-between",
+    marginBottom: spacing[3],
+  },
+  brandTileWrap: {
+    width: "31%",
+    alignItems: "center",
   },
   brandTile: {
-    width: "30%",
-    alignItems: "center",
-    gap: spacing[2],
-  },
-  brandIcon: {
-    width: 72,
-    height: 72,
+    width: "100%",
+    aspectRatio: 1,
+    borderWidth: 1.5,
+    borderColor: semantic.background.brand3,
     borderRadius: radius.lg,
+    backgroundColor: "#FFFFFF",
     alignItems: "center",
     justifyContent: "center",
+    padding: spacing[1],
+    marginBottom: spacing[2],
+  },
+  brandLogo: {
+    width: "95%",
+    height: "85%",
+  },
+  brandName: {
+    marginTop: 4,
   },
   emptyState: {
     alignItems: "center",

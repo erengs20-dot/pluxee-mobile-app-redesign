@@ -41,9 +41,8 @@ import { AutoLoadListScreen } from '../screens/AutoLoadListScreen';
 import { CampaignsListScreen } from '../screens/CampaignsListScreen';
 import { VirtualCardTransferScreen } from '../screens/VirtualCardTransferScreen';
 import { TransportPlaceDetailScreen } from '../screens/TransportPlaceDetailScreen';
-import { BrandsListScreen } from '../screens/BrandsListScreen';
-import { NearbyPlacesListScreen } from '../screens/NearbyPlacesListScreen';
 import { WebViewScreen } from '../screens/WebViewScreen';
+import { OnlineWebViewScreen } from '../screens/OnlineWebViewScreen';
 import { PlacesFilterScreen } from '../screens/PlacesFilterScreen';
 import { AddCardByNumberScreen } from '../screens/AddCardByNumberScreen';
 import { ServiceSelectionScreen } from '../screens/ServiceSelectionScreen';
@@ -58,6 +57,12 @@ import { NotificationsScreen } from '../screens/NotificationsScreen';
 import { FavoritesScreen } from '../screens/FavoritesScreen';
 import { HelpCenterScreen } from '../screens/HelpCenterScreen';
 import type { RootStackParamList } from './types';
+import HediyeMarkalariScreen from '../screens/HediyeMarkalariScreen';
+import OnlineAlisverisMarkalariScreen from '../screens/OnlineAlisverisMarkalariScreen';
+import YakindakiRestoranlarScreen from '../screens/YakindakiRestoranlarScreen';
+import YakindakiMarketlerScreen from '../screens/YakindakiMarketlerScreen';
+import UlasimMarkalariScreen from '../screens/UlasimMarkalariScreen';
+import MekanDetayScreen from '../screens/MekanDetayScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -93,9 +98,8 @@ export function RootNavigator() {
         <Stack.Screen name="CampaignsList" component={CampaignsListScreen} />
         <Stack.Screen name="VirtualCardTransfer" component={VirtualCardTransferScreen} />
         <Stack.Screen name="TransportPlaceDetail" component={TransportPlaceDetailScreen} />
-        <Stack.Screen name="BrandsList" component={BrandsListScreen} />
-        <Stack.Screen name="NearbyPlacesList" component={NearbyPlacesListScreen} />
         <Stack.Screen name="WebView" component={WebViewScreen} />
+        <Stack.Screen name="OnlineWebView" component={OnlineWebViewScreen} options={{ headerShown: false }} />
         <Stack.Screen name="MemberInfo" component={MemberInfoScreen} />
         <Stack.Screen name="Settings" component={SettingsScreen} />
         <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} />
@@ -108,6 +112,13 @@ export function RootNavigator() {
         <Stack.Screen name="CardAgreement" component={CardAgreementScreen} />
         <Stack.Screen name="AgreementDetail" component={AgreementDetailScreen} />
         <Stack.Screen name="AddCardSuccess" component={AddCardSuccessScreen} options={{ gestureEnabled: false }} />
+        <Stack.Screen name="HediyeMarkalari" component={HediyeMarkalariScreen} />
+        <Stack.Screen name="OnlineAlisverisMarkalari" component={OnlineAlisverisMarkalariScreen} />
+        <Stack.Screen name="YakindakiRestoranlar" component={YakindakiRestoranlarScreen} />
+        <Stack.Screen name="YakindakiMarketler" component={YakindakiMarketlerScreen} />
+        <Stack.Screen name="UlasimMarkalari" component={UlasimMarkalariScreen} />
+        <Stack.Screen name="MekanDetay" component={MekanDetayScreen} />
+
         <Stack.Screen name="PlacesFilter" component={PlacesFilterScreen} options={{ animation: 'slide_from_bottom' }} />
       </Stack.Navigator>
     </NavigationContainer>

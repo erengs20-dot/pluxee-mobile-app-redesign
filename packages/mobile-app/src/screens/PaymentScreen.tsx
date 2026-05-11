@@ -17,8 +17,7 @@ import {
   Modal,
   Pressable,
   ScrollView,
-  Dimensions,
-} from "react-native";
+  Dimensions, Image} from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   Text,
@@ -28,6 +27,7 @@ import {
   spacing,
   radius,
 } from "@pluxee/design-system";
+import { TabHeader } from '../components/common/TabHeader';
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import * as Clipboard from "expo-clipboard";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -97,10 +97,7 @@ export function PaymentScreen() {
     } else {
       // Hediye/Ulasim -> marka listesi
       if (selectedCard.category === "gift") {
-        navigation.navigate("BrandsList", {
-          category: "gift",
-          title: "Hediye Markalari",
-        });
+        navigation.navigate("HediyeMarkalari");
       } else {
         // Ulasim - sonra ozellestirilecek
         navigation.navigate("CardDetail", {
@@ -152,14 +149,10 @@ export function PaymentScreen() {
   const giftBrands = MOCK_BRANDS.filter((b) => b.category === "gift");
 
   return (
-    <SafeAreaView style={styles.root} edges={["top"]}>
+    <SafeAreaView style={styles.root} edges={["bottom"]}>
       <View style={styles.container}>
         {/* Header */}
-        <View style={styles.header}>
-          <Text variant="title.mobileCard" color="primary">
-            Odeme
-          </Text>
-        </View>
+        <TabHeader title="Ödeme" />
 
         <ScrollView
           contentContainerStyle={styles.content}
@@ -249,7 +242,12 @@ export function PaymentScreen() {
                     activeOpacity={0.7}
                   >
                     <View style={styles.brandTileInner}>
-                      <Text
+                      {brand.logo ? (
+                        <Image source={brand.logo} style={styles.brandLogo} resizeMode="contain" />
+                      ) : brand.logoUrl ? (
+                        <Image source={{ uri: brand.logoUrl }} style={styles.brandLogo} resizeMode="contain" />
+                      ) : (
+                        <Text
                         variant="body.smallBold"
                         color="primary"
                         align="center"
@@ -257,6 +255,7 @@ export function PaymentScreen() {
                       >
                         {brand.name}
                       </Text>
+                      )}
                     </View>
                   </TouchableOpacity>
                 ))}
@@ -265,10 +264,7 @@ export function PaymentScreen() {
                 <TouchableOpacity
                   style={styles.seeAllLink}
                   onPress={() =>
-                    navigation.navigate("BrandsList", {
-                      category: "gift",
-                      title: "Hediye Markalari",
-                    })
+                    navigation.navigate("HediyeMarkalari")
                   }
                 >
                   <Text variant="body.mediumBold" color="link">
@@ -520,13 +516,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  header: {
-    paddingHorizontal: spacing[4],
-    paddingVertical: spacing[4],
-    borderBottomWidth: 1,
-    borderBottomColor: semantic.border.tertiary,
-    backgroundColor: semantic.background.primary,
-  },
   content: {
     padding: spacing[4],
     gap: spacing[4],
@@ -609,12 +598,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: spacing[2],
   },
-  brandTileInner: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: spacing[1],
-  },
+  brandTileInner: { width: '100%', height: '100%', alignItems: "center", justifyContent: "center", paddingHorizontal: spacing[1] },
+  brandLogo: { width: '100%', height: '100%', flex: 1 },
   seeAllLink: {
     flexDirection: "row",
     alignItems: "center",

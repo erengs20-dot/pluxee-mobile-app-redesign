@@ -28,7 +28,13 @@ function BrandTile({ brand, onPress }: { brand: Brand; onPress: () => void }) {
       onPress={onPress}
       activeOpacity={0.7}
     >
-      {brand.logoUrl ? (
+      {brand.logo ? (
+        <Image
+          source={brand.logo}
+          style={styles.logo}
+          resizeMode="contain"
+        />
+      ) : brand.logoUrl ? (
         <Image
           source={{ uri: brand.logoUrl }}
           style={styles.logo}

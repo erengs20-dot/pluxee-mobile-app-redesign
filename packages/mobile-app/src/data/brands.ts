@@ -24,6 +24,8 @@ export interface Brand {
   category: BrandCategory;
   /** Wikimedia veya markanin resmi sitesinden public logo. null ise text fallback. */
   logoUrl: string | null;
+  /** Local asset (require) — assets/brand-logos/ altinda PNG. logoUrl'den oncelikli. */
+  logo?: any;
   paymentMethod: PaymentMethodType;
   /** Kategori badge: 'MAGAZA & ONLINE' | 'ONLINE' */
   badge: 'MAGAZA & ONLINE' | 'ONLINE';
@@ -59,6 +61,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'pluxee-yemek',
     name: 'Pluxee Yemek',
+    logo: require('../../assets/brand-logos/pluxee-yemek.png'),
     category: 'gift',
     logoUrl: null,
     paymentMethod: 'balance_transfer',
@@ -71,6 +74,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'pegasus',
     name: 'Pegasus BolBol',
+    logo: require('../../assets/brand-logos/pegasus-bolbol.png'),
     category: 'gift',
     logoUrl: null,
     paymentMethod: 'balance_transfer',
@@ -83,6 +87,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'starbucks',
     name: 'Starbucks',
+    logo: require('../../assets/brand-logos/starbucks.png'),
     category: 'gift',
     logoUrl: null,
     paymentMethod: 'mobile_code',
@@ -94,6 +99,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'carrefour-sa',
     name: 'Carrefour SA',
+    logo: require('../../assets/brand-logos/carrefour-sa.png'),
     category: 'gift',
     logoUrl: null,
     paymentMethod: 'payment_code',
@@ -105,6 +111,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'pluxee-gida',
     name: 'Pluxee Gida',
+    logo: require('../../assets/brand-logos/pluxee-gida.png'),
     category: 'gift',
     logoUrl: null,
     paymentMethod: 'balance_transfer',
@@ -117,6 +124,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'a101',
     name: 'A101',
+    logo: require('../../assets/brand-logos/a101.png'),
     category: 'gift',
     logoUrl: null,
     paymentMethod: 'payment_code',
@@ -128,6 +136,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'decathlon',
     name: 'Decathlon',
+    logo: require('../../assets/brand-logos/decathlon.png'),
     category: 'gift',
     logoUrl: null,
     paymentMethod: 'mobile_code',
@@ -139,6 +148,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'english-home',
     name: 'English Home',
+    logo: require('../../assets/brand-logos/english-home.png'),
     category: 'gift',
     logoUrl: null,
     paymentMethod: 'mobile_code',
@@ -150,6 +160,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'beymen',
     name: 'Beymen',
+    logo: require('../../assets/brand-logos/beymen.png'),
     category: 'gift',
     logoUrl: null,
     paymentMethod: 'mobile_code',
@@ -161,6 +172,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'pazarama',
     name: 'Pazarama',
+    logo: require('../../assets/brand-logos/pazarama.png'),
     category: 'gift',
     logoUrl: null,
     paymentMethod: 'balance_transfer',
@@ -172,6 +184,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'pazarama-tatil',
     name: 'Pazarama Tatil',
+    logo: require('../../assets/brand-logos/pazarama-alt.png'),
     category: 'gift',
     logoUrl: null,
     paymentMethod: 'balance_transfer',
@@ -183,6 +196,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'hopi',
     name: 'Hopi',
+    logo: require('../../assets/brand-logos/hopi.png'),
     category: 'gift',
     logoUrl: null,
     paymentMethod: 'balance_transfer',
@@ -195,6 +209,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'pazarama-giyim',
     name: 'Pazarama Giyim Puan',
+    logo: require('../../assets/brand-logos/pazarama-giyim-puan.png'),
     category: 'gift',
     logoUrl: null,
     paymentMethod: 'balance_transfer',
@@ -206,6 +221,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'kigili',
     name: 'Kigili',
+    logo: require('../../assets/brand-logos/kigili.png'),
     category: 'gift',
     logoUrl: null,
     paymentMethod: 'mobile_code',
@@ -217,6 +233,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'teknosa',
     name: 'TeknoSA',
+    logo: require('../../assets/brand-logos/teknosa.png'),
     category: 'gift',
     logoUrl: null,
     paymentMethod: 'payment_code',
@@ -228,6 +245,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'boyner',
     name: 'Boyner',
+    logo: require('../../assets/brand-logos/boyner.png'),
     category: 'gift',
     logoUrl: null,
     paymentMethod: 'mobile_code',
@@ -239,6 +257,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'hepsiburada',
     name: 'Hepsiburada',
+    logo: require('../../assets/brand-logos/hepsiburada.png'),
     category: 'gift',
     logoUrl: null,
     paymentMethod: 'mobile_code',
@@ -250,6 +269,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'gratis',
     name: 'Gratis',
+    logo: require('../../assets/brand-logos/gratis.png'),
     category: 'gift',
     logoUrl: null,
     paymentMethod: 'mobile_code',
@@ -261,6 +281,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'ikea',
     name: 'IKEA',
+    logo: require('../../assets/brand-logos/ikea.png'),
     category: 'gift',
     logoUrl: null,
     paymentMethod: 'mobile_code',
@@ -272,6 +293,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'mavi',
     name: 'Mavi',
+    logo: require('../../assets/brand-logos/mavi.png'),
     category: 'gift',
     logoUrl: null,
     paymentMethod: 'payment_code',
@@ -283,6 +305,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'defacto',
     name: 'DeFacto',
+    logo: require('../../assets/brand-logos/defacto.png'),
     category: 'gift',
     logoUrl: null,
     paymentMethod: 'payment_code',
@@ -294,6 +317,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'koton',
     name: 'Koton',
+    logo: require('../../assets/brand-logos/koton.png'),
     category: 'gift',
     logoUrl: null,
     paymentMethod: 'payment_code',
@@ -305,6 +329,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'mudo',
     name: 'Mudo',
+    logo: require('../../assets/brand-logos/mudo.png'),
     category: 'gift',
     logoUrl: null,
     paymentMethod: 'payment_code',
@@ -316,6 +341,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'mudo-concept',
     name: 'Mudo Concept',
+    logo: require('../../assets/brand-logos/mudo-concept.png'),
     category: 'gift',
     logoUrl: null,
     paymentMethod: 'payment_code',
@@ -327,6 +353,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'ozdilek',
     name: 'Ozdilek',
+    logo: require('../../assets/brand-logos/ozdilek.png'),
     category: 'gift',
     logoUrl: null,
     paymentMethod: 'payment_code',
@@ -338,6 +365,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'ayakkabi-dunyasi',
     name: 'Ayakkabi Dunyasi',
+    logo: require('../../assets/brand-logos/ayakkabi-dunyasi.png'),
     category: 'gift',
     logoUrl: null,
     paymentMethod: 'payment_code',
@@ -349,6 +377,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'network-divarese',
     name: 'NetWork / Divarese',
+    logo: require('../../assets/brand-logos/network-divarese.png'),
     category: 'gift',
     logoUrl: null,
     paymentMethod: 'payment_code',
@@ -360,6 +389,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'braun-oralb',
     name: 'Braun / Oral-B',
+    logo: require('../../assets/brand-logos/braun-oral-b.png'),
     category: 'gift',
     logoUrl: null,
     paymentMethod: 'payment_code',
@@ -371,6 +401,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'meditopia',
     name: 'Meditopia',
+    logo: require('../../assets/brand-logos/meditopia.png'),
     category: 'gift',
     logoUrl: null,
     paymentMethod: 'mobile_code',
@@ -382,6 +413,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'meditopia-wellness',
     name: 'Meditopia WellnessPass',
+    logo: require('../../assets/brand-logos/meditopia-wellness.png'),
     category: 'gift',
     logoUrl: null,
     paymentMethod: 'mobile_code',
@@ -393,6 +425,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'bodo',
     name: 'Bodo',
+    logo: require('../../assets/brand-logos/bodo.png'),
     category: 'gift',
     logoUrl: null,
     paymentMethod: 'mobile_code',
@@ -404,6 +437,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'arkas-turizm',
     name: 'Arkas Turizm',
+    logo: require('../../assets/brand-logos/arkas-turizm.png'),
     category: 'gift',
     logoUrl: null,
     paymentMethod: 'mobile_code',
@@ -415,6 +449,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'sok',
     name: 'Sok',
+    logo: require('../../assets/brand-logos/sok.png'),
     category: 'gift',
     logoUrl: null,
     paymentMethod: 'payment_code',
@@ -426,6 +461,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'ofix',
     name: 'Ofix',
+    logo: require('../../assets/brand-logos/ofix.png'),
     category: 'gift',
     logoUrl: null,
     paymentMethod: 'payment_code',
@@ -440,6 +476,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'opet',
     name: 'Opet',
+    logo: require('../../assets/brand-logos/opet.png'),
     category: 'fuel',
     logoUrl: null,
     paymentMethod: 'balance_transfer',
@@ -452,6 +489,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'petrol-ofisi',
     name: 'Petrol Ofisi',
+    logo: require('../../assets/brand-logos/petrol-ofisi.png'),
     category: 'fuel',
     logoUrl: null,
     paymentMethod: 'balance_transfer',
@@ -464,6 +502,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'bp',
     name: 'BP',
+    logo: require('../../assets/brand-logos/bp.png'),
     category: 'fuel',
     logoUrl: null,
     paymentMethod: 'balance_transfer',
@@ -476,6 +515,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'aytemiz',
     name: 'Aytemiz',
+    logo: require('../../assets/brand-logos/aytemiz.png'),
     category: 'fuel',
     logoUrl: null,
     paymentMethod: 'balance_transfer',
@@ -488,6 +528,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'totalenergies',
     name: 'TotalEnergies',
+    logo: require('../../assets/brand-logos/totalenergies.png'),
     category: 'fuel',
     logoUrl: null,
     paymentMethod: 'balance_transfer',
@@ -500,6 +541,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'lukoil',
     name: 'Lukoil',
+    logo: require('../../assets/brand-logos/lukoil.png'),
     category: 'fuel',
     logoUrl: null,
     paymentMethod: 'balance_transfer',
@@ -515,6 +557,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'boyner-online',
     name: 'Boyner',
+    logo: require('../../assets/brand-logos/boyner.png'),
     category: 'online',
     logoUrl: null,
     paymentMethod: 'balance_transfer',
@@ -526,6 +569,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'hopi-online',
     name: 'Hopi',
+    logo: require('../../assets/brand-logos/hopi.png'),
     category: 'online',
     logoUrl: null,
     paymentMethod: 'balance_transfer',
@@ -548,6 +592,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'sariyer-online',
     name: 'Sariyer',
+    logo: require('../../assets/brand-logos/sariyer.png'),
     category: 'online',
     logoUrl: null,
     paymentMethod: 'balance_transfer',
@@ -559,6 +604,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'mopas-online',
     name: 'Mopas',
+    logo: require('../../assets/brand-logos/mopas.png'),
     category: 'online',
     logoUrl: null,
     paymentMethod: 'balance_transfer',
@@ -584,6 +630,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'trendyol-yemek',
     name: 'Trendyol Yemek',
+    logo: require('../../assets/brand-logos/trendyol-yemek.png'),
     category: 'food_platform',
     logoUrl: null,
     paymentMethod: 'balance_transfer',
@@ -597,6 +644,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'yemeksepeti',
     name: 'Yemeksepeti',
+    logo: require('../../assets/brand-logos/yemeksepeti.png'),
     category: 'food_platform',
     logoUrl: null,
     paymentMethod: 'balance_transfer',
@@ -610,6 +658,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'getir-yemek',
     name: 'Getir Yemek',
+    logo: require('../../assets/brand-logos/getir-yemek.png'),
     category: 'food_platform',
     logoUrl: null,
     paymentMethod: 'balance_transfer',
@@ -623,6 +672,7 @@ export const MOCK_BRANDS: Brand[] = [
   {
     id: 'tiklagelsin',
     name: 'Tikla Gelsin',
+    logo: require('../../assets/brand-logos/tikla-gelsin.png'),
     category: 'food_platform',
     logoUrl: null,
     paymentMethod: 'balance_transfer',

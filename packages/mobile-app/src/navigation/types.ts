@@ -93,10 +93,10 @@ export type RootStackParamList = {
     onApply?: (filters: import('../screens/PlacesFilterScreen').PlacesFilters) => void;
   };
   // Pluxeeli Noktalar - yeni Tumunu Gor ekranlari
-  HediyeMarkalari: undefined;
-  OnlineAlisverisMarkalari: undefined;
-  YakindakiRestoranlar: undefined;
-  YakindakiMarketler: undefined;
+  HediyeMarkalari: { initialSearch?: string } | undefined;
+  OnlineAlisverisMarkalari: { initialSearch?: string } | undefined;
+  YakindakiRestoranlar: { initialSearch?: string } | undefined;
+  YakindakiMarketler: { initialSearch?: string } | undefined;
   UlasimMarkalari: undefined;
   MekanDetay: { placeId: string };
 

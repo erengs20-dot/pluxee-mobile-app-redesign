@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { View, ScrollView, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute} from '@react-navigation/native';
 import type { PlacesFilters } from './PlacesFilterScreen';
 import { EMPTY_FILTERS } from './PlacesFilterScreen';
 import {
@@ -17,8 +17,9 @@ import { SortDropdown, SortOption } from '../components/places/SortDropdown';
 
 export const HediyeMarkalariScreen: React.FC = () => {
   const nav = useNavigation<any>();
+  const route = useRoute<any>();
   const [filters, setFilters] = useState<PlacesFilters>(EMPTY_FILTERS);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState<string>(route.params?.initialSearch ?? '');
   const [sort, setSort] = useState<SortOption>('default');
   const [sortOpen, setSortOpen] = useState(false);
   const [infoModal, setInfoModal] = useState<{ visible: boolean; message: string }>({ visible: false, message: '' });

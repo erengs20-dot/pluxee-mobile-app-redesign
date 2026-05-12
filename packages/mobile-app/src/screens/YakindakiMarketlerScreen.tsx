@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { View, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute} from '@react-navigation/native';
 import type { PlacesFilters } from './PlacesFilterScreen';
 import { EMPTY_FILTERS } from './PlacesFilterScreen';
 import {
@@ -17,8 +17,9 @@ import { SortDropdown, SortOption } from '../components/places/SortDropdown';
 
 export const YakindakiMarketlerScreen: React.FC = () => {
   const nav = useNavigation<any>();
+  const route = useRoute<any>();
   const [filters, setFilters] = useState<PlacesFilters>(EMPTY_FILTERS);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState<string>(route.params?.initialSearch ?? '');
   const [sort, setSort] = useState<SortOption>('default');
   const [sortOpen, setSortOpen] = useState(false);
   const [infoModal, setInfoModal] = useState<{ visible: boolean; message: string }>({ visible: false, message: '' });
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
   header: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#1B1D45', paddingHorizontal: spacing[4], paddingBottom: spacing[3], paddingTop: spacing[2] },
   title: { flex: 1 },
   headerRight: { width: 40 },
-  body: { flex: 1, backgroundColor: semantic.background.primary, paddingHorizontal: spacing[4], paddingTop: spacing[4] },
+  body: { flex: 1, backgroundColor: '#F5F6F8', paddingHorizontal: spacing[4], paddingTop: spacing[4] },
   searchRow: { marginBottom: spacing[3] },
   toolbar: { flexDirection: 'row', alignItems: 'center', marginBottom: spacing[3], gap: spacing[3] },
   filtreChip: { flexDirection: 'row', alignItems: 'center', gap: spacing[1], backgroundColor: semantic.background.primary, paddingHorizontal: spacing[3], paddingVertical: spacing[2], borderRadius: radius.full },

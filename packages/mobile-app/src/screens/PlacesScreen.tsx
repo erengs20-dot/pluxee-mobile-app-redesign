@@ -233,7 +233,7 @@ export const PlacesScreen: React.FC = () => {
       const showAll = filtered.length >= DEFAULT_DISPLAY_COUNT;
       return (
         <View key={sectionId} style={styles.section}>
-          <SectionHeader title={title} showAll={showAll} onShowAll={() => nav.navigate(route_)} />
+          <SectionHeader title={title} showAll={showAll} onShowAll={() => nav.navigate(route_, { initialSearch: search } as never)} />
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.hScrollContent}>
             {items.map(item => (
               <View key={item.id} style={styles.hItem}>
@@ -243,7 +243,7 @@ export const PlacesScreen: React.FC = () => {
             {remainingCount > 0 && (
               <View style={styles.hItem}>
                 <TouchableOpacity
-                  onPress={() => nav.navigate(route_)}
+                  onPress={() => nav.navigate(route_, { initialSearch: search } as never)}
                   activeOpacity={0.7}
                   style={styles.plusMoreCard}
                   accessibilityLabel={`${remainingCount} marka daha`}
@@ -265,7 +265,7 @@ export const PlacesScreen: React.FC = () => {
       const showAll = filtered.length >= DEFAULT_DISPLAY_COUNT;
       return (
         <View key={sectionId} style={styles.section}>
-          <SectionHeader title={title} showAll={showAll} onShowAll={() => nav.navigate(route_)} />
+          <SectionHeader title={title} showAll={showAll} onShowAll={() => nav.navigate(route_, { initialSearch: search } as never)} />
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.hScrollContent}>
             {items.map(item => (
               <View key={item.id} style={styles.hItem}>
@@ -275,7 +275,7 @@ export const PlacesScreen: React.FC = () => {
             {remainingCount > 0 && (
               <View style={styles.hItem}>
                 <TouchableOpacity
-                  onPress={() => nav.navigate(route_)}
+                  onPress={() => nav.navigate(route_, { initialSearch: search } as never)}
                   activeOpacity={0.7}
                   style={styles.plusMoreCard}
                   accessibilityLabel={`${remainingCount} marka daha`}
@@ -312,7 +312,7 @@ export const PlacesScreen: React.FC = () => {
       const showAll = NEARBY_RESTAURANTS.length >= DEFAULT_DISPLAY_COUNT;
       return (
         <View key={sectionId} style={styles.section}>
-          <SectionHeader title={title} showAll={showAll} onShowAll={() => nav.navigate(route_)} />
+          <SectionHeader title={title} showAll={showAll} onShowAll={() => nav.navigate(route_, { initialSearch: search } as never)} />
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.hScrollContent}>
             {items.map(item => (
               <View key={item.id} style={styles.hItem}>
@@ -330,7 +330,7 @@ export const PlacesScreen: React.FC = () => {
       const showAll = NEARBY_MARKETS.length >= DEFAULT_DISPLAY_COUNT;
       return (
         <View key={sectionId} style={styles.section}>
-          <SectionHeader title={title} showAll={showAll} onShowAll={() => nav.navigate(route_)} />
+          <SectionHeader title={title} showAll={showAll} onShowAll={() => nav.navigate(route_, { initialSearch: search } as never)} />
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.hScrollContent}>
             {items.map(item => (
               <View key={item.id} style={styles.hItem}>
@@ -348,7 +348,7 @@ export const PlacesScreen: React.FC = () => {
       const showAll = ULASIM_BRANDS.length >= DEFAULT_DISPLAY_COUNT;
       return (
         <View key={sectionId} style={styles.section}>
-          <SectionHeader title={title} showAll={showAll} onShowAll={() => nav.navigate(route_)} />
+          <SectionHeader title={title} showAll={showAll} onShowAll={() => nav.navigate(route_, { initialSearch: search } as never)} />
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.hScrollContent}>
             {items.map(item => (
               <View key={item.id} style={styles.hItem}>
